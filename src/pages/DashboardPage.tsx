@@ -2,6 +2,8 @@ import { Typography } from "@mui/material";
 import Stats from "../features/collectors/dashboard/Stats";
 import CentersMap from "../features/collectors/dashboard/NearbyCenters";
 import ClosestCenters from "../features/collectors/dashboard/ClosestCenters";
+import RecentDrops from "../features/collectors/dashboard/RecentDrops";
+import Achievements from "../features/collectors/dashboard/Achievements";
 
 const DashboardPage = () => {
   return (
@@ -21,6 +23,12 @@ const DashboardPage = () => {
         <CentersMap />
 
         <ClosestCenters />
+      </div>
+
+      <div className="flex justify-between my-10 gap-10">
+        <RecentDrops />
+
+        <Achievements />
       </div>
     </div>
   );
