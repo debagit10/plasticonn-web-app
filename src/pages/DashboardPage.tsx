@@ -1,5 +1,7 @@
 import { Typography } from "@mui/material";
 import Stats from "../features/collectors/dashboard/Stats";
+import CentersMap from "../features/collectors/dashboard/NearbyCenters";
+import ClosestCenters from "../features/collectors/dashboard/ClosestCenters";
 
 const DashboardPage = () => {
   return (
@@ -14,6 +16,12 @@ const DashboardPage = () => {
       </div>
 
       <Stats />
+
+      <div className="flex justify-between mt-10 gap-10">
+        <CentersMap />
+
+        <ClosestCenters />
+      </div>
     </div>
   );
 };
