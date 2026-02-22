@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
-import Profile_Picture from "../features/collectors/settings/Profile_Picture";
-import back from "../assets/back.png";
-import Personal from "../features/collectors/settings/Personal";
-import Change_Password from "../features/collectors/modals/Change_Password";
-import Edit_profile from "../features/collectors/modals/Edit_profile";
+import Profile_Picture from "./settings/Profile_Picture";
+import back from "../../assets/back.png";
+import Personal from "./settings/Personal";
+import Change_Password from "./modals/Change_Password";
+import Edit_profile from "./modals/Edit_profile";
 
-const SettingsPage = () => {
+const CollectorSettings = () => {
   return (
-    <div className="px-16 bg-[#F1F1F1]">
+    <div className="px-16">
       <div className="flex items-center gap-3.5">
         <img src={back} />
 
@@ -40,4 +40,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default CollectorSettings;

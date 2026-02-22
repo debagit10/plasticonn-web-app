@@ -6,6 +6,7 @@ interface User {
   role: "collector" | "center";
   name: string;
   phone: string;
+  centerType?: string;
 }
 
 interface AuthState {
@@ -18,8 +19,16 @@ interface AuthState {
 }
 
 const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  authLoading: true,
+  user: {
+    id: "1",
+    name: "Demo Center",
+    role: "center",
+    email: "demo@example.com",
+    phone: "+1 555 123 4567",
+    centerType: "collection",
+  },
+  authLoading: false,
+
   setUser: (user) => set({ user, authLoading: false }),
   clearUser: () => set({ user: null, authLoading: false }),
   setAuthLoading: (value: boolean) => set({ authLoading: value }),
@@ -31,8 +40,8 @@ export const useAuth = () => {
   return {
     user,
     authLoading,
-    role: user?.role,
     isCollector: user?.role === "collector",
-    isCenter: user?.role === "center",
+    isCollection: user?.centerType === "collection",
+    isRecycling: user?.centerType === "recycling",
   };
 };

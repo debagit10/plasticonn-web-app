@@ -1,14 +1,14 @@
 import { Typography } from "@mui/material";
-import Stats from "../features/collectors/dashboard/Stats";
-import CentersMap from "../features/collectors/dashboard/NearbyCenters";
-import ClosestCenters from "../features/collectors/dashboard/ClosestCenters";
-import RecentDrops from "../features/collectors/dashboard/RecentDrops";
-import Achievements from "../features/collectors/dashboard/Achievements";
+import Stats from "./dashboard/Stats";
+import CentersMap from "./dashboard/NearbyCenters";
+import ClosestCenters from "./dashboard/ClosestCenters";
+import RecentDrops from "./dashboard/RecentDrops";
+import Achievements from "./dashboard/Achievements";
 
-const DashboardPage = () => {
+const CollectorDashboard = () => {
   return (
     <div className="px-16">
-      <div className="flex flex-col gap-3 mt-5">
+      <div className="flex flex-col gap-3">
         <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
           Collector Dashboard
         </Typography>
@@ -34,4 +34,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default CollectorDashboard;
