@@ -8,29 +8,47 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { IoMdAdd } from "react-icons/io";
 
-const DropOff = () => {
+const Edit_profile = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <div>
-      <Button
-        onClick={() => setOpen(true)}
-        startIcon={<IoMdAdd />}
-        sx={{
-          width: "200px",
-          backgroundColor: "#00C281",
-          color: "white",
-          textTransform: "capitalize",
-          borderRadius: "12px",
-          padding: "16px",
-        }}
-      >
-        <Typography fontSize={16} fontWeight={300} color="#FAFAFA">
-          New Drop-off
-        </Typography>
-      </Button>
+      <div className="flex gap-9">
+        <Button
+          //onClick={() => setOpen(true)}
+          variant="outlined"
+          fullWidth
+          sx={{
+            height: "48px",
+            padding: "12px",
+            borderRadius: "12px",
+            borderColor: "#1A1A1A80",
+            color: "#1A1A1A",
+            textTransform: "capitalize",
+          }}
+        >
+          <Typography fontSize={16} fontWeight={300}>
+            Back to Dashboard
+          </Typography>
+        </Button>
+
+        <Button
+          onClick={() => setOpen(true)}
+          fullWidth
+          sx={{
+            background: "linear-gradient(to top right, #00C281, #005C3D)",
+            color: "white",
+            textTransform: "capitalize",
+            borderRadius: "12px",
+            padding: "16px",
+          }}
+        >
+          <Typography fontSize={16} fontWeight={300} color="#FAFAFA">
+            Edit details
+          </Typography>
+        </Button>
+      </div>
 
       <Dialog
         open={open}
@@ -155,4 +173,4 @@ const DropOff = () => {
   );
 };
 
-export default DropOff;
+export default Edit_profile;

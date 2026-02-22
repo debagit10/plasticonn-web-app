@@ -12,7 +12,7 @@ const DashboardPage = () => {
         <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
           Collector Dashboard
         </Typography>
-        <Typography fontSize={26} fontWeight={26} color="#1A1A1A">
+        <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
           Welcome back, Sarah
         </Typography>
       </div>

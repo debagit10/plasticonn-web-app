@@ -1,34 +1,34 @@
 import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  TextField,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
+
 import { IoCloseOutline } from "react-icons/io5";
-import { IoMdAdd } from "react-icons/io";
 
-const DropOff = () => {
+const Change_Password = () => {
   const [open, setOpen] = useState(false);
-
   return (
     <div>
       <Button
         onClick={() => setOpen(true)}
-        startIcon={<IoMdAdd />}
+        variant="outlined"
+        fullWidth
         sx={{
-          width: "200px",
-          backgroundColor: "#00C281",
-          color: "white",
-          textTransform: "capitalize",
+          height: "48px",
+          padding: "12px",
           borderRadius: "12px",
-          padding: "16px",
+          borderColor: "#1A1A1A80",
+          color: "#1A1A1A",
+          textTransform: "capitalize",
         }}
       >
-        <Typography fontSize={16} fontWeight={300} color="#FAFAFA">
-          New Drop-off
+        <Typography fontSize={16} fontWeight={300}>
+          Change Password
         </Typography>
       </Button>
 
@@ -46,10 +46,10 @@ const DropOff = () => {
         <DialogTitle className="flex  justify-between gap-10">
           <div className="flex flex-col gap-2">
             <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
-              New Drop-off
+              Change Password
             </Typography>
             <Typography fontSize={20} fontWeight={300} color="#1A1A1A">
-              Fill in the details for your plastic collection drop-off
+              Enter your current password and choose a new one
             </Typography>
           </div>
 
@@ -155,4 +155,4 @@ const DropOff = () => {
   );
 };
 
-export default DropOff;
+export default Change_Password;
