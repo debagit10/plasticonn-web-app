@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import Stats from "./dashboard/Stats";
+import Queue from "./dashboard/Queue";
 
 const CollectionCenter_Dashboard = () => {
   return (
@@ -15,6 +16,10 @@ const CollectionCenter_Dashboard = () => {
 
       <div className="mt-10">
         <Stats />
+      </div>
+
+      <div className=" mt-10">
+        <Queue />
       </div>
     </div>
   );

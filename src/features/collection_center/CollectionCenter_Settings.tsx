@@ -1,5 +1,3 @@
-import React from "react";
-
 const CollectionCenter_Settings = () => {
   return <div>CollectionCenter_Settings</div>;
 };
