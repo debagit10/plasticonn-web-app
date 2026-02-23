@@ -57,7 +57,7 @@ const Notification = () => {
           className="absolute right-0 mt-12
                    bg-[#FAFAFA] p-9 rounded-xl 
                    shadow-[0_8px_30px_rgba(0,0,0,0.12)] 
-                   w-214.75 z-50  "
+                   w-214.75 z-50"
         >
           <div
             className="flex justify-end cursor-pointer ml-[97%] w-4.5 h-4.5 mb-4"

@@ -1,5 +1,6 @@
 import CollectionCenter_Dashboard from "../features/collection_center/CollectionCenter_Dashboard";
 import CollectorDashboard from "../features/collectors/CollectorDashboard";
+import RecylcingCenter_Dashboard from "../features/recylcing_center/RecyclingCenter_Dashboard";
 import { useAuth } from "../utils/useAuth";
 
 const Dashboard = () => {
@@ -11,7 +12,7 @@ const Dashboard = () => {
 
       {user.isCollection && <CollectionCenter_Dashboard />}
 
-      {user.isRecycling && "Recycling center"}
+      {user.isRecycling && <RecylcingCenter_Dashboard />}
     </div>
   );
 };

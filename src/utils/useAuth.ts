@@ -25,7 +25,7 @@ const useAuthStore = create<AuthState>((set) => ({
     role: "center",
     email: "demo@example.com",
     phone: "+1 555 123 4567",
-    centerType: "collection",
+    centerType: "recycling",
   },
   authLoading: false,
 
