@@ -54,7 +54,7 @@ const Notification = () => {
       {/* Floating Card */}
       {open && (
         <div
-          className="absolute right-0 mt-12
+          className="absolute right-0 mt-11
                    bg-[#FAFAFA] p-9 rounded-xl 
                    shadow-[0_8px_30px_rgba(0,0,0,0.12)] 
                    w-214.75 z-50"

@@ -17,7 +17,7 @@ const AvatarMenu = () => {
 
       {open && (
         <div
-          className="absolute right-13 mt-12
+          className="absolute right-13 mt-9
                    bg-[#FAFAFA] p-6.5 rounded-xl 
                    shadow-[0_8px_30px_rgba(0,0,0,0.12)] 
                    w-76.5 z-50"
