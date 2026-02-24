@@ -19,7 +19,7 @@ const RecylcingCenter_Dashboard = () => {
         <Stats />
       </div>
 
-      <div className="mt-10 flex gap-10">
+      <div className="mt-10 flex gap-10 pb-10">
         <Plastic_Type />
 
         <Messages />
