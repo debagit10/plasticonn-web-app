@@ -1,18 +1,38 @@
 import { useState } from "react";
-import user from "../assets/user.png";
+import icon from "../assets/user.png";
 import { Divider, Typography } from "@mui/material";
 import profile from "../assets/profile.png";
 import { MdLogout } from "react-icons/md";
+import { useAuthStore } from "../utils/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const AvatarMenu = () => {
+  const { user, clearUser } = useAuthStore();
+
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const logout = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      if (!loading) {
+        clearUser();
+
+        window.location.replace("/");
+      }
+    }, 2000);
+  };
+
   return (
     <div>
       <div
         onClick={() => setOpen((prev) => !prev)}
         className="bg-linear-to-b from-[#005C3D] to-[#00C281] py-2 px-3 rounded-[30px] flex items-center cursor-pointer"
       >
-        <img src={user} width={28} height={28} />
+        <img src={icon} width={28} height={28} />
       </div>
 
       {open && (
@@ -24,16 +44,22 @@ const AvatarMenu = () => {
         >
           <div className="flex flex-col gap-2">
             <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-              Sarah Johnson
+              {user?.name}
             </Typography>
             <Typography fontWeight={400} fontSize={14} color="#1A1A1A80">
-              sarah.j@example.com
+              {user?.email}
             </Typography>
           </div>
 
           <Divider sx={{ marginY: "14px" }} />
 
-          <div className="flex py-1 px-2 gap-3 items-center cursor-pointer">
+          <div
+            className="flex py-1 px-2 gap-3 items-center cursor-pointer"
+            onClick={() => {
+              navigate("/settings");
+              setOpen(false);
+            }}
+          >
             <img src={profile} className="w-4.5 h-4.5" />
 
             <Typography fontWeight={400} fontSize={16} color="#1A1A1A">
@@ -43,11 +69,18 @@ const AvatarMenu = () => {
 
           <Divider sx={{ marginY: "14px" }} />
 
-          <div className="flex py-1 px-2 gap-3 items-center cursor-pointer">
-            <MdLogout size={18} color="#FF383C" />
+          <div
+            className={`flex py-1 px-2 gap-3 items-center cursor-pointer `}
+            onClick={logout}
+          >
+            <MdLogout size={18} color={!loading ? "#FF383C" : "grey"} />
 
-            <Typography fontWeight={400} fontSize={16} color="#FF383C">
-              Log out
+            <Typography
+              fontWeight={400}
+              fontSize={16}
+              color={!loading ? "#FF383C" : "grey"}
+            >
+              {loading ? "Logging out..." : "Log out"}
             </Typography>
           </div>
         </div>

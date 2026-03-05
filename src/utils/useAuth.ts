@@ -6,6 +6,7 @@ interface User {
   role: "collector" | "center";
   name: string;
   phone: string;
+  status: string;
   centerType?: string;
 }
 
@@ -16,22 +17,17 @@ interface AuthState {
   setUser: (user: User) => void;
   clearUser: () => void;
   setAuthLoading: (value: boolean) => void;
+  initUser: (user: User) => void;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
-  user: {
-    id: "1",
-    name: "Demo Center",
-    role: "center",
-    email: "demo@example.com",
-    phone: "+1 555 123 4567",
-    centerType: "recycling",
-  },
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
   authLoading: false,
 
   setUser: (user) => set({ user, authLoading: false }),
   clearUser: () => set({ user: null, authLoading: false }),
   setAuthLoading: (value: boolean) => set({ authLoading: value }),
+  initUser: (user) => set({ user, authLoading: false }),
 }));
 
 export const useAuth = () => {

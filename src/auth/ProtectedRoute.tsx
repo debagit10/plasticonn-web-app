@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 
 export default function ProtectedRoute() {
@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    window.location.replace("/");
   }
 
   return <Outlet />;

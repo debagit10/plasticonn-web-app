@@ -4,8 +4,10 @@ import CentersMap from "./dashboard/NearbyCenters";
 import ClosestCenters from "./dashboard/ClosestCenters";
 import RecentDrops from "./dashboard/RecentDrops";
 import Achievements from "./dashboard/Achievements";
+import { useAuthStore } from "../../utils/useAuth";
 
 const CollectorDashboard = () => {
+  const { user } = useAuthStore();
   return (
     <div className="px-16">
       <div className="flex flex-col gap-3">
@@ -13,7 +15,7 @@ const CollectorDashboard = () => {
           Collector Dashboard
         </Typography>
         <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
-          Welcome back, Sarah
+          Welcome back, {user?.name}
         </Typography>
       </div>
 
