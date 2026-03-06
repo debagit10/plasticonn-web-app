@@ -16,10 +16,11 @@ const DropOff = () => {
   return (
     <div>
       <Button
+        fullWidth
         onClick={() => setOpen(true)}
         startIcon={<IoMdAdd />}
         sx={{
-          width: "200px",
+          width: "220px",
           backgroundColor: "#00C281",
           color: "white",
           textTransform: "capitalize",
@@ -28,7 +29,7 @@ const DropOff = () => {
         }}
       >
         <Typography fontSize={16} fontWeight={300} color="#FAFAFA">
-          New Drop-off
+          Drop-off
         </Typography>
       </Button>
 

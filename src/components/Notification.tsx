@@ -29,40 +29,11 @@ const Notification = () => {
     },
   ]);
 
-  // const notifications = [
-  //   {
-  //     title: "New submission",
-  //     text: "Sarah Johnson submitted 5.2 kg of PET plastic.",
-  //     time: "10 mins ago",
-  //     read: false,
-  //   },
-  //   {
-  //     title: "Pickup Scheduled",
-  //     text: "RecycleMax will pickup tomorrow at 9 AM.",
-  //     time: "1 hour ago",
-  //     read: false,
-  //   },
-  //   {
-  //     title: "Capacity Alert",
-  //     text: "Storage capacity at 85%. Schedule a pickup soon.",
-  //     time: "3 hours ago",
-  //     read: true,
-  //   },
-  //   {
-  //     title: "Capacity Alert",
-  //     text: "Storage capacity at 85%. Schedule a pickup soon.",
-  //     time: "3 hours ago",
-  //     read: true,
-  //   },
-  // ];
-
   const getNotifications = async () => {
     setLoading(true);
 
     try {
       const response = await api.get(`/api/notification/list`);
-
-      console.log(response.data.data.notifications);
 
       setNotifications(response.data.data.notifications);
 
