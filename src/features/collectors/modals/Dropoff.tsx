@@ -87,8 +87,14 @@ const DropOff = ({ center }: { center: Centers }) => {
   const submit = async () => {
     setLoading(true);
 
-    if (dropDetails.amount || dropDetails.types || dropDetails.condition) {
+    if (
+      dropDetails.amount <= 0 ||
+      dropDetails.types.length <= 0 ||
+      dropDetails.condition.length <= 0
+    ) {
       showToast("Input all field", "warning");
+
+      setLoading(false);
 
       return;
     }
@@ -330,14 +336,17 @@ const DropOff = ({ center }: { center: Centers }) => {
             </Button>
 
             <Button
+              disabled={loading}
               onClick={submit}
               sx={{
                 width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
-                backgroundColor: "#00C281",
+                backgroundColor: loading ? "#A0A0A0" : "#00C281",
                 color: "white",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.7 : 1,
               }}
             >
               <Typography
@@ -345,7 +354,7 @@ const DropOff = ({ center }: { center: Centers }) => {
                 fontSize={16}
                 sx={{ textTransform: "capitalize" }}
               >
-                Submit Drop Off
+                {loading ? "Dropping off..." : "Submit Drop Off"}
               </Typography>
             </Button>
           </div>
