@@ -1,34 +1,57 @@
 import { Typography, Divider } from "@mui/material";
+import { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
+import api from "../../../utils/axiosInstance";
+import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { formatDayAndTime } from "../../../utils/DayAndTime";
+import { calculateCO2Saved } from "../../../utils/C02saved";
 
-const drops = [
-  {
-    center: "EcoHub Central",
-    status: "verified",
-    timestamp: "2025-11-10",
-    co2: "12.4 kg",
-  },
-  {
-    center: "Green Point Station",
-    status: "pending",
-    timestamp: "2025-11-08",
-    co2: "9.1 kg",
-  },
-  {
-    center: "RecycleMax Downtown",
-    status: "verified",
-    timestamp: "2025-11-05",
-    co2: "15.6 kg",
-  },
-  {
-    center: "EcoHub Central",
-    status: "rejected",
-    timestamp: "2025-11-02",
-    co2: "0 kg",
-  },
-];
+interface Location {
+  type: "Point";
+  coordinates: [number, number];
+}
+
+interface PopulatedRef {
+  _id: string;
+  name: string;
+}
+
+interface Drops {
+  _id: string;
+  drop_id: string;
+  location: Location;
+  collector_id: PopulatedRef;
+  center_id: PopulatedRef;
+  amount: number;
+  types: string[];
+  condition: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 const RecentDrops = () => {
+  //const [loading, setLoading] = useState(false);
+  const [drops, setDrops] = useState<Drops[]>([]);
+
+  const getDrops = async () => {
+    try {
+      const response = await api.get(`/api/drop/get`);
+
+      setDrops(response.data.data.drops);
+
+      // setLoading(false);
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      console.log(errMsg);
+    }
+  };
+
+  useEffect(() => {
+    getDrops();
+  }, []);
+
   return (
     <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-17 w-262.5">
       <div className="">
@@ -47,7 +70,7 @@ const RecentDrops = () => {
         <div className="rounded-xl p-6.5 border-[0.4px] flex flex-col cursor-pointer transition-all duration-200 hover:shadow-md">
           <div className="flex justify-between">
             <Typography fontWeight={400} fontSize={24} color="#1A1A1A">
-              {drop.center}
+              {drop.drop_id}
             </Typography>
             <div
               className="p-2.5 rounded-xl w-31.25 h-11.5 text-center flex items-center justify-center"
@@ -81,9 +104,16 @@ const RecentDrops = () => {
           </div>
 
           <div className="flex gap-3 items-center">
-            <GoClock size={26} />
+            <HiOutlineOfficeBuilding size={20} />
             <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
-              {drop.timestamp}
+              {drop.center_id.name}
+            </Typography>
+          </div>
+
+          <div className="flex gap-3 items-center">
+            <GoClock size={20} />
+            <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
+              {formatDayAndTime(drop.createdAt)}
             </Typography>
           </div>
 
@@ -93,7 +123,7 @@ const RecentDrops = () => {
               CO₂ Impact
             </Typography>
             <Typography fontWeight={400} fontSize={24} color="#00C281">
-              {drop.co2}
+              {calculateCO2Saved(drop.amount)}
             </Typography>
           </div>
         </div>
