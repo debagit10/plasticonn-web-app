@@ -1,4 +1,4 @@
-import { Divider, TextField, Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import Navigate from "../modals/Navigate";
 
 const CentersMap = () => {
@@ -13,42 +13,6 @@ const CentersMap = () => {
       </div>
 
       <Divider />
-
-      <div>
-        <TextField
-          name="email"
-          //   value={signindetails.email}
-          //   onChange={handleChange}
-          placeholder="Enter your email"
-          variant="outlined"
-          size="small"
-          fullWidth
-          sx={{
-            // overall height
-            "& .MuiOutlinedInput-root": {
-              height: "60px",
-              borderRadius: "16px",
-              backgroundColor: "#7373731A",
-
-              // default border
-              "& fieldset": {
-                borderColor: "#1A1A1A",
-              },
-
-              // focused
-              "&.Mui-focused fieldset": {
-                borderColor: "#1A1A1A",
-              },
-            },
-
-            // input text
-            "& input": {
-              padding: "10px 12px",
-              fontSize: 14,
-            },
-          }}
-        />
-      </div>
     </div>
   );
 };

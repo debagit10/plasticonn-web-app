@@ -120,7 +120,7 @@ const RecentDrops = () => {
           <div>
             <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
               {" "}
-              CO₂ Impact
+              CO₂ Saved
             </Typography>
             <Typography fontWeight={400} fontSize={24} color="#00C281">
               {calculateCO2Saved(drop.amount)}

@@ -6,9 +6,9 @@ export const calculateCO2Saved = (plasticsCollected: number): string => {
   const weightKg = plasticsCollected * AVG_PLASTIC_WEIGHT_KG;
   const co2Saved = weightKg * CO2_PER_KG;
 
-  if (co2Saved < 1) {
-    return `${(co2Saved * 1000).toFixed(1)}g`;
-  }
+  //   if (co2Saved < 1) {
+  //     return `${(co2Saved * 1000).toFixed(1)}g`;
+  //   }
 
   return `${co2Saved.toFixed(2)}kg`;
 };

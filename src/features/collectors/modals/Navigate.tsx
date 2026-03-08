@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -47,9 +48,14 @@ interface GPS {
 
 const Navigate = () => {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   const [centers, setCenters] = useState<Centers[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
+
+  const filteredCenters = centers.filter((center) =>
+    center.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   const getCenters = async () => {
     try {
@@ -120,15 +126,48 @@ const Navigate = () => {
             </div>
           </DialogTitle>
           <DialogContent>
-            {centers.map((center, index) => (
-              <CenterCard
-                key={center._id}
-                center={center}
-                index={index}
-                selectedIndex={selectedIndex}
-                setSelectedIndex={setSelectedIndex}
+            <div className="mb-2">
+              <TextField
+                name="center"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search for Collection center"
+                variant="outlined"
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    borderRadius: "16px",
+                    backgroundColor: "#7373731A",
+                    "& fieldset": { borderColor: "#1A1A1A" },
+                    "&.Mui-focused fieldset": { borderColor: "#1A1A1A" },
+                  },
+                  "& input": { padding: "10px 12px", fontSize: 14 },
+                }}
               />
-            ))}
+            </div>
+
+            {filteredCenters.length === 0 ? (
+              <Typography
+                fontSize={16}
+                fontWeight={400}
+                color="#1A1A1A80"
+                className="text-center py-4"
+              >
+                No centers found
+              </Typography>
+            ) : (
+              filteredCenters.map((center, index) => (
+                <CenterCard
+                  key={center._id}
+                  center={center}
+                  index={index}
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                />
+              ))
+            )}
           </DialogContent>
         </Dialog>
       </div>
