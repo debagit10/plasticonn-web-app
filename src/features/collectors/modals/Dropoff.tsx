@@ -1,17 +1,124 @@
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
+import { useToast } from "../../../utils/useToast";
+import api from "../../../utils/axiosInstance";
+import Toast from "../../../utils/Toast";
+import { useAuth } from "../../../utils/useAuth";
 
-const DropOff = () => {
+interface Centers {
+  _id: string;
+  centerId: string;
+  name: string;
+  address: string;
+  gps: GPS;
+  materialsAccepted: string[];
+  contactPhone: string;
+}
+
+interface GPS {
+  coordinates: number[];
+}
+
+interface DropDetails {
+  name: string;
+  amount: number;
+  types: string[];
+  condition: string;
+}
+
+const fields = [
+  { label: "Center Name", name: "name", type: "text" },
+  { label: "Amount", name: "amount", type: "number" },
+  {
+    label: "Types",
+    name: "types",
+    type: "checkbox",
+    options: [
+      { label: "PET", value: "PET" },
+      { label: "PP", value: "PP" },
+    ],
+  },
+  {
+    label: "Condition",
+    name: "condition",
+    type: "radio",
+    options: [
+      { label: "Dirty", value: "dirty" },
+      { label: "Clean", value: "clean" },
+    ],
+  },
+];
+
+const DropOff = ({ center }: { center: Centers }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { coords } = useAuth();
+
+  const [dropDetails, setDropDetails] = useState<DropDetails>({
+    amount: 0,
+    name: "",
+    types: [],
+    condition: "",
+  });
+
+  const { showToast, toast, closeToast } = useToast();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setDropDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submit = async () => {
+    setLoading(true);
+
+    if (dropDetails.amount || dropDetails.types || dropDetails.condition) {
+      showToast("Input all field", "warning");
+
+      return;
+    }
+
+    try {
+      const response = await api.post(`/api/drop/add`, {
+        ...dropDetails,
+        center_id: center._id,
+        location: { lat: coords?.lat, lng: coords?.lng },
+      });
+
+      if (response.data.status === 201) {
+        setLoading(false);
+
+        showToast("Drop off successful", "success");
+
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
+      }
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      console.log(errMsg);
+      showToast(errMsg, "error");
+
+      if (errMsg) {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <div>
@@ -44,6 +151,12 @@ const DropOff = () => {
           },
         }}
       >
+        <Toast
+          open={toast.open}
+          message={toast.message}
+          severity={toast.severity}
+          onClose={closeToast}
+        />
         <DialogTitle className="flex  justify-between gap-10">
           <div className="flex flex-col gap-2">
             <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
@@ -67,46 +180,131 @@ const DropOff = () => {
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="flex gap-2.5">
-            <div>
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                Center Name
-              </Typography>
-              <TextField
-                //   value={search}
-                //   onChange={(e) => setSearch(e.target.value)}
-                placeholder="e.g Green valley collection center"
-                variant="outlined"
-                size="small"
-                sx={{
-                  width: "500px",
-                  // overall height
-                  "& .MuiOutlinedInput-root": {
-                    height: "40px",
-                    borderRadius: "12px",
-                    backgroundColor: "#FAFAFA",
+          <div className="flex flex-col gap-2.5">
+            {fields.map((field) => (
+              <div key={field.name}>
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  {field.label}
+                </Typography>
 
-                    // default border
-                    "& fieldset": {
-                      borderColor: "#1A1A1A",
-                      borderWidth: "0.2px",
-                    },
+                {field.type === "text" && (
+                  <TextField
+                    name={field.name}
+                    value={center.name || null}
+                    size="small"
+                    sx={{
+                      width: "500px",
 
-                    // focused
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#1A1A1A",
-                      borderWidth: "0.2px",
-                    },
-                  },
+                      "& .MuiOutlinedInput-root": {
+                        height: "40px",
+                        borderRadius: "12px",
+                        backgroundColor: "#FAFAFA",
 
-                  // input text
-                  "& input": {
-                    padding: "10px 12px",
-                    fontSize: 14,
-                  },
-                }}
-              />
-            </div>
+                        // default border
+                        "& fieldset": {
+                          borderColor: "#1A1A1A",
+                          borderWidth: "0.2px",
+                        },
+
+                        // focused
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#1A1A1A",
+                          borderWidth: "0.2px",
+                        },
+                      },
+
+                      // input text
+                      "& input": {
+                        padding: "10px 12px",
+                        fontSize: 14,
+                      },
+                    }}
+                  />
+                )}
+
+                {field.type === "number" && (
+                  <TextField
+                    name={field.name}
+                    type="number"
+                    inputProps={{
+                      min: 0,
+                      max: 100,
+                      step: 1,
+                    }}
+                    // value={dropDetails[field.name as keyof DropDetails] || ""}
+                    onChange={handleChange}
+                    size="small"
+                    sx={{
+                      width: "500px",
+
+                      "& .MuiOutlinedInput-root": {
+                        height: "40px",
+                        borderRadius: "12px",
+                        backgroundColor: "#FAFAFA",
+
+                        // default border
+                        "& fieldset": {
+                          borderColor: "#1A1A1A",
+                          borderWidth: "0.2px",
+                        },
+
+                        // focused
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#1A1A1A",
+                          borderWidth: "0.2px",
+                        },
+                      },
+
+                      // input text
+                      "& input": {
+                        padding: "10px 12px",
+                        fontSize: 14,
+                      },
+                    }}
+                  />
+                )}
+
+                {field.type === "checkbox" &&
+                  field.options?.map((option) => (
+                    <FormControlLabel
+                      key={option.value}
+                      control={
+                        <Checkbox
+                          checked={dropDetails.types.includes(option.value)}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+
+                            setDropDetails((prev) => ({
+                              ...prev,
+                              types: checked
+                                ? [...prev.types, option.value]
+                                : prev.types.filter((t) => t !== option.value),
+                            }));
+                          }}
+                        />
+                      }
+                      label={option.label}
+                    />
+                  ))}
+
+                {field.type === "radio" && (
+                  <RadioGroup
+                    name={field.name}
+                    value={dropDetails[field.name as keyof DropDetails] || ""}
+                    onChange={handleChange}
+                  >
+                    {field.options?.map((option) => (
+                      <FormControlLabel
+                        key={option.value}
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.label}
+                      />
+                    ))}
+                  </RadioGroup>
+                )}
+              </div>
+            ))}
           </div>
 
           <div className="flex gap-4 mt-12">
@@ -132,6 +330,7 @@ const DropOff = () => {
             </Button>
 
             <Button
+              onClick={submit}
               sx={{
                 width: "365px",
                 height: "48px",

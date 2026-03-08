@@ -115,7 +115,7 @@ const CenterCard = ({
           </div>
 
           <div>
-            <DropOff />
+            <DropOff center={center} />
           </div>
         </div>
       )}

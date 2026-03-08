@@ -1,6 +1,5 @@
 import { Typography, Divider } from "@mui/material";
 import { GoClock } from "react-icons/go";
-import DropOff from "../modals/Dropoff";
 
 const drops = [
   {
@@ -37,8 +36,6 @@ const RecentDrops = () => {
           <Typography fontSize={28} fontWeight={400} color="#052E1E">
             Recent Drop offs
           </Typography>
-
-          <DropOff />
         </div>
 
         <div className="mt-5">
