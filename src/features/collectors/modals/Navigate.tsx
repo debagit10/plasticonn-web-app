@@ -11,26 +11,6 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoNavigateOutline } from "react-icons/io5";
 import api from "../../../utils/axiosInstance";
 import CenterCard from "../CenterCard";
-// const centers = [
-//   {
-//     name: "EcoHub Center",
-//     distance: "0.8 km",
-//     open: true,
-//     materials: ["PET", "PVC", "PTDE"],
-//   },
-//   {
-//     name: "Green Point Station",
-//     distance: "1.2 km",
-//     open: true,
-//     materials: ["PET", "PP"],
-//   },
-//   {
-//     name: "RecycleMax Downtown",
-//     distance: "2.5 km",
-//     open: false,
-//     materials: ["PET", "PP", "HDPE", "LDPE"],
-//   },
-// ];
 
 interface Centers {
   _id: string;

@@ -62,7 +62,7 @@ const fields = [
   },
 ];
 
-const DropOff = ({ center }: { center: Centers }) => {
+const DropOff = ({ center, width }: { center: Centers; width: string }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -133,7 +133,7 @@ const DropOff = ({ center }: { center: Centers }) => {
         onClick={() => setOpen(true)}
         startIcon={<IoMdAdd />}
         sx={{
-          width: "220px",
+          width: width,
           backgroundColor: "#00C281",
           color: "white",
           textTransform: "capitalize",

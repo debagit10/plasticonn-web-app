@@ -8,6 +8,7 @@ import { useAuthStore } from "../../utils/useAuth";
 
 const CollectorDashboard = () => {
   const { user } = useAuthStore();
+
   return (
     <div className="px-16">
       <div className="flex flex-col gap-3">
