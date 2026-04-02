@@ -6,32 +6,123 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
+import Change_Password from "./Change_Password";
+import { useToast } from "../../../utils/useToast";
+import api from "../../../utils/axiosInstance";
+import { useAuthStore } from "../../../utils/useAuth";
+import Toast from "../../../utils/Toast";
 
 const Edit_profile = () => {
+  const { user, setUser } = useAuthStore();
+
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { toast, closeToast, showToast } = useToast();
+
+  const initialValues = useMemo(
+    () => ({
+      firstName: user?.firstName ?? "",
+      lastName: user?.lastName ?? "",
+      email: user?.email ?? "",
+      address: user?.address ?? "",
+    }),
+    [user],
+  );
+
+  const [formData, setFormData] = useState(initialValues);
+
+  useEffect(() => {
+    setFormData(initialValues);
+  }, [user]);
+
+  const handleChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    };
+
+  const changedFields = useMemo(() => {
+    return Object.entries(formData).reduce(
+      (acc, [key, value]) => {
+        if (value !== initialValues[key as keyof typeof initialValues]) {
+          acc[key as keyof typeof initialValues] = value;
+        }
+        return acc;
+      },
+      {} as Partial<typeof formData>,
+    );
+  }, [formData, initialValues]);
+
+  const hasChanges = Object.keys(changedFields).length > 0;
+
+  const fields = [
+    { label: "First Name", key: "firstName" },
+    { label: "Last Name", key: "lastName" },
+    { label: "Email address", key: "email" },
+    { label: "Address", key: "address" },
+  ];
+
+  const textFieldSx = {
+    width: "500px",
+    "& .MuiOutlinedInput-root": {
+      height: "40px",
+      borderRadius: "12px",
+      backgroundColor: "#FAFAFA",
+      "& fieldset": { borderColor: "#1A1A1A", borderWidth: "0.2px" },
+      "&.Mui-focused fieldset": {
+        borderColor: "#1A1A1A",
+        borderWidth: "0.2px",
+      },
+    },
+    "& input": { padding: "10px 12px", fontSize: 14 },
+  };
+
+  const update = async () => {
+    setLoading(true);
+    if (!hasChanges) {
+      showToast("Nothing to update", "info");
+
+      setLoading(false);
+
+      return;
+    }
+
+    try {
+      const response = await api.put("api/collector/profile", changedFields);
+
+      setLoading(false);
+
+      showToast("Profile updated", "success");
+
+      setUser(response.data.data.collector);
+      setTimeout(() => {
+        setOpen(false);
+      }, 2000);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: response.data.data.collector._id,
+          role: response.data.data.collector.role,
+        }),
+      );
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      console.log(errMsg);
+      showToast(errMsg, "error");
+
+      if (errMsg) {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <div>
       <div className="flex gap-9">
-        <Button
-          //onClick={() => setOpen(true)}
-          variant="outlined"
-          fullWidth
-          sx={{
-            height: "48px",
-            padding: "12px",
-            borderRadius: "12px",
-            borderColor: "#1A1A1A80",
-            color: "#1A1A1A",
-            textTransform: "capitalize",
-          }}
-        >
-          <Typography fontSize={16} fontWeight={300}>
-            Back to Dashboard
-          </Typography>
-        </Button>
+        <Change_Password />
 
         <Button
           onClick={() => setOpen(true)}
@@ -61,13 +152,17 @@ const Edit_profile = () => {
           },
         }}
       >
+        <Toast
+          open={toast.open}
+          message={toast.message}
+          severity={toast.severity}
+          onClose={closeToast}
+        />
+
         <DialogTitle className="flex  justify-between gap-10">
           <div className="flex flex-col gap-2">
             <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
-              New Drop-off
-            </Typography>
-            <Typography fontSize={20} fontWeight={300} color="#1A1A1A">
-              Fill in the details for your plastic collection drop-off
+              Edit profile details
             </Typography>
           </div>
 
@@ -84,46 +179,23 @@ const Edit_profile = () => {
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="flex gap-2.5">
-            <div>
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                Center Name
-              </Typography>
-              <TextField
-                //   value={search}
-                //   onChange={(e) => setSearch(e.target.value)}
-                placeholder="e.g Green valley collection center"
-                variant="outlined"
-                size="small"
-                sx={{
-                  width: "500px",
-                  // overall height
-                  "& .MuiOutlinedInput-root": {
-                    height: "40px",
-                    borderRadius: "12px",
-                    backgroundColor: "#FAFAFA",
-
-                    // default border
-                    "& fieldset": {
-                      borderColor: "#1A1A1A",
-                      borderWidth: "0.2px",
-                    },
-
-                    // focused
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#1A1A1A",
-                      borderWidth: "0.2px",
-                    },
-                  },
-
-                  // input text
-                  "& input": {
-                    padding: "10px 12px",
-                    fontSize: 14,
-                  },
-                }}
-              />
-            </div>
+          <div className="flex flex-col gap-3">
+            {fields.map(({ label, key }) => (
+              <div key={key} className="flex gap-2.5">
+                <div>
+                  <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                    {label}
+                  </Typography>
+                  <TextField
+                    value={formData[key as keyof typeof formData]}
+                    onChange={handleChange(key)}
+                    variant="outlined"
+                    size="small"
+                    sx={textFieldSx}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="flex gap-4 mt-12">
@@ -149,13 +221,15 @@ const Edit_profile = () => {
             </Button>
 
             <Button
+              onClick={update}
               sx={{
                 width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
-                backgroundColor: "#00C281",
-                color: "white",
+                backgroundColor: loading ? "white" : "#00C281",
+                borderColor: loading ? "grey" : "",
+                color: loading ? "grey" : "white",
               }}
             >
               <Typography
@@ -163,7 +237,7 @@ const Edit_profile = () => {
                 fontSize={16}
                 sx={{ textTransform: "capitalize" }}
               >
-                Submit Drop Off
+                Update
               </Typography>
             </Button>
           </div>

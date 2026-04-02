@@ -16,7 +16,7 @@ const CollectorDashboard = () => {
           Collector Dashboard
         </Typography>
         <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
-          Welcome back, {user?.name}
+          Welcome back, {user?.firstName}
         </Typography>
       </div>
 

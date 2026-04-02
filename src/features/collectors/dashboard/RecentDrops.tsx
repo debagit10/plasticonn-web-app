@@ -66,6 +66,12 @@ const RecentDrops = () => {
         </div>
       </div>
 
+      {drops.length <= 0 && (
+        <div className="flex justify-center">
+          <Typography>You currently have no drop-offs</Typography>
+        </div>
+      )}
+
       {drops.map((drop) => (
         <div className="rounded-xl p-6.5 border-[0.4px] flex flex-col cursor-pointer transition-all duration-200 hover:shadow-md">
           <div className="flex justify-between">

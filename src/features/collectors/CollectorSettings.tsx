@@ -1,10 +1,9 @@
 import { Typography } from "@mui/material";
-import Profile_Picture from "./settings/Profile_Picture";
 import back from "../../assets/back.png";
 import Personal from "./settings/Personal";
-import Change_Password from "./modals/Change_Password";
 import Edit_profile from "./modals/Edit_profile";
 import { useNavigate } from "react-router-dom";
+import DeleteAccount from "./modals/DeleteAccount";
 
 const CollectorSettings = () => {
   const navigate = useNavigate();
@@ -25,20 +24,20 @@ const CollectorSettings = () => {
         </div>
       </div>
 
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <Profile_Picture />
-      </div>
+      </div> */}
 
       <div className="mt-10">
         <Personal />
       </div>
 
       <div className="mt-10">
-        <Change_Password />
+        <Edit_profile />
       </div>
 
       <div className="mt-10 pb-10">
-        <Edit_profile />
+        <DeleteAccount />
       </div>
     </div>
   );

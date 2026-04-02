@@ -5,6 +5,9 @@ interface User {
   email: string;
   role: "collector" | "center";
   name: string;
+  firstName: string;
+  lastName: string;
+  address: string;
   phone: string;
   status: string;
   centerType?: string;

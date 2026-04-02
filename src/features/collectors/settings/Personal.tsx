@@ -1,6 +1,9 @@
 import { TextField, Typography } from "@mui/material";
+import { useAuth } from "../../../utils/useAuth";
 
 const Personal = () => {
+  const { user } = useAuth();
+
   return (
     <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
       <div className="flex flex-col gap-2">
@@ -15,31 +18,23 @@ const Personal = () => {
       <div className="flex gap-9">
         <div>
           <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-            Center Name
+            First Name
           </Typography>
           <TextField
-            //   value={search}
-            //   onChange={(e) => setSearch(e.target.value)}
-            placeholder="e.g Green valley collection center"
+            value={user?.firstName}
             variant="outlined"
             size="small"
             sx={{
               width: "670px",
-              // overall height
               "& .MuiOutlinedInput-root": {
                 height: "40px",
                 borderRadius: "12px",
-                backgroundColor: "#FAFAFA",
-
-                // default border
-                "& fieldset": {
-                  borderColor: "#1A1A1A",
-                  borderWidth: "0.2px",
-                },
+                color: "#1A1A1A",
+                backgroundColor: "#1A1A1A0D",
 
                 // focused
                 "&.Mui-focused fieldset": {
-                  borderColor: "#1A1A1A",
+                  borderColor: "#1A1A1A0D",
                   borderWidth: "0.2px",
                 },
               },
@@ -54,31 +49,23 @@ const Personal = () => {
         </div>
         <div>
           <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-            Center Name
+            Last Name
           </Typography>
           <TextField
-            //   value={search}
-            //   onChange={(e) => setSearch(e.target.value)}
-            placeholder="e.g Green valley collection center"
+            value={user?.lastName}
             variant="outlined"
             size="small"
             sx={{
               width: "670px",
-              // overall height
               "& .MuiOutlinedInput-root": {
                 height: "40px",
                 borderRadius: "12px",
-                backgroundColor: "#FAFAFA",
-
-                // default border
-                "& fieldset": {
-                  borderColor: "#1A1A1A",
-                  borderWidth: "0.2px",
-                },
+                color: "#1A1A1A",
+                backgroundColor: "#1A1A1A0D",
 
                 // focused
                 "&.Mui-focused fieldset": {
-                  borderColor: "#1A1A1A",
+                  borderColor: "#1A1A1A0D",
                   borderWidth: "0.2px",
                 },
               },
@@ -95,32 +82,23 @@ const Personal = () => {
 
       <div>
         <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-          Center Name
+          Email Address
         </Typography>
         <TextField
-          //   value={search}
-          //   onChange={(e) => setSearch(e.target.value)}
-          placeholder="e.g Green valley collection center"
+          value={user?.email}
           variant="outlined"
           size="small"
           fullWidth
           sx={{
-            //width: "650px",
-            // overall height
             "& .MuiOutlinedInput-root": {
               height: "40px",
               borderRadius: "12px",
-              backgroundColor: "#FAFAFA",
-
-              // default border
-              "& fieldset": {
-                borderColor: "#1A1A1A",
-                borderWidth: "0.2px",
-              },
+              color: "#1A1A1A",
+              backgroundColor: "#1A1A1A0D",
 
               // focused
               "&.Mui-focused fieldset": {
-                borderColor: "#1A1A1A",
+                borderColor: "#1A1A1A0D",
                 borderWidth: "0.2px",
               },
             },
@@ -135,33 +113,23 @@ const Personal = () => {
       </div>
       <div>
         <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-          Center Name
+          Phone Number
         </Typography>
         <TextField
-          //   value={search}
-          //   onChange={(e) => setSearch(e.target.value)}
-          placeholder="e.g Green valley collection center"
+          value={user?.phone}
           variant="outlined"
           size="small"
           fullWidth
           sx={{
-            //width: "650px",
-            // overall height
             "& .MuiOutlinedInput-root": {
               height: "40px",
               borderRadius: "12px",
-              backgroundColor: "#FAFAFA",
-
-              // default border
-              "& fieldset": {
-                borderColor: "#1A1A1A",
-                borderWidth: "0.2px",
-              },
+              color: "#1A1A1A",
+              backgroundColor: "#1A1A1A0D",
 
               // focused
               "&.Mui-focused fieldset": {
-                borderColor: "#1A1A1A",
-                borderWidth: "0.2px",
+                borderColor: "#1A1A1A0D",
               },
             },
 
@@ -175,32 +143,22 @@ const Personal = () => {
       </div>
       <div>
         <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-          Center Name
+          Address
         </Typography>
         <TextField
-          //   value={search}
-          //   onChange={(e) => setSearch(e.target.value)}
-          placeholder="e.g Green valley collection center"
-          variant="outlined"
+          value={user?.address}
           size="small"
           fullWidth
           sx={{
-            //width: "650px",
-            // overall height
             "& .MuiOutlinedInput-root": {
               height: "40px",
               borderRadius: "12px",
-              backgroundColor: "#FAFAFA",
-
-              // default border
-              "& fieldset": {
-                borderColor: "#1A1A1A",
-                borderWidth: "0.2px",
-              },
+              color: "#1A1A1A",
+              backgroundColor: "#1A1A1A0D",
 
               // focused
               "&.Mui-focused fieldset": {
-                borderColor: "#1A1A1A",
+                borderColor: "#1A1A1A0D",
                 borderWidth: "0.2px",
               },
             },
