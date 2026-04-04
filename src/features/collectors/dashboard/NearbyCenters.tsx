@@ -65,7 +65,6 @@ const CentersMap = () => {
         `/api/center/closest?lat=${coords.lat}&lng=${coords.lng}`,
       );
       setCenters(response.data.data.centers);
-      console.log(response.data.data.centers);
     } catch (error: any) {
       console.log(error?.response?.data?.message);
     }

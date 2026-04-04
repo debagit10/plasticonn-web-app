@@ -29,10 +29,10 @@ const CenterCard = ({
   selectedIndex: number | null;
   setSelectedIndex: (value: number | null) => void;
 }) => {
-  // const distance = useDistance(
-  //   center.gps.coordinates[1],
-  //   center.gps.coordinates[0],
-  // );
+  const distance = useDistance(
+    center.gps.coordinates[1],
+    center.gps.coordinates[0],
+  );
 
   return (
     <React.Fragment key={center._id}>
@@ -66,9 +66,9 @@ const CenterCard = ({
         <div className="flex gap-3 items-center">
           <img src={location} alt="location" />
 
-          {/* <Typography fontSize={24} fontWeight={400} color="#1A1A1A80">
+          <Typography fontSize={24} fontWeight={400} color="#1A1A1A80">
             {distance !== null ? `${distance} km` : "---"}
-          </Typography> */}
+          </Typography>
         </div>
 
         <div className="flex gap-6.75 flex-wrap">
