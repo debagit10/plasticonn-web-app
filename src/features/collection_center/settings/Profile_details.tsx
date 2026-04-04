@@ -5,61 +5,63 @@ import {
   HiOutlineMapPin,
   HiOutlineEnvelope,
 } from "react-icons/hi2";
+import { useAuthStore } from "../../../utils/useAuth";
 
 const Profile_details = () => {
+  const { user } = useAuthStore();
   return (
     <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
       <div className="w-full flex justify-between">
         {/* LEFT SECTION */}
         <div className="flex flex-col gap-6">
           {/* Title */}
-          <div className="flex items-start gap-3">
+          <div className="flex  gap-3 items-center">
             <HiOutlineBuildingOffice size={22} className="text-[#1A1A1A]" />
             <div>
               <Typography fontSize={20} fontWeight={500} color="#1A1A1A">
-                Green Valley Collection Center
+                {user?.name}
               </Typography>
-              <Typography fontSize={14} color="#1A1A1A80">
+              {/* <Typography fontSize={14} color="#1A1A1A80">
                 Est. 2022
-              </Typography>
+              </Typography> */}
             </div>
           </div>
 
           {/* Address */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <HiOutlineMapPin size={20} className="text-[#1A1A1A80]" />
             <div>
               <Typography fontSize={14} color="#1A1A1A80">
                 Address
               </Typography>
               <Typography fontSize={15} color="#1A1A1A">
-                Agege, Lagos state
+                {user?.address}
               </Typography>
             </div>
           </div>
 
           {/* Contact */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <HiOutlinePhone size={20} className="text-[#1A1A1A80]" />
             <div>
               <Typography fontSize={14} color="#1A1A1A80">
                 Contact Number
               </Typography>
               <Typography fontSize={15} color="#1A1A1A">
-                +234 123 - 4567 - 890
+                {user?.contactPhone}
               </Typography>
             </div>
           </div>
 
           {/* Email */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <HiOutlineEnvelope size={20} className="text-[#1A1A1A80]" />
             <div>
               <Typography fontSize={14} color="#1A1A1A80">
                 Email
               </Typography>
               <Typography fontSize={15} color="#1A1A1A">
-                contact@greenvalleycenter.com
+                {user?.contactPhone}
               </Typography>
             </div>
           </div>

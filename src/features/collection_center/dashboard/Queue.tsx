@@ -2,31 +2,80 @@ import { Typography, Divider } from "@mui/material";
 import profile from "../../../assets/profile.png";
 import time from "../../../assets/time.png";
 import Verify_Drop from "./Verify_Drop";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../../../utils/axiosInstance";
 
-const drops = [
-  {
-    collector: "Sarah Johnson",
-    type: "PET",
-    timestamp: "2025-11-10 14:32",
-  },
-  {
-    collector: "Mike Adeniyi",
-    type: "HDPE",
-    timestamp: "2025-11-08 13:15",
-  },
-  {
-    collector: "Emma Davis",
-    type: "LDPE",
-    timestamp: "2025-11-05 11:45",
-  },
-];
+interface Location {
+  type: "Point";
+  coordinates: [number, number];
+}
+
+interface PopulatedRef {
+  _id: string;
+  name: string;
+}
+
+interface Drops {
+  _id: string;
+  drop_id: string;
+  location: Location;
+  collector_id: PopulatedRef;
+  center_id: PopulatedRef;
+  amount: number;
+  types: string[];
+  condition: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+// const drops = [
+//   {
+//     collector: "Sarah Johnson",
+//     type: "PET",
+//     timestamp: "2025-11-10 14:32",
+//   },
+//   {
+//     collector: "Mike Adeniyi",
+//     type: "HDPE",
+//     timestamp: "2025-11-08 13:15",
+//   },
+//   {
+//     collector: "Emma Davis",
+//     type: "LDPE",
+//     timestamp: "2025-11-05 11:45",
+//   },
+// ];
 
 const Queue = () => {
   const [selected, setSelected] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
 
-  const [drop, setDrop] = useState({ collector: "", type: "", timestamp: "" });
+  const [drops, setDrops] = useState<Drops[]>([]);
+  const [drop, setDrop] = useState({
+    collector: "",
+    type: [""],
+    timestamp: "",
+    id: "",
+  });
+
+  const getDrops = async () => {
+    try {
+      const response = await api.get(`/api/drop/get`);
+
+      setDrops(response.data.data.drops);
+
+      // setLoading(false);
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      console.log(errMsg);
+    }
+  };
+
+  useEffect(() => {
+    getDrops();
+  }, []);
 
   return (
     <div className="flex justify-between gap-10">
@@ -43,47 +92,58 @@ const Queue = () => {
           </div>
         </div>
 
+        {drops.filter((drop) => drop.status === "pending").length <= 0 && (
+          <div className="text-center">
+            <Typography fontSize={18} fontWeight={400} color="#052E1E">
+              You currently have no drops
+            </Typography>
+          </div>
+        )}
+
         <div className="flex flex-col gap-10">
-          {drops.map((drop, index) => (
-            <div
-              className={`rounded-xl p-6.5 border-[0.4px] flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedIndex === index ? "bg-[#00C2810D] border-[#00C281]" : "bg-white border-[#1A1A1A]"}`}
-              onClick={() => {
-                if (selectedIndex !== index) {
-                  setSelected(true);
+          {drops
+            .filter((drop) => drop.status === "pending")
+            .map((drop, index) => (
+              <div
+                className={`rounded-xl p-6.5 border-[0.4px] flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedIndex === index ? "bg-[#00C2810D] border-[#00C281]" : "bg-white border-[#1A1A1A]"}`}
+                onClick={() => {
+                  if (selectedIndex !== index) {
+                    setSelected(true);
 
-                  setDrop({
-                    collector: drop.collector,
-                    type: drop.type,
-                    timestamp: drop.timestamp,
-                  });
+                    setDrop({
+                      collector: drop.collector_id.name,
+                      type: drop.types,
+                      timestamp: drop.createdAt,
+                      id: drop._id,
+                    });
 
-                  setSelectedIndex(index);
-                }
-              }}
-            >
-              <div className="flex justify-between">
+                    setSelectedIndex(index);
+                  }
+                }}
+              >
+                <div className="flex justify-between">
+                  <div className="flex gap-3 items-center">
+                    <img src={profile} className="w-6.5 h-6.5" />
+                    <Typography fontWeight={400} fontSize={24} color="#1A1A1A">
+                      {drop.collector_id.name}
+                    </Typography>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl w-31.25 h-11.5 text-center flex items-center justify-center bg-[#00C2811A]">
+                    <Typography fontSize={20} fontWeight={300} color="#00C281">
+                      {drop.types.join(", ")}
+                    </Typography>
+                  </div>
+                </div>
+
                 <div className="flex gap-3 items-center">
-                  <img src={profile} className="w-6.5 h-6.5" />
-                  <Typography fontWeight={400} fontSize={24} color="#1A1A1A">
-                    {drop.collector}
-                  </Typography>
-                </div>
-
-                <div className="p-2.5 rounded-xl w-31.25 h-11.5 text-center flex items-center justify-center bg-[#00C2811A]">
-                  <Typography fontSize={20} fontWeight={300} color="#00C281">
-                    {drop.type}
+                  <img src={time} className="w-6.5 h-6.5" />
+                  <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
+                    {drop.createdAt}
                   </Typography>
                 </div>
               </div>
-
-              <div className="flex gap-3 items-center">
-                <img src={time} className="w-6.5 h-6.5" />
-                <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
-                  {drop.timestamp}
-                </Typography>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 
@@ -94,6 +154,7 @@ const Queue = () => {
           setSelected(false);
           setSelectedIndex(null);
         }}
+        onSuccess={() => getDrops()}
       />
     </div>
   );

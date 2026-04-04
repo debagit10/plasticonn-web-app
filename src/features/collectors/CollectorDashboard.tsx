@@ -10,7 +10,7 @@ const CollectorDashboard = () => {
   const { user } = useAuthStore();
 
   return (
-    <div className="px-16">
+    <div className="px-16 pb-10">
       <div className="flex flex-col gap-3">
         <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
           Collector Dashboard

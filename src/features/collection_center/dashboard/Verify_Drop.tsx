@@ -2,24 +2,57 @@ import cube from "../../../assets/cube.png";
 import { Typography, Divider, TextField, Button } from "@mui/material";
 import { MdOutlineCancel } from "react-icons/md";
 import { BsPatchCheck } from "react-icons/bs";
+import { useToast } from "../../../utils/useToast";
+import api from "../../../utils/axiosInstance";
+import Toast from "../../../utils/Toast";
 
 interface Drop {
   collector: string;
-  type: string;
+  type: string[];
   timestamp: string;
+  id: string;
 }
 
 const Verify_Drop = ({
   selected,
   drop,
   onDeselect,
+  onSuccess,
 }: {
   selected: boolean;
   drop: Drop;
   onDeselect: () => void;
+  onSuccess: () => void;
 }) => {
+  const { toast, closeToast, showToast } = useToast();
+
+  const verify = async (status: "accepted" | "rejected") => {
+    console.log(status);
+
+    try {
+      await api.put(`/api/drop/update/${drop.id}`, { status });
+
+      showToast("Drop status updated", "success");
+
+      setTimeout(() => {
+        onDeselect();
+        onSuccess();
+      }, 2000);
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      showToast(errMsg, "error");
+    }
+  };
+
   return (
     <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col  w-125 h-162.5">
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={closeToast}
+      />
+
       <div>
         <div className="flex justify-between items-center">
           <Typography fontSize={28} fontWeight={400} color="#052E1E">
@@ -209,6 +242,7 @@ const Verify_Drop = ({
 
           <div className="flex gap-3">
             <Button
+              onClick={() => verify("accepted")}
               startIcon={<BsPatchCheck />}
               fullWidth
               sx={{
@@ -225,7 +259,7 @@ const Verify_Drop = ({
             </Button>
 
             <Button
-              //onClick={() => setSelected(false)}
+              onClick={() => verify("rejected")}
               startIcon={<MdOutlineCancel />}
               fullWidth
               sx={{

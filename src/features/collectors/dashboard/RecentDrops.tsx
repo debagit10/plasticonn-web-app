@@ -82,7 +82,7 @@ const RecentDrops = () => {
               className="p-2.5 rounded-xl w-31.25 h-11.5 text-center flex items-center justify-center"
               style={{
                 backgroundColor:
-                  drop.status === "verified"
+                  drop.status === "accepted" || drop.status === "verified"
                     ? "#00C281"
                     : drop.status === "pending"
                       ? "#FF9D0D1A"
@@ -93,15 +93,15 @@ const RecentDrops = () => {
                 fontSize={20}
                 fontWeight={300}
                 color={
-                  drop.status === "verified"
+                  drop.status === "accepted" || drop.status === "verified"
                     ? "white"
                     : drop.status === "pending"
                       ? "#FF9D0D"
                       : "#1A1A1A"
                 }
               >
-                {drop.status === "verified"
-                  ? "Verified"
+                {drop.status === "accepted" || drop.status === "verified"
+                  ? "Accepted"
                   : drop.status === "pending"
                     ? "Pending"
                     : "Rejected"}

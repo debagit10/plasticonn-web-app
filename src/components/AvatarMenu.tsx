@@ -45,10 +45,10 @@ const AvatarMenu = () => {
         >
           <div className="flex flex-col gap-2">
             <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-              {user?.name}
+              {user?.name} {user?.firstName} {user?.lastName}
             </Typography>
             <Typography fontWeight={400} fontSize={14} color="#1A1A1A80">
-              {user?.email}
+              {user?.email} {user?.contactEmail}
             </Typography>
           </div>
 

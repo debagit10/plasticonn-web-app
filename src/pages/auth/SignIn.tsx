@@ -104,9 +104,8 @@ const SignIn = () => {
         }),
       );
     } catch (error: any) {
-      console.log(error);
       const errMsg = error?.response?.data?.message;
-      console.log(errMsg);
+
       showToast(errMsg, "error");
 
       if (errMsg) {

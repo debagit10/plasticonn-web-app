@@ -15,7 +15,8 @@ interface User {
   centerId?: string;
   contactPerson?: string;
   contactPhone?: string;
-  materialsAccepted?: [string];
+  contactEmail?: string;
+  materialsAccepted?: string[];
   lat: number;
   lng: number;
 }

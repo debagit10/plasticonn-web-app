@@ -2,8 +2,8 @@ import { Typography } from "@mui/material";
 import back from "../../assets/back.png";
 import Profile_details from "./settings/Profile_details";
 import Accepted_Plastics from "./settings/Accepted_Plastics";
-import Change_Password from "./modals/Change_Password";
 import Edit_profile from "./modals/Edit_Profile";
+import DeleteAccount from "./modals/DeleteAccount";
 
 const CollectionCenter_Settings = () => {
   return (
@@ -30,11 +30,11 @@ const CollectionCenter_Settings = () => {
       </div>
 
       <div className="mt-10">
-        <Change_Password />
+        <Edit_profile />
       </div>
 
       <div className="mt-10 pb-10">
-        <Edit_profile />
+        <DeleteAccount />
       </div>
     </div>
   );
