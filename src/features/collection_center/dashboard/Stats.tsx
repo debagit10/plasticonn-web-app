@@ -3,40 +3,69 @@ import verified from "../../../assets/verified.png";
 import co2saved from "../../../assets/co2saved.png";
 import pending from "../../../assets/pending.png";
 import today from "../../../assets/today.png";
+import api from "../../../utils/axiosInstance";
+import { useEffect, useState } from "react";
 
-const stats = [
+const statsConfig = [
   {
+    key: "verifiedDrops",
     icon: verified,
     title: "Total Verified",
-    value: "247.8 kg",
     color: "#1A1A1A",
   },
   {
+    key: "totalCO2Saved",
     icon: co2saved,
-    title: "CO₂ Saved",
-    value: "1847 kg",
+    title: "CO₂ Saved (g)",
     bg: "#FA98081A",
     color: "#00C281",
   },
   {
+    key: "pendingDrops",
     icon: pending,
     title: "Pending Queue",
-    value: "8",
     color: "#FF9D0D",
   },
-
   {
+    key: "todayDrops",
     icon: today,
     title: "Today collections",
-    value: "23",
     color: "#0D5DFF",
   },
 ];
 
+type StatsData = {
+  verifiedDrops: number;
+  pendingDrops: number;
+  totalCO2Saved: number;
+  todayDrops: number;
+};
+
 const Stats = () => {
+  const [stats, setStats] = useState<StatsData>({
+    verifiedDrops: 0,
+    pendingDrops: 0,
+    totalCO2Saved: 0,
+    todayDrops: 0,
+  });
+
+  const getStats = async () => {
+    try {
+      const response = await api.get("/api/center/dashboard");
+      console.log(response.data.data);
+      setStats(response.data.data);
+    } catch (error: any) {
+      console.log(error?.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    getStats();
+  }, []);
+
   return (
     <div className="flex justify-between mt-10">
-      {stats.map((stat, index) => (
+      {statsConfig.map((stat, index) => (
         <div
           key={index}
           className="group bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] min-w-80 h-38 transition-all duration-300"
@@ -61,7 +90,7 @@ const Stats = () => {
                   },
                 }}
               >
-                {stat.value}
+                {stats[stat.key as keyof StatsData]}
               </Typography>
             </div>
           </div>
