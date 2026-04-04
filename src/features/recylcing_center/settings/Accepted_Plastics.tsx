@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { useAuthStore } from "../../../utils/useAuth";
 
 const Accepted_Plastics = () => {
   const plasticTypes = [
@@ -46,6 +47,8 @@ const Accepted_Plastics = () => {
     },
   ];
 
+  const { user } = useAuthStore();
+
   return (
     <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
       <Typography fontSize={28} fontWeight={400}>
@@ -53,25 +56,31 @@ const Accepted_Plastics = () => {
       </Typography>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {plasticTypes.map((type) => (
-          <div
-            key={type.id}
-            className="rounded-xl p-4"
-            style={{ backgroundColor: type.bg }}
-          >
-            <Typography fontSize={26} fontWeight={400}>
-              {type.name} (#{type.id})
-            </Typography>
+        {user?.materialsAccepted?.map((typeName, index) => {
+          const type = plasticTypes.find((item) => item.name === typeName);
 
-            <Typography
-              sx={{ color: type.textColor }}
-              fontSize={24}
-              fontWeight={300}
+          if (!type) return null;
+
+          return (
+            <div
+              key={index}
+              className="rounded-xl p-4"
+              style={{ backgroundColor: type.bg }}
             >
-              {type.description}
-            </Typography>
-          </div>
-        ))}
+              <Typography fontSize={26} fontWeight={400}>
+                {type.name} (#{index + 1})
+              </Typography>
+
+              <Typography
+                sx={{ color: type.textColor }}
+                fontSize={24}
+                fontWeight={300}
+              >
+                {type.description}
+              </Typography>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

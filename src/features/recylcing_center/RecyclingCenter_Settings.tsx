@@ -2,17 +2,22 @@ import { Typography } from "@mui/material";
 import back from "../../assets/back.png";
 import Facility_details from "./settings/Facility_Details";
 import Accepted_Plastics from "./settings/Accepted_Plastics";
-import Change_Password from "./modals/Change_Password";
 import Change_Details from "./modals/Change_Details";
-import Impact from "./settings/Impact";
+// import Impact from "./settings/Impact";
+import { useNavigate } from "react-router-dom";
+import DeleteAccount from "./modals/DeleteAccount";
 
 const RecyclingCenter_Settings = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="px-16">
       <div className="flex items-center gap-3.5">
-        <img src={back} />
+        <div onClick={() => navigate("/dashboard")}>
+          <img src={back} className="cursor-pointer" />
+        </div>
 
-        <div className="flex flex-col gap-3 mt-5">
+        <div className="flex flex-col gap-1 mt-5">
           <Typography fontSize={28} fontWeight={400} color="#1A1A1A">
             Facility Details
           </Typography>
@@ -30,16 +35,16 @@ const RecyclingCenter_Settings = () => {
         <Accepted_Plastics />
       </div>
 
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <Impact />
-      </div>
+      </div> */}
 
       <div className="mt-10">
-        <Change_Password />
+        <Change_Details />
       </div>
 
       <div className="mt-10 pb-10">
-        <Change_Details />
+        <DeleteAccount />
       </div>
     </div>
   );

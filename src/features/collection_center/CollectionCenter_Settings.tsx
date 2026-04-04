@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const CollectionCenter_Settings = () => {
   const navigate = useNavigate();
+
   return (
     <div className="px-16">
       <div className="flex items-center gap-3.5">
@@ -15,7 +16,7 @@ const CollectionCenter_Settings = () => {
           <img src={back} className="cursor-pointer" />
         </div>
 
-        <div className="flex flex-col gap-3 mt-5">
+        <div className="flex flex-col gap-1 mt-5">
           <Typography fontSize={28} fontWeight={400} color="#1A1A1A">
             Profile Settings
           </Typography>

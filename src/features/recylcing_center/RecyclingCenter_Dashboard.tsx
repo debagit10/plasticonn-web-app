@@ -2,8 +2,11 @@ import { Typography } from "@mui/material";
 import Stats from "./dashboard/Stats";
 import Plastic_Type from "./dashboard/Plastic_Type";
 import Messages from "./dashboard/Messages";
+import { useAuthStore } from "../../utils/useAuth";
 
 const RecylcingCenter_Dashboard = () => {
+  const { user } = useAuthStore();
+
   return (
     <div className="px-16 ">
       <div className="flex flex-col gap-3">
@@ -11,7 +14,7 @@ const RecylcingCenter_Dashboard = () => {
           Recycling Center
         </Typography>
         <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
-          GreenTech Processing Facility
+          Welcome back, {user?.name}
         </Typography>
       </div>
 
