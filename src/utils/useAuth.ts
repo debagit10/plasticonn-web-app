@@ -1,16 +1,21 @@
 import { create } from "zustand";
 
 interface User {
-  id: string;
-  email: string;
+  _id: string;
+  email?: string;
   role: "collector" | "center";
   name: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   address: string;
-  phone: string;
+  phone?: string;
   status: string;
   centerType?: string;
+  capacity?: string;
+  centerId?: string;
+  contactPerson?: string;
+  contactPhone?: string;
+  materialsAccepted?: [string];
   lat: number;
   lng: number;
 }

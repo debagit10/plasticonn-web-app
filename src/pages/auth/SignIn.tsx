@@ -17,7 +17,8 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 interface SignInDetails {
-  email: string;
+  email?: string | null;
+  centerId?: string | null;
   password: string;
   role: string;
 }
@@ -31,8 +32,9 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [signindetails, setDetails] = useState<SignInDetails>({
-    email: "",
+    email: null,
     password: "",
+    centerId: null,
     role: "",
   });
 
@@ -44,16 +46,22 @@ const SignIn = () => {
   };
 
   const isFormDataComplete = () => {
-    return Object.values(signindetails).every((value) => value.trim() !== "");
+    return Object.values(signindetails).every((value) => {
+      if (value === null) return true;
+      return value.trim() !== "";
+    });
   };
 
   const { setUser } = useAuthStore.getState();
 
   const signin = async () => {
+    console.log(signindetails);
+
     setLoading(true);
     const formReady = isFormDataComplete();
 
     if (!formReady) {
+      showToast("Please input all fields", "warning");
       setLoading(false);
 
       return;
@@ -69,16 +77,34 @@ const SignIn = () => {
 
       showToast("Sign in successful", "success", "/dashboard");
 
-      setUser(response.data.data.user);
+      if (signindetails.role === "collector") {
+        setUser(response.data.data.user);
+      }
+
+      if (signindetails.role === "center") {
+        setUser(response.data.data.center);
+      }
+
+      console.log({
+        id:
+          signindetails.role === "collector"
+            ? response.data.data.user._id
+            : response.data.data.center._id,
+        role: signindetails.role === "collector" ? "collector" : "center",
+      });
 
       localStorage.setItem(
         "user",
         JSON.stringify({
-          id: response.data.data.user._id,
-          role: response.data.data.user.role,
+          id:
+            signindetails.role === "collector"
+              ? response.data.data.user._id
+              : response.data.data.center._id,
+          role: signindetails.role === "collector" ? "collector" : "center",
         }),
       );
     } catch (error: any) {
+      console.log(error);
       const errMsg = error?.response?.data?.message;
       console.log(errMsg);
       showToast(errMsg, "error");
@@ -176,8 +202,7 @@ const SignIn = () => {
               }}
             >
               <MenuItem value="collector">Collector</MenuItem>
-              <MenuItem value="collection_center">Collection Center</MenuItem>
-              <MenuItem value="recycling_center">Recycling Center</MenuItem>
+              <MenuItem value="center">Center</MenuItem>
             </TextField>
           </div>
 
@@ -186,10 +211,18 @@ const SignIn = () => {
               {signindetails.role !== "collector" ? "Center ID" : "Email"}
             </Typography>
             <TextField
-              name="email"
-              value={signindetails.email}
+              name={signindetails.role === "collector" ? "email" : "centerId"}
+              value={
+                signindetails.role === "collector"
+                  ? signindetails.email
+                  : signindetails.centerId
+              }
               onChange={handleChange}
-              placeholder="Enter your email"
+              placeholder={
+                signindetails.role === "collector"
+                  ? `Enter your email`
+                  : `Enter Center ID`
+              }
               variant="outlined"
               size="small"
               fullWidth
@@ -309,8 +342,8 @@ const SignIn = () => {
               height: "48px",
               padding: "12px",
               borderRadius: "12px",
-              backgroundColor: "#00C281",
-              color: "white",
+              backgroundColor: loading ? "white" : "#00C281",
+              color: loading ? "grey" : "white",
             }}
           >
             <Typography
@@ -318,7 +351,7 @@ const SignIn = () => {
               fontSize={16}
               sx={{ textTransform: "capitalize" }}
             >
-              Sign In
+              {loading ? "Signing In" : "Sign In"}
             </Typography>
           </Button>
         </div>

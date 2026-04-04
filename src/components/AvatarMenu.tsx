@@ -20,6 +20,7 @@ const AvatarMenu = () => {
     setTimeout(() => {
       if (!loading) {
         clearUser();
+        localStorage.clear();
 
         window.location.replace("/");
       }

@@ -28,7 +28,13 @@ function App() {
     const fetchProfile = async () => {
       try {
         const res = await api.get(`/api/${parsed.role}/profile/${parsed.id}`);
-        setUser(res.data.data.collector);
+        if (parsed.role === "collector") {
+          setUser(res.data.data.collector);
+        }
+
+        if (parsed.role === "center") {
+          setUser(res.data.data.center);
+        }
       } catch (err) {
         clearUser();
       } finally {
