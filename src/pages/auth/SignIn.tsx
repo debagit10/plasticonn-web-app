@@ -73,6 +73,8 @@ const SignIn = () => {
         signindetails,
       );
 
+      console.log(response.data.data);
+
       setLoading(false);
 
       showToast("Sign in successful", "success", "/dashboard");
@@ -84,14 +86,6 @@ const SignIn = () => {
       if (signindetails.role === "center") {
         setUser(response.data.data.center);
       }
-
-      console.log({
-        id:
-          signindetails.role === "collector"
-            ? response.data.data.user._id
-            : response.data.data.center._id,
-        role: signindetails.role === "collector" ? "collector" : "center",
-      });
 
       localStorage.setItem(
         "user",
@@ -312,10 +306,23 @@ const SignIn = () => {
           </div>
 
           <div className="flex justify-between items-center mx-3">
-            <div className="flex items-center gap-.5">
+            {/* <div className="flex items-center gap-.5">
               <Checkbox />
               <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
                 Remember Me
+              </Typography>
+            </div> */}
+
+            <div>
+              <Typography fontWeight={300} fontSize={16}>
+                Don't have an account?{" "}
+                <span
+                  className="cursor-pointer text-[#00C281]"
+                  style={{ textDecoration: "underline" }}
+                  onClick={() => navigate("/join")}
+                >
+                  Register
+                </span>
               </Typography>
             </div>
 

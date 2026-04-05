@@ -14,7 +14,7 @@ const RecylcingCenter_Dashboard = () => {
           Recycling Center
         </Typography>
         <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
-          Welcome back, {user?.name}
+          Welcome back, {user?.name}. ID: {`${user?.centerId}`}
         </Typography>
       </div>
 

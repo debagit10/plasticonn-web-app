@@ -1,6 +1,8 @@
 import {
   Button,
   Checkbox,
+  FormControlLabel,
+  FormGroup,
   InputAdornment,
   MenuItem,
   TextField,
@@ -15,15 +17,27 @@ import { VscEye } from "react-icons/vsc";
 import { useAuthStore } from "../../utils/useAuth";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import getCoordinates from "../../utils/getCoordinates";
+import { AxiosError } from "axios";
 
-interface SignInDetails {
+interface SignUpDetails {
+  firstName: string;
+  lastName: string;
+  name?: string | null;
   email?: string | null;
-  centerId?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  contactPerson?: string | null;
+  operatingHours?: string | null;
+  acceptedMaterials?: string[] | null;
   password: string;
+  address: string;
+  phone: string;
   role: string;
+  centerType?: string | null;
 }
 
-const SignIn = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -31,31 +45,104 @@ const SignIn = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [signindetails, setDetails] = useState<SignInDetails>({
+  const [signUpDetails, setSignUpDetails] = useState<SignUpDetails>({
     email: null,
+    firstName: "",
+    lastName: "",
+    contactEmail: null,
+    contactPhone: null,
+    contactPerson: null,
+    operatingHours: null,
+    acceptedMaterials: [],
     password: "",
-    centerId: null,
+    address: "",
+    phone: "",
     role: "",
+    centerType: null,
   });
+
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof SignUpDetails,
+  ) => {
+    const { value, checked } = e.target;
+
+    setSignUpDetails((prev) => {
+      if (!Array.isArray(prev[field])) return prev;
+
+      const updatedArray = checked
+        ? [...(prev[field] as string[]), value]
+        : (prev[field] as string[]).filter((item) => item !== value);
+
+      return {
+        ...prev,
+        [field]: updatedArray,
+      };
+    });
+  };
+
+  const textFieldStyle = {
+    "& .MuiOutlinedInput-root": {
+      height: "40px",
+      borderRadius: "12px",
+      backgroundColor: "#00C2810D",
+      "& fieldset": { borderColor: "#00C2810D" },
+      "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
+    },
+    "& input": { padding: "10px 12px", fontSize: 14 },
+  };
+
+  const plasticsOptions = ["PP", "PVC", "PTDE"];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setDetails((prev) => ({ ...prev, [name]: value }));
+    setSignUpDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const requiredFieldsByRole: Record<string, (keyof SignUpDetails)[]> = {
+    collector: [
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "address",
+      "phone",
+    ],
+    center: [
+      "centerType",
+      "name",
+      "contactEmail",
+      "contactPhone",
+      "contactPerson",
+      "password",
+      "address",
+      "acceptedMaterials",
+      "operatingHours",
+    ],
   };
 
   const isFormDataComplete = () => {
-    return Object.values(signindetails).every((value) => {
-      if (value === null) return true;
-      return value.trim() !== "";
+    if (!signUpDetails.role) return false;
+
+    const requiredFields = requiredFieldsByRole[signUpDetails.role] || [];
+
+    return requiredFields.every((field) => {
+      const value = signUpDetails[field];
+
+      if (value === null || value === undefined) return false;
+      if (typeof value === "string") return value.trim() !== "";
+      if (Array.isArray(value)) return value.length > 0;
+      return true;
     });
   };
 
   const { setUser } = useAuthStore.getState();
 
-  const signin = async () => {
-    console.log(signindetails);
+  const signup = async () => {
+    let lat = 0;
+    let lng = 0;
 
     setLoading(true);
     const formReady = isFormDataComplete();
@@ -67,50 +154,64 @@ const SignIn = () => {
       return;
     }
 
+    if (signUpDetails.role === "center") {
+      const coords = await getCoordinates(signUpDetails.address);
+
+      if ("error" in coords) {
+        showToast("Address not found", "error");
+        setLoading(false);
+        return;
+      }
+
+      lat = coords.lat;
+      lng = coords.lng;
+    }
+
     try {
       const response = await api.post(
-        `/api/${signindetails.role === "collector" ? "collector" : "center"}/login`,
-        signindetails,
+        `/api/${signUpDetails.role === "collector" ? "collector" : "center"}/register`,
+        {
+          ...signUpDetails,
+          lng,
+          lat,
+        },
       );
+
+      console.log(response.data.data);
 
       setLoading(false);
 
       showToast("Sign in successful", "success", "/dashboard");
 
-      if (signindetails.role === "collector") {
+      if (signUpDetails.role === "collector") {
         setUser(response.data.data.user);
       }
 
-      if (signindetails.role === "center") {
+      if (signUpDetails.role === "center") {
         setUser(response.data.data.center);
       }
-
-      console.log({
-        id:
-          signindetails.role === "collector"
-            ? response.data.data.user._id
-            : response.data.data.center._id,
-        role: signindetails.role === "collector" ? "collector" : "center",
-      });
 
       localStorage.setItem(
         "user",
         JSON.stringify({
           id:
-            signindetails.role === "collector"
+            signUpDetails.role === "collector"
               ? response.data.data.user._id
               : response.data.data.center._id,
-          role: signindetails.role === "collector" ? "collector" : "center",
+          role: signUpDetails.role === "collector" ? "collector" : "center",
         }),
       );
-    } catch (error: any) {
-      const errMsg = error?.response?.data?.message;
+    } catch (error: unknown) {
+      let errMsg = "Something went wrong";
+
+      if (error instanceof AxiosError) {
+        errMsg = error.response?.data?.message || errMsg;
+      } else if (error instanceof Error) {
+        errMsg = error.message;
+      }
 
       showToast(errMsg, "error");
-
-      if (errMsg) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
 
@@ -155,12 +256,12 @@ const SignIn = () => {
             <div className="flex flex-col gap-4">
               <div className="flex justify-center">
                 <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Sign In
+                  Create Account
                 </Typography>
               </div>
 
               <Typography color="#1A1A1A99" fontSize={20} fontWeight={400}>
-                Enter your credentials to access your Plasticonn account{" "}
+                Setup an account with us to join the sustainability revolution
               </Typography>
             </div>
           </div>
@@ -173,7 +274,7 @@ const SignIn = () => {
             <TextField
               select
               name="role"
-              value={signindetails.role}
+              value={signUpDetails.role}
               onChange={handleChange}
               placeholder="Select your role"
               variant="outlined"
@@ -205,53 +306,260 @@ const SignIn = () => {
             </TextField>
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-              {signindetails.role !== "collector" ? "Center ID" : "Email"}
-            </Typography>
-            <TextField
-              name={signindetails.role === "collector" ? "email" : "centerId"}
-              value={
-                signindetails.role === "collector"
-                  ? signindetails.email
-                  : signindetails.centerId
-              }
-              onChange={handleChange}
-              placeholder={
-                signindetails.role === "collector"
-                  ? `Enter your email`
-                  : `Enter Center ID`
-              }
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{
-                // overall height
-                "& .MuiOutlinedInput-root": {
-                  height: "40px",
-                  borderRadius: "12px",
-                  backgroundColor: "#00C2810D",
+          {signUpDetails.role === "center" && (
+            <div className="mx-3">
+              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                Center Type
+              </Typography>
 
-                  // default border
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
+              <TextField
+                select
+                name="centerType"
+                value={signUpDetails.centerType}
+                onChange={handleChange}
+                placeholder="Select center type"
+                variant="outlined"
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    height: "40px",
+                    borderRadius: "12px",
+                    backgroundColor: "#00C2810D",
+
+                    "& fieldset": {
+                      borderColor: "#00C2810D",
+                    },
+
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#00C2810D",
+                    },
                   },
 
-                  // focused
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
+                  "& .MuiSelect-select": {
+                    padding: "10px 12px",
+                    fontSize: 14,
                   },
-                },
+                }}
+              >
+                <MenuItem value="collection">Collection</MenuItem>
+                <MenuItem value="recycling">Recycling</MenuItem>
+              </TextField>
+            </div>
+          )}
 
-                // input text
-                "& input": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
-              }}
-            />
-          </div>
+          {/* Conditional fields for collector */}
+          {signUpDetails.role === "collector" && (
+            <>
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  First Name
+                </Typography>
+                <TextField
+                  name="firstName"
+                  value={signUpDetails.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter your first name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
 
+              <div>
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Last Name
+                </Typography>
+                <TextField
+                  name="lastName"
+                  value={signUpDetails.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter your last name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Email
+                </Typography>
+                <TextField
+                  name="email"
+                  value={signUpDetails.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Address
+                </Typography>
+                <TextField
+                  name="address"
+                  value={signUpDetails.address}
+                  onChange={handleChange}
+                  placeholder="Enter your address"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Phone Number
+                </Typography>
+                <TextField
+                  name="phone"
+                  value={signUpDetails.phone}
+                  onChange={handleChange}
+                  placeholder="Enter your phone number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+            </>
+          )}
+
+          {/* Conditional fields for center */}
+          {signUpDetails.role === "center" && (
+            <>
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Center Name
+                </Typography>
+                <TextField
+                  name="name"
+                  value={signUpDetails.name}
+                  onChange={handleChange}
+                  placeholder="Enter center name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Contact Person
+                </Typography>
+                <TextField
+                  name="contactPerson"
+                  value={signUpDetails.contactPerson}
+                  onChange={handleChange}
+                  placeholder="Enter contact name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Contact Email
+                </Typography>
+                <TextField
+                  name="contactEmail"
+                  value={signUpDetails.contactEmail}
+                  onChange={handleChange}
+                  placeholder="Enter contact email"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Contact Phone
+                </Typography>
+                <TextField
+                  name="contactPhone"
+                  value={signUpDetails.contactPhone}
+                  onChange={handleChange}
+                  placeholder="Enter contact phone"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Address
+                </Typography>
+                <TextField
+                  name="address"
+                  value={signUpDetails.address}
+                  onChange={handleChange}
+                  placeholder="Enter address e.g 12 Adeola Odeku Street, Victoria Island, Lagos, Nigeria"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Accepted Plastics
+                </Typography>
+                <FormGroup row>
+                  {plasticsOptions.map((plastic) => (
+                    <FormControlLabel
+                      key={plastic}
+                      control={
+                        <Checkbox
+                          checked={signUpDetails.acceptedMaterials?.includes(
+                            plastic,
+                          )}
+                          onChange={(e) =>
+                            handleCheckboxChange(e, "acceptedMaterials")
+                          }
+                          value={plastic}
+                        />
+                      }
+                      label={plastic}
+                    />
+                  ))}
+                </FormGroup>
+              </div>
+
+              <div className="mx-3">
+                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                  Operating Hours
+                </Typography>
+                <TextField
+                  name="operatingHours"
+                  value={signUpDetails.operatingHours}
+                  onChange={handleChange}
+                  placeholder="e.g., 9 AM - 6 PM"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={textFieldStyle}
+                />
+              </div>
+            </>
+          )}
+
+          {/* Password field (common) */}
           <div className="mx-3">
             <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
               Password
@@ -259,36 +567,13 @@ const SignIn = () => {
             <TextField
               type={showPassword ? "text" : "password"}
               name="password"
-              value={signindetails.password}
+              value={signUpDetails.password}
               onChange={handleChange}
               placeholder="Enter your password"
               variant="outlined"
               size="small"
               fullWidth
-              sx={{
-                // overall height
-                "& .MuiOutlinedInput-root": {
-                  height: "40px",
-                  borderRadius: "12px",
-                  backgroundColor: "#00C2810D",
-
-                  // default border
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  // focused
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-                },
-
-                // input text
-                "& input": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
-              }}
+              sx={textFieldStyle}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -312,23 +597,22 @@ const SignIn = () => {
           </div>
 
           <div className="flex justify-between items-center mx-3">
-            <div className="flex items-center gap-.5">
+            {/* <div className="flex items-center gap-.5">
               <Checkbox />
               <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
                 Remember Me
               </Typography>
-            </div>
-
-            <div onClick={() => navigate("/forgot-password")}>
-              <Typography
-                fontWeight={400}
-                fontSize={18}
-                color="#00C281"
-                sx={{
-                  "&:hover": { cursor: "pointer", textDecoration: "underline" },
-                }}
-              >
-                Forgot Password?
+            </div> */}
+            <div>
+              <Typography fontWeight={300} fontSize={16}>
+                Already have an account?{" "}
+                <span
+                  className="cursor-pointer text-[#00C281]"
+                  style={{ textDecoration: "underline" }}
+                  onClick={() => navigate("/")}
+                >
+                  Login
+                </span>
               </Typography>
             </div>
           </div>
@@ -336,7 +620,7 @@ const SignIn = () => {
           <Button
             disabled={loading}
             fullWidths
-            onClick={signin}
+            onClick={signup}
             sx={{
               height: "48px",
               padding: "12px",
@@ -350,7 +634,7 @@ const SignIn = () => {
               fontSize={16}
               sx={{ textTransform: "capitalize" }}
             >
-              {loading ? "Signing In" : "Sign In"}
+              {loading ? "Creating Account" : "Sign up"}
             </Typography>
           </Button>
         </div>
@@ -359,4 +643,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

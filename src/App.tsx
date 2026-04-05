@@ -8,6 +8,7 @@ import { useAuthStore } from "./utils/useAuth";
 const DashboardPage = React.lazy(() => import("./pages/Dashboard"));
 const SettingsPage = React.lazy(() => import("./pages/Settings"));
 const SignIn = React.lazy(() => import("./pages/auth/SignIn"));
+const SignUp = React.lazy(() => import("./pages/auth/SignUp"));
 
 function App() {
   const { setUser, clearUser, initUser } = useAuthStore();
@@ -50,6 +51,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<SignIn />} />
+      <Route path="/join" element={<SignUp />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
