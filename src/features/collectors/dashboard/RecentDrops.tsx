@@ -13,7 +13,8 @@ interface Location {
 
 interface PopulatedRef {
   _id: string;
-  name: string;
+  name?: string;
+  firstName?: string;
 }
 
 interface Drops {
@@ -51,6 +52,8 @@ const RecentDrops = () => {
   useEffect(() => {
     getDrops();
   }, []);
+
+  console.log(drops);
 
   return (
     <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-17 w-262.5">
@@ -112,7 +115,7 @@ const RecentDrops = () => {
           <div className="flex gap-3 items-center">
             <HiOutlineOfficeBuilding size={20} />
             <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
-              {drop.center_id.name}
+              {drop.center_id?.name}
             </Typography>
           </div>
 
