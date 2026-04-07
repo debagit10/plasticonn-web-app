@@ -9,6 +9,7 @@ const DashboardPage = React.lazy(() => import("./pages/Dashboard"));
 const SettingsPage = React.lazy(() => import("./pages/Settings"));
 const SignIn = React.lazy(() => import("./pages/auth/SignIn"));
 const SignUp = React.lazy(() => import("./pages/auth/SignUp"));
+const ForgotPassword = React.lazy(() => import("./pages/auth/ForgotPassword"));
 
 function App() {
   const { setUser, clearUser, initUser } = useAuthStore();
@@ -52,6 +53,7 @@ function App() {
     <Routes>
       <Route path="/" element={<SignIn />} />
       <Route path="/join" element={<SignUp />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />

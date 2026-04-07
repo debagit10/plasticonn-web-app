@@ -16,7 +16,6 @@ import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
 import { useAuthStore } from "../../utils/useAuth";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
 import getCoordinates from "../../utils/getCoordinates";
 import { AxiosError } from "axios";
 
@@ -227,7 +226,7 @@ const SignUp = () => {
       <div className="flex flex-col gap-5.25">
         <div className="flex flex-col gap-5.25">
           <div className="flex justify-center gap-2">
-            <img src={logo} alt="Plasitconn logo" className="w-14 h-14" />
+            <img src="/logo.png" alt="Plasitconn logo" className="w-14 h-14" />
 
             <Typography color="#005C3D" fontSize={36} fontWeight={400}>
               Plasticonn
