@@ -7,36 +7,46 @@ import DeleteAccount from "./modals/DeleteAccount";
 
 const CollectorSettings = () => {
   const navigate = useNavigate();
+
   return (
-    <div className="px-16">
-      <div className="flex items-center gap-3.5">
-        <div onClick={() => navigate("/dashboard")}>
-          <img src={back} className="cursor-pointer" />
+    <div className="px-4 sm:px-8 lg:px-16 pb-10">
+      {/* Header */}
+      <div className="flex items-center gap-3 sm:gap-4">
+        {/* Back Button */}
+        <div onClick={() => navigate("/dashboard")} className="mt-1 sm:mt-0">
+          <img src={back} className="cursor-pointer w-5 sm:w-6 lg:w-auto" />
         </div>
 
-        <div className="flex flex-col gap-3 mt-5">
-          <Typography fontSize={28} fontWeight={400} color="#1A1A1A">
+        {/* Title */}
+        <div className="flex flex-col gap-1 sm:gap-2 mt-2 sm:mt-5">
+          <Typography
+            fontSize={{ xs: 18, sm: 24, md: 28 }}
+            fontWeight={400}
+            color="#1A1A1A"
+          >
             Profile Settings
           </Typography>
-          <Typography fontSize={24} fontWeight={300} color="#1A1A1A80">
+
+          <Typography
+            fontSize={{ xs: 14, sm: 18, md: 24 }}
+            fontWeight={300}
+            color="#1A1A1A80"
+          >
             Manage your personal information
           </Typography>
         </div>
       </div>
 
-      {/* <div className="mt-10">
-        <Profile_Picture />
-      </div> */}
-
-      <div className="mt-10">
+      {/* Sections */}
+      <div className="mt-6 sm:mt-10">
         <Personal />
       </div>
 
-      <div className="mt-10">
+      <div className="mt-6 sm:mt-10">
         <Edit_profile />
       </div>
 
-      <div className="mt-10 pb-10">
+      <div className="mt-6 sm:mt-10 pb-10">
         <DeleteAccount />
       </div>
     </div>

@@ -110,7 +110,7 @@ const Change_Password = () => {
         onClick={() => setOpen(true)}
         variant="outlined"
         sx={{
-          width: "700px",
+          width: { xs: "150px", sm: "auto", md: "750px" },
           height: "48px",
           padding: "12px",
           borderRadius: "12px",
@@ -120,21 +120,21 @@ const Change_Password = () => {
       >
         <Typography
           fontWeight={400}
-          fontSize={16}
+          fontSize={14}
           sx={{ textTransform: "capitalize" }}
         >
           Change Password
         </Typography>
       </Button>
 
-      <Dialog open={open}>
+      <Dialog open={open} fullWidth maxWidth="sm">
         <DialogContent
           sx={{
-            width: "600px",
-            padding: "36px",
+            width: "100%",
+            padding: { xs: "16px", sm: "20px", md: "24px" },
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
+            gap: "12px",
           }}
         >
           <div className="flex justify-between items-center mb-5">
@@ -327,12 +327,13 @@ const Change_Password = () => {
             </>
           )}
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-3 mt-8">
+            {" "}
             <Button
+              fullWidth
               disabled={loading}
               onClick={update ? verifyupdatePassword : updatePassword}
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
@@ -348,8 +349,8 @@ const Change_Password = () => {
                 {update ? "Update Password" : "Send OTP"}
               </Typography>
             </Button>
-
             <Button
+              fullWidth
               onClick={() => {
                 setOpen(false);
                 setUpdate(false);
@@ -362,7 +363,6 @@ const Change_Password = () => {
               }}
               variant="outlined"
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",

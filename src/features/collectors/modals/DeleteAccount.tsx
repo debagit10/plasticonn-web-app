@@ -42,12 +42,13 @@ const DeleteAccount = () => {
         onClick={() => setOpen(true)}
         fullWidth
         sx={{
+          width: "100%",
           borderColor: "red",
           borderWidth: "1px",
           color: "red",
           textTransform: "capitalize",
           borderRadius: "12px",
-          padding: "16px",
+          padding: "8px",
         }}
       >
         <Typography fontSize={16} fontWeight={300}>
@@ -57,12 +58,12 @@ const DeleteAccount = () => {
 
       <Dialog
         open={open}
+        fullWidth
+        maxWidth="sm"
         PaperProps={{
           sx: {
-            paddingY: "24px",
-            paddingX: "18px",
-            borderRadius: "18px",
-            width: "800px",
+            padding: { xs: "8px", sm: "20px", md: "24px" },
+            borderRadius: "16px",
           },
         }}
       >
@@ -93,13 +94,14 @@ const DeleteAccount = () => {
         </DialogTitle>
         <DialogContent>
           <div>
-            <Typography fontSize={16} fontWeight={300}>
+            <Typography fontSize={{ xs: 14, sm: 16 }}>
               Are you sure you want to delete your account? This action is
               irreversible.
             </Typography>
           </div>
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-3 lg:gap-1 mt-8">
+            {" "}
             <Button
               onClick={() => setOpen(false)}
               variant="outlined"
@@ -120,7 +122,6 @@ const DeleteAccount = () => {
                 Cancel
               </Typography>
             </Button>
-
             <Button
               onClick={deleteAcc}
               sx={{
@@ -138,7 +139,7 @@ const DeleteAccount = () => {
                 fontSize={16}
                 sx={{ textTransform: "capitalize" }}
               >
-                {loading ? "Deleting..." : " Delete Account"}
+                {loading ? "Deleting..." : " Delete"}
               </Typography>
             </Button>
           </div>

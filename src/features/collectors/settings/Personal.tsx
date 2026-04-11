@@ -6,16 +6,13 @@ const Personal = () => {
 
   return (
     <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
-      <div className="flex flex-col gap-2">
-        <Typography fontWeight={400} fontSize={28} color="#1A1A1A">
+      <div>
+        <Typography fontWeight={400} fontSize={24} color="#1A1A1A">
           Personal Information
-        </Typography>
-        <Typography fontWeight={300} fontSize={24} color="#1A1A1A80">
-          Update your personal details
         </Typography>
       </div>
 
-      <div className="flex gap-9">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-9">
         <div>
           <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
             First Name
@@ -24,8 +21,8 @@ const Personal = () => {
             value={user?.firstName}
             variant="outlined"
             size="small"
+            fullWidth
             sx={{
-              width: "670px",
               "& .MuiOutlinedInput-root": {
                 height: "40px",
                 borderRadius: "12px",
@@ -55,8 +52,8 @@ const Personal = () => {
             value={user?.lastName}
             variant="outlined"
             size="small"
+            fullWidth
             sx={{
-              width: "670px",
               "& .MuiOutlinedInput-root": {
                 height: "40px",
                 borderRadius: "12px",

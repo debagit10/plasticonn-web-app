@@ -65,7 +65,6 @@ const Edit_profile = () => {
   ];
 
   const textFieldSx = {
-    width: "500px",
     "& .MuiOutlinedInput-root": {
       height: "40px",
       borderRadius: "12px",
@@ -121,21 +120,22 @@ const Edit_profile = () => {
 
   return (
     <div>
-      <div className="flex gap-9">
+      <div className="flex gap-4">
         <Change_Password />
 
         <Button
           onClick={() => setOpen(true)}
           fullWidth
           sx={{
+            width: { xs: "200px", sm: "auto", md: "750px" },
             background: "linear-gradient(to top right, #00C281, #005C3D)",
             color: "white",
             textTransform: "capitalize",
             borderRadius: "12px",
-            padding: "16px",
+            padding: "8px",
           }}
         >
-          <Typography fontSize={16} fontWeight={300} color="#FAFAFA">
+          <Typography fontSize={14} fontWeight={400} color="#FAFAFA">
             Edit details
           </Typography>
         </Button>
@@ -143,12 +143,14 @@ const Edit_profile = () => {
 
       <Dialog
         open={open}
+        fullWidth
+        maxWidth="md"
         PaperProps={{
           sx: {
-            paddingY: "24px",
-            paddingX: "18px",
-            borderRadius: "18px",
-            width: "800px",
+            padding: { xs: "16px", sm: "20px", md: "24px" },
+            borderRadius: "16px",
+            width: "100%",
+            maxWidth: "800px",
           },
         }}
       >
@@ -161,7 +163,7 @@ const Edit_profile = () => {
 
         <DialogTitle className="flex  justify-between gap-10">
           <div className="flex flex-col gap-2">
-            <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
+            <Typography fontSize={22} fontWeight={500} color="#1A1A1A">
               Edit profile details
             </Typography>
           </div>
@@ -179,14 +181,15 @@ const Edit_profile = () => {
           </div>
         </DialogTitle>
         <DialogContent>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-4">
             {fields.map(({ label, key }) => (
-              <div key={key} className="flex gap-2.5">
+              <div key={key} className=" gap-2.5">
                 <div>
                   <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
                     {label}
                   </Typography>
                   <TextField
+                    fullWidth
                     value={formData[key as keyof typeof formData]}
                     onChange={handleChange(key)}
                     variant="outlined"
@@ -198,12 +201,13 @@ const Edit_profile = () => {
             ))}
           </div>
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-3 mt-8">
+            {" "}
             <Button
               onClick={() => setOpen(false)}
               variant="outlined"
+              fullWidth
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
@@ -219,11 +223,10 @@ const Edit_profile = () => {
                 Cancel
               </Typography>
             </Button>
-
             <Button
+              fullWidth
               onClick={update}
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
