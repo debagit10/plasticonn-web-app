@@ -43,40 +43,53 @@ const ClosestCenters = () => {
   }, [coords]);
 
   return (
-    <div className="w-125 bg-[#FAFAFA] py-9 px-6.5 shadow-[0_2px_6px_#1A1A1A26] rounded-xl">
-      <Typography fontSize={28} fontWeight={400} color="#052E1E">
+    <div className="w-full bg-[#FAFAFA] py-4 sm:py-6 lg:py-8 px-4 sm:px-5 lg:px-6 rounded-xl shadow-[0_2px_6px_#1A1A1A26]">
+      <Typography
+        fontSize={{ xs: 18, sm: 22, md: 24, lg: 28 }}
+        fontWeight={400}
+        color="#052E1E"
+      >
         Closest Centers
       </Typography>
 
-      <Divider sx={{ marginY: "1rem" }} />
+      <Divider sx={{ marginY: "0.75rem" }} />
 
-      <div className="max-h-100 overflow-hidden overflow-y-scroll">
+      <div className="max-h-[60vh] overflow-y-auto">
         {centers.map((center, index) => (
-          <div>
+          <div key={center._id}>
             <div
               onClick={() =>
                 setSelectedIndex(selectedIndex === index ? null : index)
               }
-              key={center._id}
-              className="rounded-xl p-6.5 border-[0.4px] border-[#1A1A1A] flex flex-col gap-3 mb-2"
+              className="rounded-xl p-4 sm:p-5 border border-[#1A1A1A30] flex flex-col gap-3 mb-3"
             >
+              {/* Top */}
               <div className="flex justify-between items-center">
-                <Typography fontSize={24} fontWeight={400} color="#1A1A1A">
+                <Typography
+                  fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
+                  fontWeight={400}
+                >
                   {center.name}
                 </Typography>
-                <div
-                  className="p-2.5 rounded-xl w-22.5 h-11.5 text-center items-center"
-                  style={{ backgroundColor: "#00C2811A" }}
-                >
-                  <Typography fontSize={20} fontWeight={300} color="#00C281">
+
+                <div className="px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-[#00C2811A]">
+                  <Typography
+                    fontSize={{ xs: 12, sm: 14, md: 16, lg: 20 }}
+                    fontWeight={300}
+                    color="#00C281"
+                  >
                     Open
                   </Typography>
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <img src={location} />
-                <Typography fontSize={24} fontWeight={400} color="#1A1A1A80">
+              {/* Distance */}
+              <div className="flex gap-2 items-center">
+                <img src={location} className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Typography
+                  fontSize={{ xs: 12, sm: 14, md: 16 }}
+                  color="#1A1A1A80"
+                >
                   {center.gps?.coordinates?.length === 2 &&
                   coords?.lat &&
                   coords?.lng
@@ -96,51 +109,44 @@ const ClosestCenters = () => {
                 </Typography>
               </div>
 
-              <div className="flex gap-6.75">
+              {/* Materials */}
+              <div className="flex flex-wrap gap-2">
                 {center.materialsAccepted.map((item, i) => (
                   <div
                     key={i}
-                    className="border-[0.5px] border-[#1A1A1A80] rounded-lg p-2 text-center items-center"
+                    className="border border-[#1A1A1A40] rounded-lg px-2 py-1"
                   >
-                    <Typography fontSize={14} fontWeight={400} color="#1A1A1A">
-                      {item}
-                    </Typography>
+                    <Typography fontSize={12}>{item}</Typography>
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* Actions */}
             {selectedIndex === index && (
-              <div className="flex gap-2 mb-4">
-                <div className="transition-all duration-300">
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      width: "200px",
-                      borderColor: "#00C281",
-                      color: "#00C281",
-                      textTransform: "capitalize",
-                      borderRadius: "12px",
-                      padding: "16px",
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#00C281",
+                    color: "#00C281",
+                    textTransform: "capitalize",
+                    borderRadius: "10px",
+                    padding: "10px",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(
+                      `https://www.google.com/maps?q=${center.gps.coordinates[1]},${center.gps.coordinates[0]}`,
+                      "_blank",
+                    );
+                  }}
+                >
+                  Open in Maps
+                </Button>
 
-                      window.open(
-                        `https://www.google.com/maps?q=${center.gps.coordinates[1]},${center.gps.coordinates[0]}`,
-                        "_blank",
-                      );
-                    }}
-                    className="w-full bg-[#00C281] text-white py-3 rounded-xl
-                           transition-all duration-200 hover:opacity-90"
-                  >
-                    Open in Google Maps
-                  </Button>
-                </div>
-
-                <div>
-                  <DropOff center={center} width="180px" />
-                </div>
+                <DropOff center={center} width="100%" />
               </div>
             )}
           </div>

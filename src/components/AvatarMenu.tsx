@@ -38,10 +38,13 @@ const AvatarMenu = () => {
 
       {open && (
         <div
-          className="absolute right-13 mt-9
-                   bg-[#FAFAFA] p-6.5 rounded-xl 
-                   shadow-[0_8px_30px_rgba(0,0,0,0.12)] 
-                   w-76.5 z-50"
+          className="
+      absolute right-0 sm:right-4 mt-8
+      bg-[#FAFAFA] p-4 sm:p-6 rounded-xl
+      shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+      w-[90vw] max-w-sm
+      z-50
+    "
         >
           <div className="flex flex-col gap-2">
             <Typography fontWeight={400} fontSize={18} color="#1A1A1A">

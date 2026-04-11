@@ -38,85 +38,84 @@ const CenterCard = ({
     <React.Fragment key={center._id}>
       <div
         onClick={() => setSelectedIndex(selectedIndex === index ? null : index)}
-        className={`rounded-xl p-6.5 border-[0.4px] flex flex-col gap-3 mb-4 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedIndex === index ? "bg-[#00C2810D] border-[#00C281]" : "bg-white border-[#1A1A1A]"}`}
+        className={`
+    rounded-xl
+    p-4 sm:p-5
+    border
+    flex flex-col gap-3
+    mb-3
+    cursor-pointer
+    transition-all duration-200
+    hover:shadow-md
+    ${
+      selectedIndex === index
+        ? "bg-[#00C2810D] border-[#00C281]"
+        : "bg-white border-[#1A1A1A30]"
+    }
+  `}
       >
-        <div className="flex justify-between">
-          <Typography fontSize={24} fontWeight={400} color="#1A1A1A">
+        {/* Title */}
+        <div className="flex justify-between items-center">
+          <Typography
+            fontSize={{ xs: 16, sm: 18, md: 20, lg: 22 }}
+            fontWeight={400}
+          >
             {center.name}
           </Typography>
-
-          {/* <div
-                      className="p-2.5 rounded-xl w-22.5 h-11.5 text-center flex items-center justify-center"
-                      style={{
-                        backgroundColor: center.open
-                          ? "#00C2811A"
-                          : "#1A1A1A1A",
-                      }}
-                    >
-                      <Typography
-                        fontSize={20}
-                        fontWeight={300}
-                        color={center.open ? "#00C281" : "#1A1A1A"}
-                      >
-                        {center.open ? "Open" : "Closed"}
-                      </Typography>
-                    </div> */}
         </div>
 
-        <div className="flex gap-3 items-center">
-          <img src={location} alt="location" />
+        {/* Distance */}
+        <div className="flex gap-2 items-center">
+          <img
+            src={location}
+            alt="location"
+            className="w-4 h-4 sm:w-5 sm:h-5"
+          />
 
-          <Typography fontSize={24} fontWeight={400} color="#1A1A1A80">
+          <Typography fontSize={{ xs: 12, sm: 14, md: 16 }} color="#1A1A1A80">
             {distance !== null ? `${distance} km` : "---"}
           </Typography>
         </div>
 
-        <div className="flex gap-6.75 flex-wrap">
+        {/* Materials */}
+        <div className="flex flex-wrap gap-2">
           {center.materialsAccepted.map((material, i) => (
             <div
               key={i}
-              className="border-[0.5px] border-[#1A1A1A80] rounded-lg p-2 
-                             text-center flex items-center justify-center"
+              className="border border-[#1A1A1A40] rounded-lg px-2 py-1"
             >
-              <Typography fontSize={14} fontWeight={400} color="#1A1A1A">
-                {material}
-              </Typography>
+              <Typography fontSize={12}>{material}</Typography>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Actions */}
+
       {selectedIndex === index && (
-        <div className="flex gap-2 mb-4">
-          <div className="transition-all duration-300">
-            <Button
-              variant="outlined"
-              sx={{
-                width: "220px",
-                borderColor: "#00C281",
-                color: "#00C281",
-                textTransform: "capitalize",
-                borderRadius: "12px",
-                padding: "16px",
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
+        <div className="flex flex-col  gap-2 mb-4">
+          <Button
+            //fullWidth
+            variant="outlined"
+            sx={{
+              borderColor: "#00C281",
+              color: "#00C281",
+              textTransform: "capitalize",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(
+                `https://www.google.com/maps?q=${center.gps.coordinates[1]},${center.gps.coordinates[0]}`,
+                "_blank",
+              );
+            }}
+          >
+            Open in Google Maps
+          </Button>
 
-                window.open(
-                  `https://www.google.com/maps?q=${center.gps.coordinates[1]},${center.gps.coordinates[0]}`,
-                  "_blank",
-                );
-              }}
-              className="w-full bg-[#00C281] text-white py-3 rounded-xl
-                           transition-all duration-200 hover:opacity-90"
-            >
-              Open in Google Maps
-            </Button>
-          </div>
-
-          <div>
-            <DropOff center={center} width="220px" />
-          </div>
+          <DropOff center={center} width="100%" />
         </div>
       )}
     </React.Fragment>

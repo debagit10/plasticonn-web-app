@@ -148,12 +148,16 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
 
       <Dialog
         open={open}
+        fullWidth
+        maxWidth="md"
         PaperProps={{
           sx: {
-            paddingY: "24px",
-            paddingX: "18px",
-            borderRadius: "18px",
-            width: "800px",
+            paddingY: { xs: "16px", sm: "20px", md: "24px" },
+            paddingX: { xs: "12px", sm: "16px", md: "18px" },
+            borderRadius: "16px",
+            width: "100%",
+            maxWidth: "900px",
+            margin: "12px",
           },
         }}
       >
@@ -198,9 +202,8 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
                     name={field.name}
                     value={center.name || null}
                     size="small"
+                    fullWidth
                     sx={{
-                      width: "500px",
-
                       "& .MuiOutlinedInput-root": {
                         height: "40px",
                         borderRadius: "12px",
@@ -240,9 +243,8 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
                     // value={dropDetails[field.name as keyof DropDetails] || ""}
                     onChange={handleChange}
                     size="small"
+                    fullWidth
                     sx={{
-                      width: "500px",
-
                       "& .MuiOutlinedInput-root": {
                         height: "40px",
                         borderRadius: "12px",
@@ -313,49 +315,33 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
             ))}
           </div>
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex flex-col sm:flex-row gap-3 mt-8">
             <Button
-              onClick={() => setOpen(false)}
+              fullWidth
               variant="outlined"
+              onClick={() => setOpen(false)}
               sx={{
-                width: "365px",
-                height: "48px",
-                padding: "12px",
-                borderRadius: "12px",
+                borderRadius: "10px",
                 borderColor: "#1A1A1A80",
                 color: "#1A1A1A",
+                padding: "10px",
               }}
             >
-              <Typography
-                fontWeight={400}
-                fontSize={16}
-                sx={{ textTransform: "capitalize" }}
-              >
-                Cancel
-              </Typography>
+              Cancel
             </Button>
 
             <Button
+              fullWidth
               disabled={loading}
               onClick={submit}
               sx={{
-                width: "365px",
-                height: "48px",
-                padding: "12px",
-                borderRadius: "12px",
+                borderRadius: "10px",
                 backgroundColor: loading ? "#A0A0A0" : "#00C281",
                 color: "white",
-                cursor: loading ? "not-allowed" : "pointer",
-                opacity: loading ? 0.7 : 1,
+                padding: "10px",
               }}
             >
-              <Typography
-                fontWeight={400}
-                fontSize={16}
-                sx={{ textTransform: "capitalize" }}
-              >
-                {loading ? "Dropping off..." : "Submit Drop Off"}
-              </Typography>
+              {loading ? "Dropping off..." : "Submit Drop Off"}
             </Button>
           </div>
         </DialogContent>

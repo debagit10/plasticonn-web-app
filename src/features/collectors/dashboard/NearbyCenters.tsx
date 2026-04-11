@@ -75,9 +75,14 @@ const CentersMap = () => {
   }, [coords]);
 
   return (
-    <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col w-262.5">
-      <div className="flex justify-between mb-5">
-        <Typography fontSize={28} fontWeight={400} color="#052E1E">
+    <div className="bg-[#FAFAFA] p-4 sm:p-6 lg:p-8 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col w-full">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <Typography
+          fontSize={{ xs: 18, sm: 22, md: 24, lg: 28 }}
+          fontWeight={400}
+          color="#052E1E"
+        >
           Nearby Collection Centers
         </Typography>
 
@@ -86,7 +91,8 @@ const CentersMap = () => {
 
       <Divider />
 
-      <div className="z-0">
+      {/* Map */}
+      <div className="mt-4 z-0">
         {coords?.lat && coords?.lng && (
           <MapContainer
             key={`${coords.lat}-${coords.lng}`}
@@ -99,12 +105,10 @@ const CentersMap = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {/* User Marker */}
             <Marker position={[coords.lat, coords.lng]}>
               <Popup>You are here</Popup>
             </Marker>
 
-            {/* Centers */}
             {centers.map((center) => {
               const [lng, lat] = center.gps.coordinates;
               return (
@@ -113,11 +117,7 @@ const CentersMap = () => {
                   position={[lat, lng]}
                   icon={centerIcon}
                 >
-                  <Popup>
-                    <div>
-                      <p>{center.name}</p>
-                    </div>
-                  </Popup>
+                  <Popup>{center.name}</Popup>
                 </Marker>
               );
             })}

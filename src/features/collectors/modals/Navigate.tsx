@@ -84,13 +84,21 @@ const Navigate = () => {
           }}
         >
           <DialogTitle className="flex items-center justify-between">
-            <div className="flex flex-col gap-2">
-              <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <Typography
+                fontSize={{ xs: 18, sm: 22, md: 24, lg: 26 }}
+                fontWeight={400}
+              >
                 Navigate to Collection Center
               </Typography>
-              <Typography fontSize={20} fontWeight={300} color="#1A1A1A">
+
+              {/* <Typography
+                fontSize={{ xs: 12, sm: 14, md: 16, lg: 18 }}
+                fontWeight={300}
+                color="#1A1A1A80"
+              >
                 Select a collection center to navigate to
-              </Typography>
+              </Typography> */}
             </div>
 
             <div

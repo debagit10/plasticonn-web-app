@@ -54,32 +54,53 @@ const Stats = () => {
     },
   ];
   return (
-    <div className="flex gap-10 mt-10">
+    <div className="mt-6 sm:mt-8 lg:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       {statsDisplay.map((stat, index) => (
         <div
           key={index}
-          className="group bg-[#FAFAFA] p-10.5 rounded-xl shadow-[0_2px_6px_#1A1A1A26] w-125 h-82.5 transition-all duration-300"
+          className="
+        group bg-[#FAFAFA]
+        p-4 sm:p-6 lg:p-8
+        rounded-xl
+        shadow-[0_2px_6px_#1A1A1A26]
+        w-full
+        min-h-45 sm:min-h-55
+        transition-all duration-300
+      "
         >
-          <div className="flex justify-between">
-            <img src={stat.icon} />
+          {/* Top Section */}
+          <div className="flex justify-between items-center">
+            <img
+              src={stat.icon}
+              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
+            />
 
             <div
-              className="p-2.5 rounded-xl w-37.5 h-15 text-center"
+              className="px-3 py-1 sm:px-4 sm:py-2 rounded-xl text-center"
               style={{ backgroundColor: stat.bg }}
             >
-              <Typography fontSize={26} fontWeight={300} color={stat.color}>
+              <Typography
+                fontSize={{ xs: 14, sm: 18, md: 22, lg: 26 }}
+                fontWeight={300}
+                color={stat.color}
+              >
                 {stat.stat}
               </Typography>
             </div>
           </div>
 
-          <div className="flex flex-col gap-10 mt-10">
-            <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
+          {/* Bottom Section */}
+          <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6">
+            <Typography
+              fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
+              fontWeight={300}
+              color="#1A1A1A"
+            >
               {stat.title}
             </Typography>
 
             <Typography
-              fontSize={32}
+              fontSize={{ xs: 20, sm: 24, md: 28, lg: 32 }}
               fontWeight={400}
               sx={{
                 transition: "all 0.3s ease",

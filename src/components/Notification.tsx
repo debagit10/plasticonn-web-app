@@ -107,69 +107,82 @@ const Notification = () => {
       {/* Floating Card */}
       {open && (
         <div
-          className="absolute right-0 mt-11
-                   bg-[#FAFAFA] p-9 rounded-xl 
-                   shadow-[0_8px_30px_rgba(0,0,0,0.12)] 
-                   w-214.75 z-50"
+          className="
+    fixed inset-0
+    flex items-center justify-center
+    z-50
+  "
         >
           <div
-            className="flex justify-end cursor-pointer ml-[97%] w-4.5 h-4.5 mb-4"
-            onClick={() => setOpen(false)}
+            className="
+      bg-[#FAFAFA]
+      p-4 sm:p-6 lg:p-5
+      rounded-xl
+      shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+
+      w-[95vw]
+      sm:w-100
+      lg:w-150
+
+      max-h-[80vh]
+      overflow-hidden
+    "
           >
-            <IoClose size={14} />
-          </div>
+            <div
+              className="flex justify-end cursor-pointer mb-4"
+              onClick={() => setOpen(false)}
+            >
+              <IoClose size={16} />
+            </div>
 
-          <div className="flex justify-between">
-            <Typography fontSize={26} fontWeight={500} color="#00C281">
-              Notifications
-            </Typography>
-          </div>
+            <div className="flex justify-between">
+              <Typography fontSize={26} fontWeight={500} color="#00C281">
+                Notifications
+              </Typography>
+            </div>
 
-          {loading && "Loading Notifications"}
+            {loading && "Loading Notifications"}
 
-          <div className="flex flex-col gap-3 max-h-125 overflow-hidden overflow-y-scroll">
-            {notifications
-              ? notifications
-                  .sort(
-                    (a, b) =>
-                      new Date(b.createdAt).getTime() -
-                      new Date(a.createdAt).getTime(),
-                  )
-                  .map((notification, index) => (
-                    <div
-                      key={index}
-                      className={`cursor-pointer rounded-xl py-6 px-9 flex gap-4.5 border ${notification.read ? "bg-[#1A1A1A0D] border-[#1A1A1A80]" : "bg-[#00C2810A] border-[#00C281]"}`}
-                    >
-                      <img src={icon} className="w-15 h-15" />
+            <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
+              {" "}
+              {notifications
+                ? notifications
+                    .sort(
+                      (a, b) =>
+                        new Date(b.createdAt).getTime() -
+                        new Date(a.createdAt).getTime(),
+                    )
+                    .map((notification, index) => (
+                      <div
+                        key={index}
+                        className={`cursor-pointer rounded-xl p-4 sm:p-6 flex gap-3 sm:gap-4 border ${
+                          notification.read
+                            ? "bg-[#1A1A1A0D] border-[#1A1A1A80]"
+                            : "bg-[#00C2810A] border-[#00C281]"
+                        }`}
+                      >
+                        <img src={icon} className="w-10 h-10 sm:w-12 sm:h-12" />
 
-                      <div className="flex flex-col ">
-                        <Typography
-                          fontSize={18}
-                          fontWeight={400}
-                          color="#1A1A1A"
-                        >
-                          {notification.title}
-                        </Typography>
+                        <div className="flex flex-col">
+                          <Typography fontSize={{ xs: 14, sm: 16, md: 18 }}>
+                            {notification.title}
+                          </Typography>
 
-                        <Typography
-                          fontSize={16}
-                          fontWeight={300}
-                          color="#1A1A1A"
-                        >
-                          {notification.message}
-                        </Typography>
+                          <Typography fontSize={{ xs: 12, sm: 14, md: 16 }}>
+                            {notification.message}
+                          </Typography>
 
-                        <Typography
-                          fontSize={14}
-                          fontWeight={400}
-                          color="#1A1A1A99"
-                        >
-                          {notification.createdAt}
-                        </Typography>
+                          <Typography
+                            fontSize={{ xs: 10, sm: 12, md: 14 }}
+                            color="#1A1A1A99"
+                          >
+                            {notification.createdAt}
+                          </Typography>
+                        </div>
                       </div>
-                    </div>
-                  ))
-              : "You currently have no notifications"}
+                    ))
+                : "You currently have no notifications"}
+            </div>
           </div>
         </div>
       )}
