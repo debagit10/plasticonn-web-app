@@ -215,7 +215,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-15 h-full">
+    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-15 min-h-screen px-4 sm:px-6">
       <Toast
         open={toast.open}
         message={toast.message}
@@ -223,53 +223,72 @@ const SignUp = () => {
         onClose={closeToast}
       />
 
-      <div className="flex flex-col gap-5.25">
-        <div className="flex flex-col gap-5.25">
-          <div className="flex justify-center gap-2">
-            <img src="/logo.png" alt="Plasitconn logo" className="w-14 h-14" />
-
-            <Typography color="#005C3D" fontSize={36} fontWeight={400}>
+      <div className="flex flex-col gap-5 w-full max-w-sm sm:max-w-md lg:max-w-2xl">
+        {/* Logo + Brand */}
+        <div className="flex flex-col gap-5">
+          <div className="flex justify-center gap-2 items-center">
+            <img
+              src="/logo.png"
+              alt="Plasticonn logo"
+              className="w-10 h-10 sm:w-14 sm:h-14"
+            />
+            <Typography
+              color="#005C3D"
+              fontSize={{ xs: 26, sm: 32, md: 36 }}
+              fontWeight={400}
+            >
               Plasticonn
             </Typography>
           </div>
 
-          <div className="flex justify-center">
-            <div className="flex flex-col ">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Welcome to Plasticonn
-                </Typography>
-              </div>
-
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A99" fontSize={18} fontWeight={400}>
-                  Join the sustainability revolution
-                </Typography>
-              </div>
-            </div>
+          <div className="flex flex-col items-center gap-1">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 18, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Welcome to Plasticonn
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 14, sm: 16, md: 18 }}
+              fontWeight={400}
+            >
+              Join the sustainability revolution
+            </Typography>
           </div>
         </div>
 
-        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-6 mt-4 ml-4 flex flex-col gap-6.5 w-228">
-          <div className="flex justify-center">
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Create Account
-                </Typography>
-              </div>
-
-              <Typography color="#1A1A1A99" fontSize={20} fontWeight={400}>
-                Setup an account with us to join the sustainability revolution
-              </Typography>
-            </div>
+        {/* Card */}
+        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-5 sm:p-6 flex flex-col gap-5 w-full">
+          {/* Card Header */}
+          <div className="flex flex-col items-center gap-3">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 20, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Create Account
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 14, sm: 16, md: 18 }}
+              fontWeight={400}
+              className="text-center"
+            >
+              Setup an account with us to join the sustainability revolution
+            </Typography>
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Role */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               Role
             </Typography>
-
             <TextField
               select
               name="role"
@@ -284,20 +303,10 @@ const SignUp = () => {
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#00C2810D",
-
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
+                  "& fieldset": { borderColor: "#00C2810D" },
+                  "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                 },
-
-                "& .MuiSelect-select": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
+                "& .MuiSelect-select": { padding: "10px 12px", fontSize: 14 },
               }}
             >
               <MenuItem value="collector">Collector</MenuItem>
@@ -305,18 +314,21 @@ const SignUp = () => {
             </TextField>
           </div>
 
+          {/* Center Type */}
           {signUpDetails.role === "center" && (
-            <div className="mx-3">
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+            <div>
+              <Typography
+                fontWeight={400}
+                fontSize={{ xs: 15, sm: 16, md: 18 }}
+                color="#1A1A1A"
+              >
                 Center Type
               </Typography>
-
               <TextField
                 select
                 name="centerType"
                 value={signUpDetails.centerType}
                 onChange={handleChange}
-                placeholder="Select center type"
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -325,20 +337,10 @@ const SignUp = () => {
                     height: "40px",
                     borderRadius: "12px",
                     backgroundColor: "#00C2810D",
-
-                    "& fieldset": {
-                      borderColor: "#00C2810D",
-                    },
-
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#00C2810D",
-                    },
+                    "& fieldset": { borderColor: "#00C2810D" },
+                    "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                   },
-
-                  "& .MuiSelect-select": {
-                    padding: "10px 12px",
-                    fontSize: 14,
-                  },
+                  "& .MuiSelect-select": { padding: "10px 12px", fontSize: 14 },
                 }}
               >
                 <MenuItem value="collection">Collection</MenuItem>
@@ -347,43 +349,57 @@ const SignUp = () => {
             </div>
           )}
 
-          {/* Conditional fields for collector */}
+          {/* Collector Fields */}
           {signUpDetails.role === "collector" && (
             <>
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                  First Name
-                </Typography>
-                <TextField
-                  name="firstName"
-                  value={signUpDetails.firstName}
-                  onChange={handleChange}
-                  placeholder="Enter your first name"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  sx={textFieldStyle}
-                />
+              {/* First + Last Name side by side on sm+ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Typography
+                    fontWeight={400}
+                    fontSize={{ xs: 15, sm: 16, md: 18 }}
+                    color="#1A1A1A"
+                  >
+                    First Name
+                  </Typography>
+                  <TextField
+                    name="firstName"
+                    value={signUpDetails.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter your first name"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={textFieldStyle}
+                  />
+                </div>
+                <div>
+                  <Typography
+                    fontWeight={400}
+                    fontSize={{ xs: 15, sm: 16, md: 18 }}
+                    color="#1A1A1A"
+                  >
+                    Last Name
+                  </Typography>
+                  <TextField
+                    name="lastName"
+                    value={signUpDetails.lastName}
+                    onChange={handleChange}
+                    placeholder="Enter your last name"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={textFieldStyle}
+                  />
+                </div>
               </div>
 
               <div>
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                  Last Name
-                </Typography>
-                <TextField
-                  name="lastName"
-                  value={signUpDetails.lastName}
-                  onChange={handleChange}
-                  placeholder="Enter your last name"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  sx={textFieldStyle}
-                />
-              </div>
-
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Email
                 </Typography>
                 <TextField
@@ -398,8 +414,12 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Address
                 </Typography>
                 <TextField
@@ -414,8 +434,12 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Phone Number
                 </Typography>
                 <TextField
@@ -432,11 +456,15 @@ const SignUp = () => {
             </>
           )}
 
-          {/* Conditional fields for center */}
+          {/* Center Fields */}
           {signUpDetails.role === "center" && (
             <>
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Center Name
                 </Typography>
                 <TextField
@@ -451,8 +479,12 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Contact Person
                 </Typography>
                 <TextField
@@ -467,40 +499,54 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                  Contact Email
-                </Typography>
-                <TextField
-                  name="contactEmail"
-                  value={signUpDetails.contactEmail}
-                  onChange={handleChange}
-                  placeholder="Enter contact email"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  sx={textFieldStyle}
-                />
+              {/* Contact Email + Phone side by side on sm+ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Typography
+                    fontWeight={400}
+                    fontSize={{ xs: 15, sm: 16, md: 18 }}
+                    color="#1A1A1A"
+                  >
+                    Contact Email
+                  </Typography>
+                  <TextField
+                    name="contactEmail"
+                    value={signUpDetails.contactEmail}
+                    onChange={handleChange}
+                    placeholder="Enter contact email"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={textFieldStyle}
+                  />
+                </div>
+                <div>
+                  <Typography
+                    fontWeight={400}
+                    fontSize={{ xs: 15, sm: 16, md: 18 }}
+                    color="#1A1A1A"
+                  >
+                    Contact Phone
+                  </Typography>
+                  <TextField
+                    name="contactPhone"
+                    value={signUpDetails.contactPhone}
+                    onChange={handleChange}
+                    placeholder="Enter contact phone"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={textFieldStyle}
+                  />
+                </div>
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                  Contact Phone
-                </Typography>
-                <TextField
-                  name="contactPhone"
-                  value={signUpDetails.contactPhone}
-                  onChange={handleChange}
-                  placeholder="Enter contact phone"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  sx={textFieldStyle}
-                />
-              </div>
-
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Address
                 </Typography>
                 <TextField
@@ -515,8 +561,12 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Accepted Plastics
                 </Typography>
                 <FormGroup row>
@@ -540,8 +590,12 @@ const SignUp = () => {
                 </FormGroup>
               </div>
 
-              <div className="mx-3">
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+              <div>
+                <Typography
+                  fontWeight={400}
+                  fontSize={{ xs: 15, sm: 16, md: 18 }}
+                  color="#1A1A1A"
+                >
                   Operating Hours
                 </Typography>
                 <TextField
@@ -558,9 +612,13 @@ const SignUp = () => {
             </>
           )}
 
-          {/* Password field (common) */}
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Password */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               Password
             </Typography>
             <TextField
@@ -595,30 +653,24 @@ const SignUp = () => {
             />
           </div>
 
-          <div className="flex justify-between items-center mx-3">
-            {/* <div className="flex items-center gap-.5">
-              <Checkbox />
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                Remember Me
-              </Typography>
-            </div> */}
-            <div>
-              <Typography fontWeight={300} fontSize={16}>
-                Already have an account?{" "}
-                <span
-                  className="cursor-pointer text-[#00C281]"
-                  style={{ textDecoration: "underline" }}
-                  onClick={() => navigate("/")}
-                >
-                  Login
-                </span>
-              </Typography>
-            </div>
+          {/* Login link */}
+          <div>
+            <Typography fontWeight={300} fontSize={{ xs: 14, sm: 15, md: 16 }}>
+              Already have an account?{" "}
+              <span
+                className="cursor-pointer text-[#00C281]"
+                style={{ textDecoration: "underline" }}
+                onClick={() => navigate("/")}
+              >
+                Login
+              </span>
+            </Typography>
           </div>
 
+          {/* Submit */}
           <Button
             disabled={loading}
-            fullWidths
+            fullWidth
             onClick={signup}
             sx={{
               height: "48px",

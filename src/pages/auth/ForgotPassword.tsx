@@ -115,7 +115,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-0 h-full">
+    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-15 min-h-screen px-4 sm:px-6">
       <Toast
         open={toast.open}
         message={toast.message}
@@ -123,50 +123,71 @@ const ForgotPassword = () => {
         onClose={closeToast}
       />
 
-      <div className="flex flex-col gap-5.25">
-        <div className="flex flex-col gap-5.25">
-          <div className="flex justify-center items-center">
-            <img src="/logo.png" alt="Plasticonn logo" className="h-14 w-14" />
-
-            <Typography color="#005C3D" fontSize={36} fontWeight={400}>
+      <div className="flex flex-col gap-5 w-full max-w-sm sm:max-w-md lg:max-w-lg">
+        {/* Logo + Brand */}
+        <div className="flex flex-col gap-5">
+          <div className="flex justify-center items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="Plasticonn logo"
+              className="w-10 h-10 sm:w-14 sm:h-14"
+            />
+            <Typography
+              color="#005C3D"
+              fontSize={{ xs: 26, sm: 32, md: 36 }}
+              fontWeight={400}
+            >
               Plasticonn
             </Typography>
           </div>
 
-          <div className="flex justify-center">
-            <div className="flex flex-col ">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Reset Your Password
-                </Typography>
-              </div>
-
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A99" fontSize={18} fontWeight={400}>
-                  Enter your email address and follow the steps
-                </Typography>
-              </div>
-            </div>
+          <div className="flex flex-col items-center gap-1">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 18, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Reset Your Password
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 13, sm: 15, md: 18 }}
+              fontWeight={400}
+              className="text-center"
+            >
+              Enter your email address and follow the steps
+            </Typography>
           </div>
         </div>
 
-        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-6 mt-4 ml-4 flex flex-col gap-6.5 w-228">
-          <div className="flex justify-center">
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Forgot Password
-                </Typography>
-              </div>
-
-              <Typography color="#1A1A1A99" fontSize={20} fontWeight={400}>
-                We'll help you get back into your account securely
-              </Typography>
-            </div>
+        {/* Card */}
+        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-5 sm:p-6 flex flex-col gap-5 w-full">
+          {/* Card Header */}
+          <div className="flex flex-col items-center gap-3">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 20, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Forgot Password
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 14, sm: 16, md: 18 }}
+              fontWeight={400}
+              className="text-center"
+            >
+              We'll help you get back into your account securely
+            </Typography>
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Email */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               Email
             </Typography>
             <TextField
@@ -178,35 +199,26 @@ const ForgotPassword = () => {
               size="small"
               fullWidth
               sx={{
-                // overall height
                 "& .MuiOutlinedInput-root": {
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#00C2810D",
-
-                  // default border
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  // focused
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
+                  "& fieldset": { borderColor: "#00C2810D" },
+                  "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                 },
-
-                // input text
-                "& input": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
+                "& input": { padding: "10px 12px", fontSize: 14 },
               }}
             />
           </div>
 
+          {/* OTP */}
           {step1 && (
-            <div className="mx-3">
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+            <div>
+              <Typography
+                fontWeight={400}
+                fontSize={{ xs: 15, sm: 16, md: 18 }}
+                color="#1A1A1A"
+              >
                 OTP
               </Typography>
               <TextField
@@ -219,36 +231,27 @@ const ForgotPassword = () => {
                 size="small"
                 fullWidth
                 sx={{
-                  // overall height
                   "& .MuiOutlinedInput-root": {
                     height: "40px",
                     borderRadius: "12px",
                     backgroundColor: "#00C2810D",
-
-                    // default border
-                    "& fieldset": {
-                      borderColor: "#00C2810D",
-                    },
-
-                    // focused
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#00C2810D",
-                    },
+                    "& fieldset": { borderColor: "#00C2810D" },
+                    "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                   },
-
-                  // input text
-                  "& input": {
-                    padding: "10px 12px",
-                    fontSize: 14,
-                  },
+                  "& input": { padding: "10px 12px", fontSize: 14 },
                 }}
               />
             </div>
           )}
 
+          {/* New Password */}
           {step2 && (
-            <div className="mx-3">
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+            <div>
+              <Typography
+                fontWeight={400}
+                fontSize={{ xs: 15, sm: 16, md: 18 }}
+                color="#1A1A1A"
+              >
                 Password
               </Typography>
               <TextField
@@ -256,33 +259,19 @@ const ForgotPassword = () => {
                 name="password"
                 value={passwordReset.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
+                placeholder="Enter your new password"
                 variant="outlined"
                 size="small"
                 fullWidth
                 sx={{
-                  // overall height
                   "& .MuiOutlinedInput-root": {
                     height: "40px",
                     borderRadius: "12px",
                     backgroundColor: "#00C2810D",
-
-                    // default border
-                    "& fieldset": {
-                      borderColor: "#00C2810D",
-                    },
-
-                    // focused
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#00C2810D",
-                    },
+                    "& fieldset": { borderColor: "#00C2810D" },
+                    "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                   },
-
-                  // input text
-                  "& input": {
-                    padding: "10px 12px",
-                    fontSize: 14,
-                  },
+                  "& input": { padding: "10px 12px", fontSize: 14 },
                 }}
                 InputProps={{
                   endAdornment: (
@@ -307,22 +296,22 @@ const ForgotPassword = () => {
             </div>
           )}
 
+          {/* Remember password link */}
           <div
-            className="mx-3 flex justify-center"
+            className="flex justify-center cursor-pointer"
             onClick={() => navigate("/", { replace: true })}
           >
             <Typography
               fontWeight={400}
-              fontSize={18}
+              fontSize={{ xs: 14, sm: 15, md: 16 }}
               color="#00C281"
-              sx={{
-                "&:hover": { cursor: "pointer", textDecoration: "underline" },
-              }}
+              sx={{ "&:hover": { textDecoration: "underline" } }}
             >
               I have remembered my password
             </Typography>
           </div>
 
+          {/* Submit */}
           <Button
             disabled={loading}
             fullWidth

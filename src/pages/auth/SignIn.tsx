@@ -107,7 +107,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-15 h-full">
+    <div className="flex justify-center bg-[#FAFAFA] pt-10 pb-15 min-h-screen px-4 sm:px-6">
       <Toast
         open={toast.open}
         message={toast.message}
@@ -115,53 +115,72 @@ const SignIn = () => {
         onClose={closeToast}
       />
 
-      <div className="flex flex-col gap-5.25">
-        <div className="flex flex-col gap-5.25">
-          <div className="flex justify-center gap-2">
-            <img src="/logo.png" alt="Plasitconn logo" className="w-14 h-14" />
-
-            <Typography color="#005C3D" fontSize={36} fontWeight={400}>
+      <div className="flex flex-col gap-5 w-full max-w-sm sm:max-w-md lg:max-w-lg">
+        {/* Logo + Brand */}
+        <div className="flex flex-col gap-5">
+          <div className="flex justify-center gap-2 items-center">
+            <img
+              src="/logo.png"
+              alt="Plasticonn logo"
+              className="w-10 h-10 sm:w-14 sm:h-14"
+            />
+            <Typography
+              color="#005C3D"
+              fontSize={{ xs: 26, sm: 32, md: 36 }}
+              fontWeight={400}
+            >
               Plasticonn
             </Typography>
           </div>
 
-          <div className="flex justify-center">
-            <div className="flex flex-col ">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Welcome to Plasticonn
-                </Typography>
-              </div>
-
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A99" fontSize={18} fontWeight={400}>
-                  Join the sustainability revolution
-                </Typography>
-              </div>
-            </div>
+          <div className="flex flex-col items-center gap-1">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 18, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Welcome to Plasticonn
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 14, sm: 16, md: 18 }}
+              fontWeight={400}
+            >
+              Join the sustainability revolution
+            </Typography>
           </div>
         </div>
 
-        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-6 mt-4 ml-4 flex flex-col gap-6.5 w-228">
-          <div className="flex justify-center">
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-center">
-                <Typography color="#1A1A1A" fontSize={24} fontWeight={400}>
-                  Sign In
-                </Typography>
-              </div>
-
-              <Typography color="#1A1A1A99" fontSize={20} fontWeight={400}>
-                Enter your credentials to access your Plasticonn account{" "}
-              </Typography>
-            </div>
+        {/* Card */}
+        <div className="bg-[#FAFAFA] rounded-[18px] border border-[#1A1A1A80] p-5 sm:p-6 flex flex-col gap-5 w-full">
+          {/* Card Header */}
+          <div className="flex flex-col items-center gap-3">
+            <Typography
+              color="#1A1A1A"
+              fontSize={{ xs: 20, sm: 22, md: 24 }}
+              fontWeight={400}
+            >
+              Sign In
+            </Typography>
+            <Typography
+              color="#1A1A1A99"
+              fontSize={{ xs: 14, sm: 16, md: 18 }}
+              fontWeight={400}
+              className="text-center"
+            >
+              Enter your credentials to access your Plasticonn account
+            </Typography>
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Role */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               Role
             </Typography>
-
             <TextField
               select
               name="role"
@@ -176,20 +195,10 @@ const SignIn = () => {
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#00C2810D",
-
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
+                  "& fieldset": { borderColor: "#00C2810D" },
+                  "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                 },
-
-                "& .MuiSelect-select": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
+                "& .MuiSelect-select": { padding: "10px 12px", fontSize: 14 },
               }}
             >
               <MenuItem value="collector">Collector</MenuItem>
@@ -197,8 +206,13 @@ const SignIn = () => {
             </TextField>
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Email / Center ID */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               {signindetails.role !== "collector" ? "Center ID" : "Email"}
             </Typography>
             <TextField
@@ -211,41 +225,32 @@ const SignIn = () => {
               onChange={handleChange}
               placeholder={
                 signindetails.role === "collector"
-                  ? `Enter your email`
-                  : `Enter Center ID`
+                  ? "Enter your email"
+                  : "Enter Center ID"
               }
               variant="outlined"
               size="small"
               fullWidth
               sx={{
-                // overall height
                 "& .MuiOutlinedInput-root": {
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#00C2810D",
-
-                  // default border
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  // focused
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
+                  "& fieldset": { borderColor: "#00C2810D" },
+                  "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                 },
-
-                // input text
-                "& input": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
+                "& input": { padding: "10px 12px", fontSize: 14 },
               }}
             />
           </div>
 
-          <div className="mx-3">
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+          {/* Password */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
               Password
             </Typography>
             <TextField
@@ -258,28 +263,14 @@ const SignIn = () => {
               size="small"
               fullWidth
               sx={{
-                // overall height
                 "& .MuiOutlinedInput-root": {
                   height: "40px",
                   borderRadius: "12px",
                   backgroundColor: "#00C2810D",
-
-                  // default border
-                  "& fieldset": {
-                    borderColor: "#00C2810D",
-                  },
-
-                  // focused
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#00C2810D",
-                  },
+                  "& fieldset": { borderColor: "#00C2810D" },
+                  "&.Mui-focused fieldset": { borderColor: "#00C2810D" },
                 },
-
-                // input text
-                "& input": {
-                  padding: "10px 12px",
-                  fontSize: 14,
-                },
+                "& input": { padding: "10px 12px", fontSize: 14 },
               }}
               InputProps={{
                 endAdornment: (
@@ -303,31 +294,23 @@ const SignIn = () => {
             />
           </div>
 
-          <div className="flex justify-between items-center mx-3">
-            {/* <div className="flex items-center gap-.5">
-              <Checkbox />
-              <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
-                Remember Me
-              </Typography>
-            </div> */}
-
-            <div>
-              <Typography fontWeight={300} fontSize={16}>
-                Don't have an account?{" "}
-                <span
-                  className="cursor-pointer text-[#00C281]"
-                  style={{ textDecoration: "underline" }}
-                  onClick={() => navigate("/join")}
-                >
-                  Register
-                </span>
-              </Typography>
-            </div>
+          {/* Register + Forgot Password */}
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-2">
+            <Typography fontWeight={300} fontSize={{ xs: 13, sm: 14, md: 16 }}>
+              Don't have an account?{" "}
+              <span
+                className="cursor-pointer text-[#00C281]"
+                style={{ textDecoration: "underline" }}
+                onClick={() => navigate("/join")}
+              >
+                Register
+              </span>
+            </Typography>
 
             <div onClick={() => navigate("/forgot-password")}>
               <Typography
                 fontWeight={400}
-                fontSize={18}
+                fontSize={{ xs: 14, sm: 15, md: 16 }}
                 color="#00C281"
                 sx={{
                   "&:hover": { cursor: "pointer", textDecoration: "underline" },
@@ -338,6 +321,7 @@ const SignIn = () => {
             </div>
           </div>
 
+          {/* Submit */}
           <Button
             disabled={loading}
             fullWidth

@@ -118,7 +118,7 @@ const Plastic_Type = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="flex flex-col items-center flex-1 min-w-[60px]"
+            className="flex flex-col items-center flex-1 min-w-15"
           >
             <div className="flex-1 flex items-end justify-center w-full">
               <div

@@ -95,7 +95,7 @@ const Messages = () => {
       </div>
 
       {/* MESSAGE LIST */}
-      <div className="mt-4 sm:mt-5 flex flex-col gap-3 max-h-[400px] sm:max-h-[500px] lg:max-h-[650px] overflow-y-auto pr-1">
+      <div className="mt-4 sm:mt-5 flex flex-col gap-3 max-h-100 sm:max-h-125 lg:max-h-162.5 overflow-y-auto pr-1">
         {messages.map((message, index) => (
           <div key={index}>
             <div
