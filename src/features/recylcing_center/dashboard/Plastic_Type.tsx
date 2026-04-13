@@ -40,63 +40,71 @@ const Plastic_Type = () => {
   ];
 
   return (
-    <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7 w-262.5">
-      <div className="">
-        <div className="">
-          <Typography fontSize={28} fontWeight={400} color="#052E1E">
-            Plastic Type Distribution
-          </Typography>
-        </div>
+    <div
+      className="
+    bg-[#FAFAFA] rounded-xl shadow-[0_2px_6px_#1A1A1A26]
+    flex flex-col gap-6 sm:gap-7
+    
+    w-full
+    p-5 sm:p-7 lg:p-9
+  "
+    >
+      {/* HEADER */}
+      <div>
+        <Typography
+          className="text-xl sm:text-2xl lg:text-[28px]"
+          fontWeight={400}
+          color="#052E1E"
+        >
+          Plastic Type Distribution
+        </Typography>
 
-        <div className="mt-5">
+        <div className="mt-3 sm:mt-5">
           <Divider />
         </div>
       </div>
 
-      <div className="flex flex-col gap-[12.4px]">
+      {/* LIST + PROGRESS */}
+      <div className="flex flex-col gap-4 sm:gap-5">
         {stats.map((stat, index) => (
-          <div key={index} className=" gap-2 lg:gap-3 items-center">
-            <div className="flex justify-between">
-              <div className="flex gap-3 items-center">
+          <div key={index} className="flex flex-col gap-2">
+            <div className="flex justify-between items-center gap-3">
+              {/* LEFT */}
+              <div className="flex items-center gap-3">
                 <div
-                  className={`bg-[${stat.color}] w-4.5 h-4.5 rounded-full`}
-                  style={{ backgroundColor: `${stat.color}` }}
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full"
+                  style={{ backgroundColor: stat.color }}
                 />
+
                 <Typography
-                  fontSize={{ xs: 14, lg: 20 }}
+                  className="text-sm sm:text-base lg:text-lg"
                   fontWeight={300}
                   color="#1A1A1A"
-                  sx={{ minWidth: { xs: "28px", lg: "32px" } }}
                 >
                   {stat.type}
                 </Typography>
               </div>
 
+              {/* RIGHT */}
               <Typography
-                fontSize={{ xs: 14, lg: 20 }}
+                className="text-sm sm:text-base lg:text-lg"
                 fontWeight={300}
                 color="#1A1A1A"
-                sx={{
-                  minWidth: { xs: "50px", lg: "60px" },
-                  textAlign: "right",
-                }}
               >
                 {stat.stat}{" "}
-                <span className="text-[#1A1A1A80]">{`(${stat.percentage})`}</span>
+                <span className="text-[#1A1A1A80]">({stat.percentage})</span>
               </Typography>
             </div>
+
             <LinearProgress
               variant="determinate"
               value={stat.value}
               sx={{
-                marginTop: "12px",
-                flex: 1,
-                //maxWidth: { lg: "623.35px" },
-                height: { xs: "8px", lg: "10px" },
+                height: { xs: 6, sm: 8, lg: 10 },
                 borderRadius: "8px",
                 backgroundColor: "#E0E0E0",
                 "& .MuiLinearProgress-bar": {
-                  backgroundColor: "#1A1A1A",
+                  backgroundColor: stat.color,
                   borderRadius: "8px",
                 },
               }}
@@ -105,20 +113,27 @@ const Plastic_Type = () => {
         ))}
       </div>
 
-      <div className="flex justify-between h-64">
+      {/* BAR CHART */}
+      <div className="flex gap-3 sm:gap-5 lg:gap-8 justify-between items-end h-40 sm:h-52 lg:h-64 overflow-x-auto">
         {stats.map((stat, index) => (
-          <div key={index} className="flex flex-col items-center h-full">
-            <div className="flex-1 flex items-end w-full justify-center">
+          <div
+            key={index}
+            className="flex flex-col items-center flex-1 min-w-[60px]"
+          >
+            <div className="flex-1 flex items-end justify-center w-full">
               <div
-                className="rounded-t-[18px] w-45"
+                className="rounded-t-xl w-6 sm:w-10 lg:w-12"
                 style={{
                   backgroundColor: stat.color,
-                  height: stat.percentage,
+                  height: `${stat.percentage}`,
                 }}
               />
             </div>
 
-            <Typography className="mt-2" fontSize={26} fontWeight={400}>
+            <Typography
+              className="mt-2 text-xs sm:text-sm lg:text-base"
+              fontWeight={400}
+            >
               {stat.type}
             </Typography>
           </div>
