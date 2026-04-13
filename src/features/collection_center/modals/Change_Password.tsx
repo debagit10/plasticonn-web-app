@@ -109,8 +109,8 @@ const Change_Password = () => {
       <Button
         onClick={() => setOpen(true)}
         variant="outlined"
+        fullWidth
         sx={{
-          width: "700px",
           height: "48px",
           padding: "12px",
           borderRadius: "12px",
@@ -120,7 +120,7 @@ const Change_Password = () => {
       >
         <Typography
           fontWeight={400}
-          fontSize={16}
+          fontSize={14}
           sx={{ textTransform: "capitalize" }}
         >
           Change Password

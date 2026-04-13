@@ -30,24 +30,6 @@ interface Drops {
   __v: number;
 }
 
-// const drops = [
-//   {
-//     collector: "Sarah Johnson",
-//     type: "PET",
-//     timestamp: "2025-11-10 14:32",
-//   },
-//   {
-//     collector: "Mike Adeniyi",
-//     type: "HDPE",
-//     timestamp: "2025-11-08 13:15",
-//   },
-//   {
-//     collector: "Emma Davis",
-//     type: "LDPE",
-//     timestamp: "2025-11-05 11:45",
-//   },
-// ];
-
 const Queue = () => {
   const [selected, setSelected] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<null | number>(null);
@@ -78,34 +60,65 @@ const Queue = () => {
   }, []);
 
   return (
-    <div className="flex justify-between gap-10">
-      <div className="bg-[#FAFAFA] p-9 rounded-xl shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-17 w-262.5">
+    <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+      {/* LEFT PANEL */}
+      <div
+        className="
+      bg-[#FAFAFA] rounded-xl shadow-[0_2px_6px_#1A1A1A26]
+      flex flex-col gap-10
+      
+      w-full 
+      lg:w-[60%] 
+      
+      p-5 sm:p-7 lg:p-9
+    "
+      >
         <div>
-          <div className="">
-            <Typography fontSize={28} fontWeight={400} color="#052E1E">
-              Verification Queue
-            </Typography>
-          </div>
+          <Typography
+            fontSize={20}
+            fontWeight={400}
+            color="#052E1E"
+            className="sm:text-2xl lg:text-[28px]"
+          >
+            Verification Queue
+          </Typography>
 
-          <div className="mt-5">
+          <div className="mt-3 sm:mt-5">
             <Divider />
           </div>
         </div>
 
         {drops.filter((drop) => drop.status === "pending").length <= 0 && (
           <div className="text-center">
-            <Typography fontSize={18} fontWeight={400} color="#052E1E">
+            <Typography
+              fontSize={16}
+              fontWeight={400}
+              color="#052E1E"
+              className="sm:text-lg"
+            >
               You currently have no drops
             </Typography>
           </div>
         )}
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-5 sm:gap-7 lg:gap-10">
           {drops
             .filter((drop) => drop.status === "pending")
             .map((drop, index) => (
               <div
-                className={`rounded-xl p-6.5 border-[0.4px] flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedIndex === index ? "bg-[#00C2810D] border-[#00C281]" : "bg-white border-[#1A1A1A]"}`}
+                key={index}
+                className={`
+              rounded-xl border-[0.4px] cursor-pointer transition-all duration-200 
+              hover:shadow-md flex flex-col gap-3
+              
+              p-4 sm:p-5 lg:p-6.5
+              
+              ${
+                selectedIndex === index
+                  ? "bg-[#00C2810D] border-[#00C281]"
+                  : "bg-white border-[#1A1A1A]"
+              }
+            `}
                 onClick={() => {
                   if (selectedIndex !== index) {
                     setSelected(true);
@@ -121,24 +134,39 @@ const Queue = () => {
                   }
                 }}
               >
-                <div className="flex justify-between">
-                  <div className="flex gap-3 items-center">
-                    <img src={profile} className="w-6.5 h-6.5" />
-                    <Typography fontWeight={400} fontSize={24} color="#1A1A1A">
+                <div className="flex justify-between items-start sm:items-center gap-3">
+                  <div className="flex gap-2 sm:gap-3 items-center">
+                    <img src={profile} className="w-5 h-5 sm:w-6.5 sm:h-6.5" />
+                    <Typography
+                      fontWeight={400}
+                      fontSize={16}
+                      color="#1A1A1A"
+                      className="sm:text-lg lg:text-2xl"
+                    >
                       {drop.collector_id.name}
                     </Typography>
                   </div>
 
-                  <div className="p-2.5 rounded-xl w-31.25 h-11.5 text-center flex items-center justify-center bg-[#00C2811A]">
-                    <Typography fontSize={20} fontWeight={300} color="#00C281">
+                  <div className="px-3 py-1.5 sm:p-2.5 rounded-xl text-center flex items-center justify-center bg-[#00C2811A]">
+                    <Typography
+                      fontSize={14}
+                      fontWeight={300}
+                      color="#00C281"
+                      className="sm:text-base lg:text-xl"
+                    >
                       {drop.types.join(", ")}
                     </Typography>
                   </div>
                 </div>
 
-                <div className="flex gap-3 items-center">
-                  <img src={time} className="w-6.5 h-6.5" />
-                  <Typography fontWeight={400} fontSize={24} color="#1A1A1A80">
+                <div className="flex gap-2 sm:gap-3 items-center">
+                  <img src={time} className="w-5 h-5 sm:w-6.5 sm:h-6.5" />
+                  <Typography
+                    fontWeight={400}
+                    fontSize={14}
+                    color="#1A1A1A80"
+                    className="sm:text-base lg:text-2xl"
+                  >
                     {drop.createdAt}
                   </Typography>
                 </div>
@@ -147,15 +175,18 @@ const Queue = () => {
         </div>
       </div>
 
-      <Verify_Drop
-        selected={selected}
-        drop={drop}
-        onDeselect={() => {
-          setSelected(false);
-          setSelectedIndex(null);
-        }}
-        onSuccess={() => getDrops()}
-      />
+      {/* RIGHT PANEL */}
+      <div className="w-full lg:w-[40%]">
+        <Verify_Drop
+          selected={selected}
+          drop={drop}
+          onDeselect={() => {
+            setSelected(false);
+            setSelectedIndex(null);
+          }}
+          onSuccess={() => getDrops()}
+        />
+      </div>
     </div>
   );
 };

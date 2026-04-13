@@ -10,31 +10,48 @@ import { useAuthStore } from "../../../utils/useAuth";
 const Profile_details = () => {
   const { user } = useAuthStore();
   return (
-    <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
-      <div className="w-full flex justify-between">
+    <div
+      className="
+    bg-[#FAFAFA] rounded-[18px] shadow-[0_2px_6px_#1A1A1A26]
+    flex flex-col gap-6 sm:gap-7
+    
+    p-5 sm:p-7 lg:p-9
+  "
+    >
+      <div
+        className="
+      flex flex-col lg:flex-row 
+      gap-6 lg:gap-0 
+      lg:justify-between
+    "
+      >
         {/* LEFT SECTION */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5 sm:gap-6">
           {/* Title */}
-          <div className="flex  gap-3 items-center">
-            <HiOutlineBuildingOffice size={22} className="text-[#1A1A1A]" />
+          <div className="flex gap-3 items-center">
+            <HiOutlineBuildingOffice
+              size={20}
+              className="text-[#1A1A1A] sm:text-[22px]"
+            />
             <div>
-              <Typography fontSize={20} fontWeight={500} color="#1A1A1A">
+              <Typography
+                fontWeight={500}
+                color="#1A1A1A"
+                className="text-base sm:text-lg lg:text-[20px]"
+              >
                 {user?.name}
               </Typography>
-              {/* <Typography fontSize={14} color="#1A1A1A80">
-                Est. 2022
-              </Typography> */}
             </div>
           </div>
 
           {/* Address */}
           <div className="flex items-center gap-3">
-            <HiOutlineMapPin size={20} className="text-[#1A1A1A80]" />
+            <HiOutlineMapPin className="text-[#1A1A1A80] text-lg sm:text-xl" />
             <div>
-              <Typography fontSize={14} color="#1A1A1A80">
+              <Typography className="text-xs sm:text-sm" color="#1A1A1A80">
                 Address
               </Typography>
-              <Typography fontSize={15} color="#1A1A1A">
+              <Typography className="text-sm sm:text-base" color="#1A1A1A">
                 {user?.address}
               </Typography>
             </div>
@@ -42,12 +59,12 @@ const Profile_details = () => {
 
           {/* Contact */}
           <div className="flex items-center gap-3">
-            <HiOutlinePhone size={20} className="text-[#1A1A1A80]" />
+            <HiOutlinePhone className="text-[#1A1A1A80] text-lg sm:text-xl" />
             <div>
-              <Typography fontSize={14} color="#1A1A1A80">
+              <Typography className="text-xs sm:text-sm" color="#1A1A1A80">
                 Contact Number
               </Typography>
-              <Typography fontSize={15} color="#1A1A1A">
+              <Typography className="text-sm sm:text-base" color="#1A1A1A">
                 {user?.contactPhone}
               </Typography>
             </div>
@@ -55,12 +72,12 @@ const Profile_details = () => {
 
           {/* Email */}
           <div className="flex items-center gap-3">
-            <HiOutlineEnvelope size={20} className="text-[#1A1A1A80]" />
+            <HiOutlineEnvelope className="text-[#1A1A1A80] text-lg sm:text-xl" />
             <div>
-              <Typography fontSize={14} color="#1A1A1A80">
+              <Typography className="text-xs sm:text-sm" color="#1A1A1A80">
                 Email
               </Typography>
-              <Typography fontSize={15} color="#1A1A1A">
+              <Typography className="text-sm sm:text-base" color="#1A1A1A">
                 {user?.contactPhone}
               </Typography>
             </div>
@@ -68,29 +85,38 @@ const Profile_details = () => {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="flex flex-col justify-between">
+        <div
+          className="
+        flex flex-col 
+        gap-5 sm:gap-6 
+        
+        lg:items-end 
+        lg:text-right
+      "
+        >
           {/* Status Badge */}
-          <div className="flex justify-end">
-            <div className="bg-[#00C2811A] text-[#00C281] px-3 py-1 rounded-lg text-sm">
+          <div className="">
+            <div className="bg-[#00C2811A] text-[#00C281] px-3 py-1 rounded-lg text-xs sm:text-sm w-[20%]">
               Active
             </div>
           </div>
 
-          <div className="">
-            {/* Operating Hours */}
-            <div className="flex">
-              <HiOutlineClock size={20} className="text-[#1A1A1A80]" />
-              <div>
-                <Typography fontSize={14} color="#1A1A1A80">
-                  Operating Hours
-                </Typography>
-                <Typography fontSize={15} color="#1A1A1A">
-                  Mon–Fri: 8:00 AM – 6:00 PM
-                </Typography>
-                <Typography fontSize={15} color="#1A1A1A">
-                  Saturday: 9:00 AM – 4:00 PM
-                </Typography>
-              </div>
+          {/* Operating Hours */}
+          <div className="flex gap-3 items-center lg:justify-end">
+            <HiOutlineClock className="text-[#1A1A1A80] text-lg sm:text-xl" />
+
+            <div>
+              <Typography className="text-xs sm:text-sm" color="#1A1A1A80">
+                Operating Hours
+              </Typography>
+
+              <Typography className="text-sm sm:text-base" color="#1A1A1A">
+                Mon–Fri: 8:00 AM – 6:00 PM
+              </Typography>
+
+              <Typography className="text-sm sm:text-base" color="#1A1A1A">
+                Saturday: 9:00 AM – 4:00 PM
+              </Typography>
             </div>
           </div>
         </div>

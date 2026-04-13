@@ -18,19 +18,20 @@ const CollectorSettings = () => {
         </div>
 
         {/* Title */}
-        <div className="flex flex-col gap-1 sm:gap-2 mt-2 sm:mt-5">
+        <div className="flex flex-col gap-1 sm:gap-1.5 mt-1 sm:mt-3">
           <Typography
-            fontSize={{ xs: 18, sm: 24, md: 28 }}
             fontWeight={400}
+            fontSize={25}
             color="#1A1A1A"
+            className="text-xl sm:text-2xl lg:text-[28px]"
           >
             Profile Settings
           </Typography>
 
           <Typography
-            fontSize={{ xs: 14, sm: 18, md: 24 }}
             fontWeight={300}
             color="#1A1A1A80"
+            className="text-sm sm:text-base lg:text-[24px]"
           >
             Manage your personal information
           </Typography>
