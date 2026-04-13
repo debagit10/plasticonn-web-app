@@ -50,12 +50,15 @@ const Accepted_Plastics = () => {
   const { user } = useAuthStore();
 
   return (
-    <div className="bg-[#FAFAFA] rounded-[18px] p-9 shadow-[0_2px_6px_#1A1A1A26] flex flex-col gap-7">
-      <Typography fontSize={28} fontWeight={400}>
+    <div className="bg-[#FAFAFA] rounded-[18px] shadow-[0_2px_6px_#1A1A1A26] flex flex-col p-5 sm:p-7 lg:p-9">
+      <Typography
+        className="text-xl sm:text-2xl lg:text-[28px]"
+        color="#1A1A1A"
+      >
         Accepted Plastic Types
       </Typography>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="flex flex-wrap gap-3 sm:gap-4 lg:gap-6">
         {user?.materialsAccepted?.map((typeName, index) => {
           const type = plasticTypes.find((item) => item.name === typeName);
 
@@ -64,10 +67,14 @@ const Accepted_Plastics = () => {
           return (
             <div
               key={index}
-              className="rounded-xl p-4"
+              className="rounded-xl px-3 py-2 sm:px-4 sm:py-3"
               style={{ backgroundColor: type.bg }}
             >
-              <Typography fontSize={26} fontWeight={400}>
+              <Typography
+                fontSize={26}
+                fontWeight={400}
+                className="text-sm sm:text-base"
+              >
                 {type.name} (#{index + 1})
               </Typography>
 

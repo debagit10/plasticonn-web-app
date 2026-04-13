@@ -130,6 +130,7 @@ const Edit_profile = () => {
             onClick={() => setOpen(true)}
             fullWidth
             sx={{
+              height: "48px",
               background: "linear-gradient(to top right, #00C281, #005C3D)",
               color: "white",
               textTransform: "capitalize",
@@ -166,7 +167,7 @@ const Edit_profile = () => {
 
         <DialogTitle className="flex  justify-between gap-10">
           <div className="flex flex-col gap-2">
-            <Typography fontSize={26} fontWeight={400} color="#1A1A1A">
+            <Typography fontSize={22} fontWeight={400} color="#1A1A1A">
               Edit profile details
             </Typography>
           </div>

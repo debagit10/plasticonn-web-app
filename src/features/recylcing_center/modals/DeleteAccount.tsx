@@ -42,6 +42,7 @@ const DeleteAccount = () => {
         onClick={() => setOpen(true)}
         fullWidth
         sx={{
+          height: "48px",
           borderColor: "red",
           borderWidth: "1px",
           color: "red",

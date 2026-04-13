@@ -62,7 +62,6 @@ const Change_Password = () => {
   };
 
   const verifyupdatePassword = async () => {
-    console.log(passwordReset);
     try {
       const response = await api.put("/api/center/verify-password-update", {
         newPassword: passwordReset.newPassword,
@@ -127,18 +126,18 @@ const Change_Password = () => {
         </Typography>
       </Button>
 
-      <Dialog open={open}>
+      <Dialog open={open} fullWidth maxWidth="sm">
         <DialogContent
           sx={{
-            width: "600px",
-            padding: "36px",
+            width: "100%",
+            padding: { xs: "16px", sm: "20px", md: "24px" },
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
+            gap: "12px",
           }}
         >
           <div className="flex justify-between items-center mb-5">
-            <Typography fontWeight={400} fontSize={26} color="#1A1A1A">
+            <Typography fontWeight={400} fontSize={20} color="#1A1A1A">
               Change Password
             </Typography>
 
@@ -151,7 +150,7 @@ const Change_Password = () => {
           </div>
 
           <div>
-            <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+            <Typography fontWeight={400} fontSize={15} color="#1A1A1A">
               Current Password
             </Typography>
             <TextField
@@ -193,7 +192,7 @@ const Change_Password = () => {
           {update && (
             <>
               <div>
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                <Typography fontWeight={400} fontSize={15} color="#1A1A1A">
                   New Password
                 </Typography>
                 <TextField
@@ -233,7 +232,7 @@ const Change_Password = () => {
               </div>
 
               <div>
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                <Typography fontWeight={400} fontSize={15} color="#1A1A1A">
                   Confirm New Password
                 </Typography>
                 <TextField
@@ -273,7 +272,7 @@ const Change_Password = () => {
               </div>
 
               <div>
-                <Typography fontWeight={400} fontSize={18} color="#1A1A1A">
+                <Typography fontWeight={400} fontSize={15} color="#1A1A1A">
                   OTP
                 </Typography>
                 <TextField
@@ -327,12 +326,13 @@ const Change_Password = () => {
             </>
           )}
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-3 mt-8">
+            {" "}
             <Button
+              fullWidth
               disabled={loading}
               onClick={update ? verifyupdatePassword : updatePassword}
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",
@@ -348,8 +348,8 @@ const Change_Password = () => {
                 {update ? "Update Password" : "Send OTP"}
               </Typography>
             </Button>
-
             <Button
+              fullWidth
               onClick={() => {
                 setOpen(false);
                 setUpdate(false);
@@ -362,7 +362,6 @@ const Change_Password = () => {
               }}
               variant="outlined"
               sx={{
-                width: "365px",
                 height: "48px",
                 padding: "12px",
                 borderRadius: "12px",

@@ -78,7 +78,7 @@ const Profile_details = () => {
                 Email
               </Typography>
               <Typography className="text-sm sm:text-base" color="#1A1A1A">
-                {user?.contactPhone}
+                {user?.contactEmail}
               </Typography>
             </div>
           </div>
