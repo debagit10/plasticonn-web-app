@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import co2saved from "../../../assets/co2saved.png";
-import processed from "../../../assets/Processed.png";
+import processed from "../../../assets/processed.png";
 import efficiency from "../../../assets/efficiency.png";
 import partners from "../../../assets/partners.png";
 
