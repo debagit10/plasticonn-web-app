@@ -47,7 +47,21 @@ function App() {
     fetchProfile();
   }, [setUser, clearUser]);
 
-  if (!initialized) return <div>Loading...</div>;
+  if (!initialized)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <img
+          src="/logo.png"
+          alt="Plasticonn logo"
+          className="
+          w-30 h-30 
+          animate-spin
+          [animation-duration:4s]
+          hover:animate-none opacity-60
+        "
+        />
+      </div>
+    );
 
   return (
     <Routes>
