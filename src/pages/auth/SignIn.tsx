@@ -53,8 +53,6 @@ const SignIn = () => {
   const { setUser } = useAuthStore.getState();
 
   const signin = async () => {
-    console.log(signindetails);
-
     setLoading(true);
     const formReady = isFormDataComplete();
 
