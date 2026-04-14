@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import co2saved from "../../../assets/co2saved.png";
 import submission from "../../../assets/submissions.png";
-import achievement from "../../../assets/Achievement.png";
+import achievement from "../../../assets/achievement.png";
 import { useEffect, useState } from "react";
 import api from "../../../utils/axiosInstance";
 
