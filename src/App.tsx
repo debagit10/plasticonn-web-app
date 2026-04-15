@@ -12,53 +12,71 @@ const SignUp = React.lazy(() => import("./pages/auth/SignUp"));
 const ForgotPassword = React.lazy(() => import("./pages/auth/ForgotPassword"));
 
 function App() {
-  const { setUser, clearUser, initUser } = useAuthStore();
-  const [initialized, setInitialized] = useState(false);
+  // const { setUser, clearUser, initUser } = useAuthStore();
+  // const [initialized, setInitialized] = useState(false);
+
+  // useEffect(() => {
+  //   const stored = localStorage.getItem("user");
+  //   if (!stored) {
+  //     clearUser();
+  //     setInitialized(true);
+  //     return;
+  //   }
+
+  //   const parsed = JSON.parse(stored);
+
+  //   initUser(parsed);
+
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const res = await api.get(`/api/${parsed.role}/profile/${parsed.id}`);
+  //       if (parsed.role === "collector") {
+  //         setUser(res.data.data.collector);
+  //       }
+
+  //       if (parsed.role === "center") {
+  //         setUser(res.data.data.center);
+  //       }
+  //     } catch (err) {
+  //       clearUser();
+  //     } finally {
+  //       setInitialized(true);
+  //     }
+  //   };
+
+  //   fetchProfile();
+  // }, [setUser, clearUser]);
+
+  // if (!initialized)
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <img
+  //         src="/logo.png"
+  //         alt="Plasticonn logo"
+  //         className="
+  //         w-30 h-30
+  //         animate-spin
+  //         [animation-duration:4s]
+  //         hover:animate-none opacity-60
+  //       "
+  //       />
+  //     </div>
+  //   );
+
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (!stored) {
-      clearUser();
-      setInitialized(true);
-      return;
-    }
+    const timer = setTimeout(() => setAppReady(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const parsed = JSON.parse(stored);
-
-    initUser(parsed);
-
-    const fetchProfile = async () => {
-      try {
-        const res = await api.get(`/api/${parsed.role}/profile/${parsed.id}`);
-        if (parsed.role === "collector") {
-          setUser(res.data.data.collector);
-        }
-
-        if (parsed.role === "center") {
-          setUser(res.data.data.center);
-        }
-      } catch (err) {
-        clearUser();
-      } finally {
-        setInitialized(true);
-      }
-    };
-
-    fetchProfile();
-  }, [setUser, clearUser]);
-
-  if (!initialized)
+  if (!appReady)
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-[#FAFAFA]">
         <img
           src="/logo.png"
           alt="Plasticonn logo"
-          className="
-          w-30 h-30 
-          animate-spin
-          [animation-duration:4s]
-          hover:animate-none opacity-60
-        "
+          className="w-30 h-30 animate-spin [animation-duration:4s] hover:animate-none opacity-60"
         />
       </div>
     );
