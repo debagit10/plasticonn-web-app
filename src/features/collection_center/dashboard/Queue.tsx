@@ -1,5 +1,4 @@
 import { Typography, Divider } from "@mui/material";
-import profile from "../../../assets/profile.png";
 import time from "../../../assets/time.png";
 import Verify_Drop from "./Verify_Drop";
 import { useEffect, useState } from "react";
@@ -12,7 +11,11 @@ interface Location {
 
 interface PopulatedRef {
   _id: string;
-  name: string;
+  firstName: string;
+  image?: {
+    url: string;
+    public_id?: string;
+  } | null;
 }
 
 interface Drops {
@@ -101,30 +104,18 @@ const Queue = () => {
           </div>
         )}
 
-        <div className="flex flex-col gap-5 sm:gap-7 lg:gap-10">
+        <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
           {drops
             .filter((drop) => drop.status === "pending")
             .map((drop, index) => (
               <div
                 key={index}
-                className={`
-              rounded-xl border-[0.4px] cursor-pointer transition-all duration-200 
-              hover:shadow-md flex flex-col gap-3
-              
-              p-4 sm:p-5 lg:p-6.5
-              
-              ${
-                selectedIndex === index
-                  ? "bg-[#00C2810D] border-[#00C281]"
-                  : "bg-white border-[#1A1A1A]"
-              }
-            `}
                 onClick={() => {
                   if (selectedIndex !== index) {
                     setSelected(true);
 
                     setDrop({
-                      collector: drop.collector_id.name,
+                      collector: drop.collector_id.firstName,
                       type: drop.types,
                       timestamp: drop.createdAt,
                       id: drop._id,
@@ -133,42 +124,69 @@ const Queue = () => {
                     setSelectedIndex(index);
                   }
                 }}
-              >
-                <div className="flex justify-between items-start sm:items-center gap-3">
-                  <div className="flex gap-2 sm:gap-3 items-center">
-                    <img src={profile} className="w-5 h-5 sm:w-6.5 sm:h-6.5" />
-                    <Typography
-                      fontWeight={400}
-                      fontSize={16}
-                      color="#1A1A1A"
-                      className="sm:text-lg lg:text-2xl"
-                    >
-                      {drop.collector_id.name}
-                    </Typography>
-                  </div>
+                className={`
+          flex flex-col sm:flex-row gap-4 sm:gap-5
+          rounded-xl border transition-all duration-200 cursor-pointer
+          p-4 sm:p-5 lg:p-6
+          
+          ${
+            selectedIndex === index
+              ? "bg-[#00C2810D] border-[#00C281]"
+              : "bg-white border-[#1A1A1A20]"
+          }
 
-                  <div className="px-3 py-1.5 sm:p-2.5 rounded-xl text-center flex items-center justify-center bg-[#00C2811A]">
-                    <Typography
-                      fontSize={14}
-                      fontWeight={300}
-                      color="#00C281"
-                      className="sm:text-base lg:text-xl"
-                    >
-                      {drop.types.join(", ")}
-                    </Typography>
-                  </div>
+          hover:shadow-md
+        `}
+              >
+                {/* IMAGE */}
+                <div className="w-full sm:w-24 md:w-28  shrink-0">
+                  {drop.collector_id.image ? (
+                    <img
+                      src={drop.collector_id.image?.url}
+                      className="
+    rounded-2xl object-cover
+    
+    w-16 h-16
+    sm:w-20 sm:h-20
+    md:w-24 md:h-24
+    lg:w-28 lg:h-28
+  "
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full rounded-xl"
+                      style={{
+                        background:
+                          "linear-gradient(to bottom, #005C3D, #00C281)",
+                      }}
+                    />
+                  )}
                 </div>
 
-                <div className="flex gap-2 sm:gap-3 items-center">
-                  <img src={time} className="w-5 h-5 sm:w-6.5 sm:h-6.5" />
-                  <Typography
-                    fontWeight={400}
-                    fontSize={14}
-                    color="#1A1A1A80"
-                    className="sm:text-base lg:text-2xl"
-                  >
-                    {drop.createdAt}
-                  </Typography>
+                {/* CONTENT */}
+                <div className="flex flex-col flex-1 gap-3">
+                  {/* TOP */}
+                  <div className="flex justify-between items-start gap-3">
+                    <Typography
+                      fontWeight={500}
+                      className="text-sm sm:text-base lg:text-lg"
+                      color="#1A1A1A"
+                    >
+                      {drop.collector_id.firstName}
+                    </Typography>
+
+                    <div className="bg-[#00C2811A] text-[#00C281] px-2.5 py-1 rounded-lg text-xs sm:text-sm whitespace-nowrap">
+                      {drop.types.join(", ")}
+                    </div>
+                  </div>
+
+                  {/* TIME */}
+                  <div className="flex items-center gap-2 text-[#1A1A1A80]">
+                    <img src={time} className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <Typography className="text-xs sm:text-sm lg:text-base">
+                      {drop.createdAt}
+                    </Typography>
+                  </div>
                 </div>
               </div>
             ))}
