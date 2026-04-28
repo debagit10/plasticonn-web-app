@@ -36,8 +36,8 @@ const AvatarMenu = () => {
         <Avatar
           src={user?.image?.url || undefined}
           sx={{
-            width: 50,
-            height: 50,
+            width: 40,
+            height: 40,
             background: "linear-gradient(to bottom, #005C3D, #00C281)",
           }}
         >
