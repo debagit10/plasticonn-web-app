@@ -47,7 +47,7 @@ const CollectorSettings = () => {
         <Edit_profile />
       </div>
 
-      <div className="mt-6 sm:mt-10 pb-10">
+      <div className="mt-6 sm:mt-10 pb-[5%]">
         <DeleteAccount />
       </div>
     </div>

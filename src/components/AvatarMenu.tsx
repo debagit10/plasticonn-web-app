@@ -1,10 +1,10 @@
 import { useState } from "react";
-import icon from "../assets/user.png";
-import { Divider, Typography } from "@mui/material";
+import { Avatar, Divider, Typography } from "@mui/material";
 import profile from "../assets/profile.png";
 import { MdLogout } from "react-icons/md";
 import { useAuthStore } from "../utils/useAuth";
 import { useNavigate } from "react-router-dom";
+import { getInitials } from "../utils/getInitials";
 
 const AvatarMenu = () => {
   const { user, clearUser } = useAuthStore();
@@ -31,9 +31,19 @@ const AvatarMenu = () => {
     <div>
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className="bg-linear-to-b from-[#005C3D] to-[#00C281] py-2 px-3 rounded-[30px] flex items-center cursor-pointer"
+        className="py-2 px-3 rounded-[30px] flex items-center cursor-pointer"
       >
-        <img src={icon} width={28} height={28} />
+        <Avatar
+          src={user?.image?.url || undefined}
+          sx={{
+            width: 50,
+            height: 50,
+            background: "linear-gradient(to bottom, #005C3D, #00C281)",
+          }}
+        >
+          {!user?.image?.url &&
+            getInitials(`${user?.firstName} ${user?.lastName}`)}
+        </Avatar>
       </div>
 
       {open && (
