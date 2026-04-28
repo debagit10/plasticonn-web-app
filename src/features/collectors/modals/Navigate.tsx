@@ -22,6 +22,10 @@ interface Centers {
   materialsAccepted: string[];
   gps: GPS;
   contactPhone: string;
+  image?: {
+    url: string;
+    public_id?: string;
+  } | null;
 }
 
 interface GPS {
@@ -61,7 +65,12 @@ const Navigate = () => {
           onClick={() => setOpen(true)}
           startIcon={<IoNavigateOutline />}
           sx={{
-            width: "200px",
+            width: {
+              xs: "100%",
+              sm: "70%",
+              md: "250px",
+              lg: "200px",
+            },
             backgroundColor: "#00C281",
             color: "white",
             textTransform: "capitalize",

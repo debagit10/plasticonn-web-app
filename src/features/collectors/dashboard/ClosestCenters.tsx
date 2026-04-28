@@ -15,6 +15,10 @@ interface Centers {
   gps: GPS;
   contactPhone: string;
   distance: string | null;
+  image?: {
+    url: string;
+    public_id?: string;
+  } | null;
 }
 
 interface GPS {
@@ -61,64 +65,76 @@ const ClosestCenters = () => {
               onClick={() =>
                 setSelectedIndex(selectedIndex === index ? null : index)
               }
-              className="rounded-xl p-4 sm:p-5 border border-[#1A1A1A30] flex flex-col gap-3 mb-3"
+              className="rounded-xl p-4 sm:p-5 border border-[#1A1A1A30] flex flex-col md:flex-row gap-3 mb-3"
             >
-              {/* Top */}
-              <div className="flex justify-between items-center">
-                <Typography
-                  fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
-                  fontWeight={400}
-                >
-                  {center.name}
-                </Typography>
+              <div>
+                {center.image ? (
+                  <img
+                    src={center.image?.url}
+                    className="rounded-2xl w-full  md:w-32 h-32"
+                  />
+                ) : (
+                  <div className="rounded-2xl w-full md:w-32 h-32 bg-linear-to-b from-[#005C3D] to-[#00C281]" />
+                )}
+              </div>
 
-                <div className="px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-[#00C2811A]">
+              <div className="flex flex-col">
+                <div className="flex justify-between gap-10 items-center">
                   <Typography
-                    fontSize={{ xs: 12, sm: 14, md: 16, lg: 20 }}
-                    fontWeight={300}
-                    color="#00C281"
+                    fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
+                    fontWeight={400}
                   >
-                    Open
+                    {center.name}
+                  </Typography>
+
+                  <div className="px-2 flex py-1 sm:px-3 sm:py-1.5 rounded-lg bg-[#00C2811A]">
+                    <Typography
+                      fontSize={{ xs: 12, sm: 14, md: 16, lg: 20 }}
+                      fontWeight={300}
+                      color="#00C281"
+                    >
+                      Open
+                    </Typography>
+                  </div>
+                </div>
+
+                {/* Distance */}
+                <div className="flex gap-2 items-center">
+                  <img src={location} className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Typography
+                    fontSize={{ xs: 12, sm: 14, md: 16 }}
+                    color="#1A1A1A80"
+                  >
+                    {center.gps?.coordinates?.length === 2 &&
+                    coords?.lat &&
+                    coords?.lng
+                      ? `${(
+                          getDistance(
+                            {
+                              latitude: Number(coords.lat),
+                              longitude: Number(coords.lng),
+                            },
+                            {
+                              latitude: center.gps.coordinates[1],
+                              longitude: center.gps.coordinates[0],
+                            },
+                          ) / 1000
+                        ).toFixed(1)} km`
+                      : "---"}
                   </Typography>
                 </div>
-              </div>
 
-              {/* Distance */}
-              <div className="flex gap-2 items-center">
-                <img src={location} className="w-4 h-4 sm:w-5 sm:h-5" />
-                <Typography
-                  fontSize={{ xs: 12, sm: 14, md: 16 }}
-                  color="#1A1A1A80"
-                >
-                  {center.gps?.coordinates?.length === 2 &&
-                  coords?.lat &&
-                  coords?.lng
-                    ? `${(
-                        getDistance(
-                          {
-                            latitude: Number(coords.lat),
-                            longitude: Number(coords.lng),
-                          },
-                          {
-                            latitude: center.gps.coordinates[1],
-                            longitude: center.gps.coordinates[0],
-                          },
-                        ) / 1000
-                      ).toFixed(1)} km`
-                    : "---"}
-                </Typography>
-              </div>
-
-              {/* Materials */}
-              <div className="flex flex-wrap gap-2">
-                {center.materialsAccepted.map((item, i) => (
-                  <div
-                    key={i}
-                    className="border border-[#1A1A1A40] rounded-lg px-2 py-1"
-                  >
-                    <Typography fontSize={12}>{item}</Typography>
-                  </div>
-                ))}
+                {/* Materials */}
+                <div className="flex flex-wrap gap-2">
+                  {center.materialsAccepted.map((item, i) => (
+                    <div
+                      key={i}
+                      className="border border-[#1A1A1A40] rounded-lg px-2 py-1"
+                    >
+                      <Typography fontSize={12}>{item}</Typography>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
