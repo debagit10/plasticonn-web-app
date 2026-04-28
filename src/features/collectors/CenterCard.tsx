@@ -1,6 +1,6 @@
 import React from "react";
 import { useDistance } from "../../utils/CalculateDistance";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Chip } from "@mui/material";
 import DropOff from "./modals/Dropoff";
 import location from "../../assets/location.png";
 
@@ -8,6 +8,8 @@ interface Centers {
   _id: string;
   centerId: string;
   name: string;
+  formal: boolean;
+  type: string;
   address: string;
   materialsAccepted: string[];
   gps: GPS;
@@ -34,6 +36,13 @@ const CenterCard = ({
     center.gps.coordinates[0],
   );
 
+  const chipConfig =
+    center.type === "Recycling center"
+      ? { label: "Recycling center", color: "#00C281" }
+      : center.formal
+        ? { label: "Formal Collection", color: "#2563eb" }
+        : { label: "Informal Collection", color: "#f59e0b" };
+
   return (
     <React.Fragment key={center._id}>
       <div
@@ -55,13 +64,24 @@ const CenterCard = ({
   `}
       >
         {/* Title */}
-        <div className="flex justify-between items-center">
+        <div className="">
           <Typography
             fontSize={{ xs: 16, sm: 18, md: 20, lg: 22 }}
             fontWeight={400}
           >
             {center.name}
           </Typography>
+
+          <Chip
+            label={chipConfig.label}
+            variant="outlined"
+            sx={{
+              //width: "50%",
+              borderColor: chipConfig.color,
+              color: chipConfig.color,
+              fontWeight: 500,
+            }}
+          />
         </div>
 
         {/* Distance */}

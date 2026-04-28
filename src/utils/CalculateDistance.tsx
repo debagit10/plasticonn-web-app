@@ -4,8 +4,6 @@ import { useAuth } from "./useAuth";
 export const useDistance = (targetLat: number, targetLng: number) => {
   const { coords } = useAuth();
 
-  console.log(coords);
-
   if (!coords?.lat || !coords?.lng || targetLat == null || targetLng == null) {
     return null;
   }

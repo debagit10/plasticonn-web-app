@@ -17,6 +17,8 @@ interface Centers {
   centerId: string;
   name: string;
   address: string;
+  formal: boolean;
+  type: string;
   materialsAccepted: string[];
   gps: GPS;
   contactPhone: string;

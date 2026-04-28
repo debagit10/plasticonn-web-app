@@ -17,6 +17,8 @@ interface Centers {
   contactPhone: string;
   contactEmail: string;
   distance: string | null;
+  type: string;
+  formal: boolean;
 }
 
 interface GPS {
@@ -35,25 +37,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const centerIcon = new L.DivIcon({
-  className: "",
-  html: `<div style="
-    width: 36px; height: 36px;
-    background: #22c55e;
-    border: 3px solid white;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    display: flex; align-items: center; justify-content: center;
-  ">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-    </svg>
-  </div>`,
-  iconSize: [36, 36],
-  iconAnchor: [18, 36],
-  popupAnchor: [0, -38],
-});
-
 const CentersMap = () => {
   const [centers, setCenters] = useState<Centers[]>([]);
   const { coords } = useAuthStore();
@@ -65,6 +48,7 @@ const CentersMap = () => {
         `/api/center/closest?lat=${coords.lat}&lng=${coords.lng}`,
       );
       setCenters(response.data.data.centers);
+      console.log(response.data.data.centers);
     } catch (error: any) {
       console.log(error?.response?.data?.message);
     }
@@ -111,13 +95,40 @@ const CentersMap = () => {
 
             {centers.map((center) => {
               const [lng, lat] = center.gps.coordinates;
+
+              const centerIcon = new L.DivIcon({
+                className: "",
+                html: `<div style="
+    width: 36px; height: 36px;
+    background: ${center.type === "Recycling center" ? "#00C281" : center.formal ? "#2563eb" : "#f59e0b"};
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  </div>`,
+                iconSize: [36, 36],
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -38],
+              });
+
               return (
                 <Marker
                   key={center._id}
                   position={[lat, lng]}
                   icon={centerIcon}
                 >
-                  <Popup>{center.name}</Popup>
+                  <Popup>
+                    <Typography
+                      fontSize={{ xs: 10, sm: 12, md: 14, lg: 16 }}
+                      fontWeight={400}
+                    >
+                      {center.name} - {center.type}
+                    </Typography>
+                  </Popup>
                 </Marker>
               );
             })}
