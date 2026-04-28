@@ -244,7 +244,7 @@ const Edit_profile = () => {
                 fontSize={16}
                 sx={{ textTransform: "capitalize" }}
               >
-                Update
+                {loading ? "Updating..." : "Update"}
               </Typography>
             </Button>
           </div>

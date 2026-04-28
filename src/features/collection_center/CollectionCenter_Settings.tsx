@@ -38,6 +38,7 @@ const CollectionCenter_Settings = () => {
       </div>
 
       {/* SECTIONS */}
+
       <div className="mt-6 sm:mt-8 lg:mt-10">
         <Profile_details />
       </div>
@@ -50,7 +51,7 @@ const CollectionCenter_Settings = () => {
         <Edit_profile />
       </div>
 
-      <div className="mt-6 sm:mt-8 lg:mt-10 pb-[20%]">
+      <div className="mt-6 sm:mt-8 lg:mt-10 pb-[5%]">
         <DeleteAccount />
       </div>
     </div>

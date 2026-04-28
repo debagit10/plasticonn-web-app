@@ -28,7 +28,7 @@ interface SignUpDetails {
   contactPhone?: string | null;
   contactPerson?: string | null;
   operatingHours?: string | null;
-  acceptedMaterials?: string[] | null;
+  materialsAccepted?: string[] | null;
   password: string;
   address: string;
   phone: string;
@@ -44,6 +44,8 @@ const SignUp = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const [image, setImage] = useState<File | null>(null);
+
   const [signUpDetails, setSignUpDetails] = useState<SignUpDetails>({
     email: null,
     firstName: "",
@@ -52,7 +54,7 @@ const SignUp = () => {
     contactPhone: null,
     contactPerson: null,
     operatingHours: null,
-    acceptedMaterials: [],
+    materialsAccepted: [],
     password: "",
     address: "",
     phone: "",
@@ -117,7 +119,7 @@ const SignUp = () => {
       "contactPerson",
       "password",
       "address",
-      "acceptedMaterials",
+      "materialsAccepted",
       "operatingHours",
     ],
   };
@@ -144,12 +146,11 @@ const SignUp = () => {
     let lng = 0;
 
     setLoading(true);
-    const formReady = isFormDataComplete();
 
+    const formReady = isFormDataComplete();
     if (!formReady) {
       showToast("Please input all fields", "warning");
       setLoading(false);
-
       return;
     }
 
@@ -167,16 +168,36 @@ const SignUp = () => {
     }
 
     try {
+      const formData = new FormData();
+
+      // append all fields
+      Object.entries(signUpDetails).forEach(([key, value]) => {
+        if (value === null || value === undefined) return;
+
+        if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value)); // IMPORTANT
+        } else {
+          formData.append(key, value as string);
+        }
+      });
+
+      formData.append("lat", String(lat));
+      formData.append("lng", String(lng));
+
+      // append image if exists
+      if (image) {
+        formData.append("image", image);
+      }
+
       const response = await api.post(
         `/api/${signUpDetails.role === "collector" ? "collector" : "center"}/register`,
+        formData,
         {
-          ...signUpDetails,
-          lng,
-          lat,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
       );
-
-      console.log(response.data.data);
 
       setLoading(false);
 
@@ -575,11 +596,11 @@ const SignUp = () => {
                       key={plastic}
                       control={
                         <Checkbox
-                          checked={signUpDetails.acceptedMaterials?.includes(
+                          checked={signUpDetails.materialsAccepted?.includes(
                             plastic,
                           )}
                           onChange={(e) =>
-                            handleCheckboxChange(e, "acceptedMaterials")
+                            handleCheckboxChange(e, "materialsAccepted")
                           }
                           value={plastic}
                         />
@@ -611,6 +632,28 @@ const SignUp = () => {
               </div>
             </>
           )}
+
+          {/* Profile Picture */}
+          <div>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, sm: 16, md: 18 }}
+              color="#1A1A1A"
+            >
+              Profile Picture (optional)
+            </Typography>
+
+            <input
+              className="h-10 w-full rounded-xl bg-[#00C2810D] px-2.5 py-3 cursor-pointer"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files && e.target.files[0]) {
+                  setImage(e.target.files[0]);
+                }
+              }}
+            />
+          </div>
 
           {/* Password */}
           <div>

@@ -19,6 +19,10 @@ interface User {
   materialsAccepted?: string[];
   lat: number;
   lng: number;
+  image?: {
+    url: string;
+    public_id?: string;
+  } | null;
 }
 
 interface AuthState {
