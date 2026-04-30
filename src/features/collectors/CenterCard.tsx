@@ -9,7 +9,7 @@ interface Centers {
   centerId: string;
   name: string;
   formal: boolean;
-  type: string;
+  centerType: string;
   address: string;
   materialsAccepted: string[];
   gps: GPS;
@@ -41,11 +41,16 @@ const CenterCard = ({
   );
 
   const chipConfig =
-    center.type === "Recycling center"
+    center?.centerType === "recycling"
       ? { label: "Recycling center", color: "#00C281" }
-      : center.formal
+      : center.centerType === "collection" && center?.formal
         ? { label: "Formal Collection", color: "#2563eb" }
-        : { label: "Informal Collection", color: "#f59e0b" };
+        : center.centerType === "collection" && !center?.formal
+          ? {
+              label: "Informal Collection",
+              color: "#f59e0b",
+            }
+          : { label: "", bg: "" };
 
   return (
     <React.Fragment key={center._id}>
