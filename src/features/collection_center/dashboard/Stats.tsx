@@ -103,7 +103,7 @@ const Stats = () => {
                   },
                 }}
               >
-                {stats[stat.key as keyof StatsData]}
+                {stats[stat.key as keyof StatsData].toFixed(2)}
               </Typography>
             </div>
           </div>

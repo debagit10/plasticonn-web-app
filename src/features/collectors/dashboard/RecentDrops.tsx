@@ -33,6 +33,10 @@ interface Drops {
   status: string;
   createdAt: string;
   updatedAt: string;
+  image?: {
+    url: string;
+    public_id?: string;
+  } | null;
   __v: number;
 }
 
@@ -102,8 +106,9 @@ const RecentDrops = () => {
             <div className="w-full sm:w-28 h-28 shrink-0">
               {drop.center_id.image ? (
                 <img
-                  src={drop.center_id.image.url}
+                  src={drop.image?.url}
                   className="w-full h-full object-cover rounded-xl"
+                  alt="Plastic image"
                 />
               ) : (
                 <div

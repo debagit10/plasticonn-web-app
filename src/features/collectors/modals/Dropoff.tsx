@@ -60,11 +60,13 @@ const fields = [
       { label: "Clean", value: "clean" },
     ],
   },
+  { label: "Picture", name: "image", type: "file" },
 ];
 
 const DropOff = ({ center, width }: { center: Centers; width: string }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
 
   const { coords } = useAuth();
 
@@ -99,11 +101,31 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
       return;
     }
 
+    const formData = new FormData();
+
+    Object.entries(dropDetails).forEach(([key, value]) => {
+      if (value === null || value === undefined) return;
+
+      if (Array.isArray(value)) {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value as string);
+      }
+    });
+
+    formData.append("center_id", String(center._id));
+    formData.append("lng", String(coords?.lng));
+    formData.append("lat", String(coords?.lat));
+
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
-      const response = await api.post(`/api/drop/add`, {
-        ...dropDetails,
-        center_id: center._id,
-        location: { lat: coords?.lat, lng: coords?.lng },
+      const response = await api.post(`/api/drop/add`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (response.data.status === 201) {
@@ -313,6 +335,17 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
                 )}
               </div>
             ))}
+
+            <input
+              className="h-10 w-full rounded-xl bg-[#00C2810D] px-2.5 py-3 cursor-pointer"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files && e.target.files[0]) {
+                  setImage(e.target.files[0]);
+                }
+              }}
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-8">
@@ -321,6 +354,7 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
               variant="outlined"
               onClick={() => setOpen(false)}
               sx={{
+                textTransform: "capitalize",
                 borderRadius: "10px",
                 borderColor: "#1A1A1A80",
                 color: "#1A1A1A",
@@ -335,6 +369,7 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
               disabled={loading}
               onClick={submit}
               sx={{
+                textTransform: "capitalize",
                 borderRadius: "10px",
                 backgroundColor: loading ? "#A0A0A0" : "#00C281",
                 color: "white",

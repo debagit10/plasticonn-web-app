@@ -1,8 +1,10 @@
-import { Typography, Divider } from "@mui/material";
+import { Typography, Divider, Avatar } from "@mui/material";
 import time from "../../../assets/time.png";
 import Verify_Drop from "./Verify_Drop";
 import { useEffect, useState } from "react";
 import api from "../../../utils/axiosInstance";
+import { getInitials } from "../../../utils/getInitials";
+import { formatDayAndTime } from "../../../utils/DayAndTime";
 
 interface Location {
   type: "Point";
@@ -30,6 +32,10 @@ interface Drops {
   status: string;
   createdAt: string;
   updatedAt: string;
+  image: {
+    url: string;
+    public_id?: string;
+  };
   __v: number;
 }
 
@@ -43,6 +49,7 @@ const Queue = () => {
     type: [""],
     timestamp: "",
     id: "",
+    image: "",
   });
 
   const getDrops = async () => {
@@ -51,7 +58,7 @@ const Queue = () => {
 
       setDrops(response.data.data.drops);
 
-      // setLoading(false);
+      console.log(drops);
     } catch (error: any) {
       const errMsg = error?.response?.data?.message;
       console.log(errMsg);
@@ -61,6 +68,8 @@ const Queue = () => {
   useEffect(() => {
     getDrops();
   }, []);
+
+  console.log(drops);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
@@ -119,6 +128,7 @@ const Queue = () => {
                       type: drop.types,
                       timestamp: drop.createdAt,
                       id: drop._id,
+                      image: drop.image?.url,
                     });
 
                     setSelectedIndex(index);
@@ -140,9 +150,9 @@ const Queue = () => {
               >
                 {/* IMAGE */}
                 <div className="w-full sm:w-24 md:w-28  shrink-0">
-                  {drop.collector_id.image ? (
+                  {drop.image ? (
                     <img
-                      src={drop.collector_id.image?.url}
+                      src={drop.image.url}
                       className="
     rounded-2xl object-cover
     
@@ -154,7 +164,10 @@ const Queue = () => {
                     />
                   ) : (
                     <div
-                      className="w-full h-full rounded-xl"
+                      className="w-16 h-16
+    sm:w-20 sm:h-20
+    md:w-24 md:h-24
+    lg:w-28 lg:h-28 rounded-xl"
                       style={{
                         background:
                           "linear-gradient(to bottom, #005C3D, #00C281)",
@@ -167,16 +180,37 @@ const Queue = () => {
                 <div className="flex flex-col flex-1 gap-3">
                   {/* TOP */}
                   <div className="flex justify-between items-start gap-3">
-                    <Typography
-                      fontWeight={500}
-                      className="text-sm sm:text-base lg:text-lg"
-                      color="#1A1A1A"
-                    >
-                      {drop.collector_id.firstName}
-                    </Typography>
+                    {/* <img
+                      src={drop.collector_id.image?.url}
+                      className="rounded-2xl object-cover"
+                      alt={`Picture of ${drop.collector_id.firstName}`}
+                    /> */}
+
+                    <div className="flex items-center gap-3">
+                      <Avatar
+                        src={drop?.collector_id?.image?.url || undefined}
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          background:
+                            "linear-gradient(to bottom, #005C3D, #00C281)",
+                        }}
+                      >
+                        {!drop?.collector_id?.image?.url &&
+                          getInitials(`${drop?.collector_id.firstName}`)}
+                      </Avatar>
+
+                      <Typography
+                        fontWeight={500}
+                        className="text-sm sm:text-base lg:text-lg"
+                        color="#1A1A1A"
+                      >
+                        {drop.collector_id.firstName}
+                      </Typography>
+                    </div>
 
                     <div className="bg-[#00C2811A] text-[#00C281] px-2.5 py-1 rounded-lg text-xs sm:text-sm whitespace-nowrap">
-                      {drop.types.join(", ")}
+                      {drop.types.join(", ")}{" "}
                     </div>
                   </div>
 
@@ -184,7 +218,7 @@ const Queue = () => {
                   <div className="flex items-center gap-2 text-[#1A1A1A80]">
                     <img src={time} className="w-4 h-4 sm:w-5 sm:h-5" />
                     <Typography className="text-xs sm:text-sm lg:text-base">
-                      {drop.createdAt}
+                      {formatDayAndTime(drop.createdAt)}
                     </Typography>
                   </div>
                 </div>

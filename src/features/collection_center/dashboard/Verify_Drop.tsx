@@ -5,12 +5,14 @@ import { BsPatchCheck } from "react-icons/bs";
 import { useToast } from "../../../utils/useToast";
 import api from "../../../utils/axiosInstance";
 import Toast from "../../../utils/Toast";
+import { formatDayAndTime } from "../../../utils/DayAndTime";
 
 interface Drop {
   collector: string;
   type: string[];
   timestamp: string;
   id: string;
+  image: string | null;
 }
 
 const Verify_Drop = ({
@@ -27,8 +29,6 @@ const Verify_Drop = ({
   const { toast, closeToast, showToast } = useToast();
 
   const verify = async (status: "accepted" | "rejected") => {
-    console.log(status);
-
     try {
       await api.put(`/api/drop/update/${drop.id}`, { status });
 
@@ -94,11 +94,25 @@ const Verify_Drop = ({
       {/* CONTENT */}
       {selected ? (
         <div className="flex flex-col gap-5 sm:gap-6.5">
+          {drop.image ? (
+            <img
+              src={drop.image}
+              className="w-36 h-36 object-cover rounded-xl"
+              alt="Plastic image"
+            />
+          ) : (
+            <div
+              className="w-36 h-36 rounded-xl"
+              style={{
+                background: "linear-gradient(to bottom, #005C3D, #00C281)",
+              }}
+            />
+          )}
           {/* FIELD */}
           {[
             { label: "Collector", value: drop.collector },
             { label: "Type", value: drop.type },
-            { label: "Time", value: drop.timestamp },
+            { label: "Time", value: formatDayAndTime(drop.timestamp) },
           ].map((field, i) => (
             <div key={i}>
               <Typography
