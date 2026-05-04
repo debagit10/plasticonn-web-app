@@ -90,11 +90,14 @@ const SignUp = () => {
     field: keyof SignUpDetails,
   ) => {
     const { value, checked } = e.target;
+
     setSignUpDetails((prev) => {
       if (!Array.isArray(prev[field])) return prev;
+
       const updatedArray = checked
         ? [...(prev[field] as string[]), value]
         : (prev[field] as string[]).filter((item) => item !== value);
+
       return { ...prev, [field]: updatedArray };
     });
   };
