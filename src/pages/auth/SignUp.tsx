@@ -1,10 +1,12 @@
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
-  FormGroup,
+  Grid,
   InputAdornment,
   MenuItem,
+  Paper,
   TextField,
   Typography,
 } from "@mui/material";
@@ -34,6 +36,7 @@ interface SignUpDetails {
   phone: string;
   role: string;
   centerType?: string | null;
+  price?: string | null;
 }
 
 const TOTAL_STEPS = 3;
@@ -113,7 +116,49 @@ const SignUp = () => {
     "& input": { padding: "10px 12px", fontSize: 14 },
   };
 
-  const plasticsOptions = ["PP", "PVC", "PTDE"];
+  const plasticsOptions = [
+    {
+      code: "PET",
+      label:
+        "PET (Polyethylene Terephthalate) — Plastic bottles, food containers",
+    },
+    {
+      code: "HDPE",
+      label:
+        "HDPE (High-Density Polyethylene) — Detergent bottles, shampoo containers, jerrycans",
+    },
+    {
+      code: "PVC",
+      label:
+        "PVC (Polyvinyl Chloride) — Pipes, cable insulation, flooring materials",
+    },
+    {
+      code: "LDPE",
+      label:
+        "LDPE (Low-Density Polyethylene) — Plastic bags, sachet water nylons",
+    },
+    {
+      code: "PP",
+      label: "PP (Polypropylene) — Bottle caps, yogurt cups, food containers",
+    },
+    {
+      code: "PS",
+      label: "PS (Polystyrene) — Disposable plates, foam cups, takeaway packs",
+    },
+    {
+      code: "ABS",
+      label:
+        "ABS (Acrylonitrile Butadiene Styrene) — LEGO toys, electronic casings",
+    },
+    {
+      code: "Nylon",
+      label: "Nylon (Polyamide) — Fishing nets, ropes, textiles",
+    },
+    {
+      code: "PC",
+      label: "Polycarbonate (PC) — Water dispenser bottles, eyeglass lenses",
+    },
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -639,25 +684,74 @@ const SignUp = () => {
                     >
                       Accepted Plastics
                     </Typography>
-                    <FormGroup row>
+                    <Grid container spacing={2}>
                       {plasticsOptions.map((plastic) => (
-                        <FormControlLabel
-                          key={plastic}
-                          control={
-                            <Checkbox
-                              checked={signUpDetails.materialsAccepted?.includes(
-                                plastic,
-                              )}
-                              onChange={(e) =>
-                                handleCheckboxChange(e, "materialsAccepted")
+                        <Grid size={{ xs: 12, md: 6 }} key={plastic.code}>
+                          <Paper
+                            elevation={0}
+                            sx={{
+                              border: "1px solid #E5E7EB",
+                              borderRadius: "14px",
+                              padding: "14px",
+                              transition: "0.2s",
+                              "&:hover": {
+                                borderColor: "#16a34a",
+                                backgroundColor: "#f0fdf4",
+                              },
+                            }}
+                          >
+                            <FormControlLabel
+                              sx={{
+                                alignItems: "flex-start",
+                                margin: 0,
+                                width: "100%",
+                              }}
+                              control={
+                                <Checkbox
+                                  checked={signUpDetails.materialsAccepted?.includes(
+                                    plastic.code,
+                                  )}
+                                  onChange={(e) =>
+                                    handleCheckboxChange(e, "materialsAccepted")
+                                  }
+                                  value={plastic.code}
+                                  sx={{
+                                    marginTop: "2px",
+                                  }}
+                                />
                               }
-                              value={plastic}
+                              label={
+                                <Box>
+                                  <Typography
+                                    variant="subtitle1"
+                                    sx={{
+                                      fontWeight: 600,
+                                      color: "#111827",
+                                    }}
+                                  >
+                                    {plastic.code}
+                                  </Typography>
+
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      color: "#6B7280",
+                                      marginTop: "2px",
+                                      lineHeight: 1.5,
+                                    }}
+                                  >
+                                    {plastic.label.replace(
+                                      `${plastic.code} `,
+                                      "",
+                                    )}
+                                  </Typography>
+                                </Box>
+                              }
                             />
-                          }
-                          label={plastic}
-                        />
+                          </Paper>
+                        </Grid>
                       ))}
-                    </FormGroup>
+                    </Grid>
                   </div>
 
                   <div>
@@ -671,6 +765,26 @@ const SignUp = () => {
                     <TextField
                       name="operatingHours"
                       value={signUpDetails.operatingHours}
+                      onChange={handleChange}
+                      placeholder="e.g., 9 AM - 6 PM"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      sx={textFieldStyle}
+                    />
+                  </div>
+
+                  <div>
+                    <Typography
+                      fontWeight={400}
+                      fontSize={{ xs: 15, sm: 16, md: 18 }}
+                      color="#1A1A1A"
+                    >
+                      Price Range (per kg)
+                    </Typography>
+                    <TextField
+                      name="operatingHours"
+                      value={signUpDetails.price}
                       onChange={handleChange}
                       placeholder="e.g., 9 AM - 6 PM"
                       variant="outlined"
