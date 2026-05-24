@@ -4,7 +4,7 @@ import { useAuthStore } from "./useAuth";
 
 const api = axios.create({
   baseURL:
-    import.meta.env.VITE_NODE_ENV === "production"
+    import.meta.env.VITE_NODE_ENV === "development"
       ? import.meta.env.VITE_BASE_URL_PROD
       : import.meta.env.VITE_BASE_URL_DEV,
   withCredentials: true,

@@ -10,20 +10,36 @@ const Stats = () => {
     co2Saved: "0kg",
     verifiedSubmissions: 0,
     totalSubmissions: 0,
-    achievement: "Coming Soon",
+    rank: 0,
   });
 
   const getStats = async () => {
     try {
       const response = await api.get("/api/collector/dashboard");
       setStats(response.data.data);
+      console.log(response.data.data);
     } catch (error: any) {
       console.log(error?.response?.data?.message);
     }
   };
 
+  const getRank = async () => {
+    try {
+      const response = await api.get(`/api/leaderboard/my-rank`);
+      console.log(response.data);
+
+      //setLeaderboard(response.data.data.drops);
+
+      // console.log(data);
+    } catch (error: any) {
+      const errMsg = error?.response?.data?.message;
+      console.log(errMsg);
+    }
+  };
+
   useEffect(() => {
     getStats();
+    getRank();
   }, []);
 
   const statsDisplay = [
@@ -45,10 +61,9 @@ const Stats = () => {
     },
     {
       icon: achievement,
-      // stat: stats.achievement,
-      stat: "---",
-      title: "Achievement",
-      value: "Coming soon!!",
+      stat: "collectors",
+      title: "Rank",
+      value: stats.rank,
       bg: "#8A38F51A",
       color: "#8A38F5",
     },
