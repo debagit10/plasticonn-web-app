@@ -132,12 +132,12 @@ const Profile_details = () => {
               </Typography>
 
               <Typography className="text-sm sm:text-base" color="#1A1A1A">
-                Mon–Fri: 8:00 AM – 6:00 PM
+                {user?.operatingHours}
               </Typography>
 
-              <Typography className="text-sm sm:text-base" color="#1A1A1A">
+              {/* <Typography className="text-sm sm:text-base" color="#1A1A1A">
                 Saturday: 9:00 AM – 4:00 PM
-              </Typography>
+              </Typography> */}
             </div>
           </div>
         </div>

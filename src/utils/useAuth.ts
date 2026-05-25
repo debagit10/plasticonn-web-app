@@ -16,6 +16,7 @@ interface User {
   contactPerson?: string;
   contactPhone?: string;
   contactEmail?: string;
+  operatingHours?: string;
   materialsAccepted?: string[];
   lat: number;
   lng: number;
@@ -62,7 +63,6 @@ export const useAuth = () => {
     coords,
     authLoading,
     isCollector: user?.role === "collector",
-    isCollection: user?.centerType === "collection",
-    isRecycling: user?.centerType === "recycling",
+    isCenter: user?.role === "center",
   };
 };

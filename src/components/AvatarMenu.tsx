@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Avatar, Divider, Typography } from "@mui/material";
 import profile from "../assets/profile.png";
 import { MdLogout } from "react-icons/md";
-import { useAuthStore } from "../utils/useAuth";
+import { useAuth, useAuthStore } from "../utils/useAuth";
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "../utils/getInitials";
 
 const AvatarMenu = () => {
   const { user, clearUser } = useAuthStore();
+  const userRole = useAuth();
 
   const navigate = useNavigate();
 
@@ -41,8 +42,9 @@ const AvatarMenu = () => {
             background: "linear-gradient(to bottom, #005C3D, #00C281)",
           }}
         >
-          {!user?.image?.url &&
-            getInitials(`${user?.firstName} ${user?.lastName}`)}
+          {!user?.image?.url && userRole.isCollector
+            ? getInitials(`${user?.firstName} ${user?.lastName}`)
+            : getInitials(`${user?.name}`)}
         </Avatar>
       </div>
 

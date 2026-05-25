@@ -28,6 +28,7 @@ const Edit_profile = () => {
       contactEmail: user?.contactEmail ?? "",
       contactPhone: user?.contactPhone ?? "",
       address: user?.address ?? "",
+      operatingHours: user?.operatingHours ?? "",
     }),
     [user],
   );
@@ -62,6 +63,7 @@ const Edit_profile = () => {
     { label: "Contact Email", key: "contactEmail" },
     { label: "Contact Phone", key: "contactPhone" },
     { label: "Address", key: "address" },
+    { label: "Operating Hours", key: "operatingHours" },
   ];
 
   const textFieldSx = {
