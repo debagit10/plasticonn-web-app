@@ -235,13 +235,15 @@ const SignUp = () => {
 
     if (signUpDetails.role === "center") {
       const coords = await getCoordinates(signUpDetails.address);
-      if ("error" in coords) {
-        showToast("Address not found", "error");
-        setLoading(false);
-        return;
+      if (coords) {
+        if ("error" in coords) {
+          showToast("Address not found", "error");
+          setLoading(false);
+          return;
+        }
+        lat = coords.lat;
+        lng = coords.lng;
       }
-      lat = coords.lat;
-      lng = coords.lng;
     }
 
     try {
@@ -786,7 +788,6 @@ const SignUp = () => {
                       name="operatingHours"
                       value={signUpDetails.price}
                       onChange={handleChange}
-                      placeholder="e.g., 9 AM - 6 PM"
                       variant="outlined"
                       size="small"
                       fullWidth

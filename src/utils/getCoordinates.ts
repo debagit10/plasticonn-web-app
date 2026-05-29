@@ -1,19 +1,33 @@
 const getCoordinates = async (address: string) => {
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      address,
-    )}`,
-  );
+  const simplifyAddress = (address: string) => {
+    return address
+      .replace(/^\d+\s*/, "") // remove house number
+      .split(",")
+      .slice(-3) // keep last parts (area, city, country)
+      .join(",")
+      .trim();
+  };
 
-  const data = await response.json();
+  try {
+    const query = simplifyAddress(address);
 
-  if (data.length > 0) {
-    return {
-      lat: parseFloat(data[0].lat),
-      lng: parseFloat(data[0].lon),
-    };
-  } else {
-    return { error: "Address not found" };
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`,
+    );
+
+    const data = await response.json();
+
+    if (data?.length) {
+      return {
+        lat: Number(data[0].lat),
+        lng: Number(data[0].lon),
+      };
+    }
+
+    return null;
+  } catch (err) {
+    console.error("Geocoding failed:", err);
+    return null;
   }
 };
 
