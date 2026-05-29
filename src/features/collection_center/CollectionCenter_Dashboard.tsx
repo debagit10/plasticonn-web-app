@@ -16,7 +16,7 @@ const CollectionCenter_Dashboard = () => {
           color="#1A1A1A"
           className="text-2xl sm:text-3xl lg:text-[42px]"
         >
-          Collection Center Dashboard
+          Center Dashboard
         </Typography>
 
         <Typography
