@@ -69,8 +69,6 @@ const SignIn = () => {
         signindetails,
       );
 
-      console.log(response.data.data);
-
       setLoading(false);
 
       showToast("Sign in successful", "success", "/dashboard");
@@ -94,6 +92,8 @@ const SignIn = () => {
         }),
       );
     } catch (error: any) {
+      console.log(error);
+      setLoading(false);
       const errMsg = error?.response?.data?.message;
 
       showToast(errMsg, "error");

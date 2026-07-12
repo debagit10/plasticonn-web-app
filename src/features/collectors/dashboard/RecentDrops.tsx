@@ -47,7 +47,7 @@ const RecentDrops = () => {
     try {
       const response = await api.get(`/api/drop/get`);
       setDrops(response.data.data.drops);
-      console.log(response.data.data.drops);
+      // console.log(response.data.data.drops);
     } catch (error: any) {
       console.log(error?.response?.data?.message);
     }
@@ -104,7 +104,7 @@ const RecentDrops = () => {
           >
             {/* IMAGE */}
             <div className="w-full sm:w-28 h-28 shrink-0">
-              {drop.center_id.image ? (
+              {drop.center_id?.image ? (
                 <img
                   src={drop.image?.url}
                   className="w-full h-full object-cover rounded-xl"
