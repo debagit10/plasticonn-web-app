@@ -29,8 +29,13 @@ api.interceptors.request.use(
 
 // Response Interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    //NProgress.done();
+    return response;
+  },
   (error) => {
+    // NProgress.done();
+
     if (error.response?.status === 401) {
       useAuthStore.getState().clearUser();
       navigate("/join");
@@ -39,4 +44,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
 export default api;
