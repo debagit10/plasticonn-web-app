@@ -20,10 +20,13 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import api from "../utils/axiosInstance";
 import { useAuthStore } from "../utils/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function ProtectedRoute() {
   const { setUser, clearUser, initUser } = useAuthStore();
   const [initialized, setInitialized] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -42,7 +45,10 @@ export default function ProtectedRoute() {
         if (parsed.role === "collector") setUser(res.data.data.collector);
         if (parsed.role === "center") setUser(res.data.data.center);
 
-        console.log(res.data.data[parsed.role].status);
+        console.log();
+        if (res.data.data[parsed.role].status !== "active") {
+          navigate("/join");
+        }
       } catch (err) {
         clearUser();
       } finally {
