@@ -295,29 +295,6 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
                 )}
 
                 {field.type === "checkbox" &&
-                  field.options?.map((option) => (
-                    <FormControlLabel
-                      key={option.value}
-                      control={
-                        <Checkbox
-                          checked={dropDetails.types.includes(option.value)}
-                          onChange={(e) => {
-                            const checked = e.target.checked;
-
-                            setDropDetails((prev) => ({
-                              ...prev,
-                              types: checked
-                                ? [...prev.types, option.value]
-                                : prev.types.filter((t) => t !== option.value),
-                            }));
-                          }}
-                        />
-                      }
-                      label={option.label}
-                    />
-                  ))}
-
-                {field.type === "checkbox" &&
                   center.materialsAccepted?.map((option) => (
                     <FormControlLabel
                       key={option}
