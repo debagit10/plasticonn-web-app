@@ -41,6 +41,8 @@ export default function ProtectedRoute() {
         const res = await api.get(`/api/${parsed.role}/profile/${parsed.id}`);
         if (parsed.role === "collector") setUser(res.data.data.collector);
         if (parsed.role === "center") setUser(res.data.data.center);
+
+        console.log(res.data);
       } catch (err) {
         clearUser();
       } finally {
