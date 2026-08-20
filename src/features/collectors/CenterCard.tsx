@@ -12,6 +12,7 @@ interface Centers {
   centerType: string;
   address: string;
   materialsAccepted: string[];
+  price: string;
   gps: GPS;
   contactPhone: string;
   image?: {
@@ -127,6 +128,10 @@ const CenterCard = ({
                 <Typography fontSize={12}>{material}</Typography>
               </div>
             ))}
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <Typography fontSize={12}>{center.price}</Typography>
           </div>
         </div>
       </div>

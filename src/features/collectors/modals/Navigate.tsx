@@ -20,6 +20,7 @@ interface Centers {
   formal: boolean;
   centerType: string;
   materialsAccepted: string[];
+  price: string;
   gps: GPS;
   contactPhone: string;
   image?: {
