@@ -45,8 +45,9 @@ export default function ProtectedRoute() {
         if (parsed.role === "collector") setUser(res.data.data.collector);
         if (parsed.role === "center") setUser(res.data.data.center);
 
-        console.log();
-        if (res.data.data[parsed.role].status !== "active") {
+        console.log(res.data.data[parsed.role].status);
+
+        if (res.data.data[parsed.role].status === "suspended") {
           navigate("/join");
         }
       } catch (err) {
