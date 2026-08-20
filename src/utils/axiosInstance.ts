@@ -1,6 +1,9 @@
 import axios from "axios";
 //import NProgress from "nprogress";
 import { useAuthStore } from "./useAuth";
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
 
 const api = axios.create({
   baseURL:
@@ -30,7 +33,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       useAuthStore.getState().clearUser();
-      window.location.href = "/join";
+      navigate("/join");
     }
 
     return Promise.reject(error);
