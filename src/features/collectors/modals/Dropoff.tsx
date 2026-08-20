@@ -317,6 +317,29 @@ const DropOff = ({ center, width }: { center: Centers; width: string }) => {
                     />
                   ))}
 
+                {field.type === "checkbox" &&
+                  center.materialsAccepted?.map((option) => (
+                    <FormControlLabel
+                      key={option}
+                      control={
+                        <Checkbox
+                          checked={dropDetails.types.includes(option)}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+
+                            setDropDetails((prev) => ({
+                              ...prev,
+                              types: checked
+                                ? [...prev.types, option]
+                                : prev.types.filter((t) => t !== option),
+                            }));
+                          }}
+                        />
+                      }
+                      label={option}
+                    />
+                  ))}
+
                 {field.type === "radio" && (
                   <RadioGroup
                     name={field.name}
