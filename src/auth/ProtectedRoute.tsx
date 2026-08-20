@@ -42,7 +42,7 @@ export default function ProtectedRoute() {
         if (parsed.role === "collector") setUser(res.data.data.collector);
         if (parsed.role === "center") setUser(res.data.data.center);
 
-        console.log(res.data);
+        console.log(res.data.data[parsed.role].status);
       } catch (err) {
         clearUser();
       } finally {
