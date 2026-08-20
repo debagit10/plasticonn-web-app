@@ -24,8 +24,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error);
     if (error.response?.status === 401) {
       useAuthStore.getState().clearUser();
+      console.log("navigateRef is:", navigateRef); // <-- add this
+
       navigateRef?.("/join");
     }
     return Promise.reject(error);
