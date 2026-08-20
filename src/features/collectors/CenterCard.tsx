@@ -130,8 +130,15 @@ const CenterCard = ({
             ))}
           </div>
 
-          <div className="flex gap-2 items-center">
-            <Typography fontSize={12}>{center.price}</Typography>
+          {/* Price */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 bg-[#00C2810D] border border-[#00C28133] rounded-lg px-3 py-1.5 w-fit">
+              <span className="text-[#00C281] text-sm font-semibold">
+                {center.price && center.price.toLowerCase() !== "free"
+                  ? center.price
+                  : "Free drop-off"}
+              </span>
+            </div>
           </div>
         </div>
       </div>
