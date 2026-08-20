@@ -134,7 +134,7 @@ const CenterCard = ({
           {/* Price */}
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5 bg-[#00C2810D] border border-[#00C28133] rounded-lg px-3 py-1.5 w-fit">
-              <PiMoneyWavy />
+              <PiMoneyWavy color="#00C281" />
 
               <span className="text-[#00C281] text-sm font-semibold">
                 {center.price && center.price.toLowerCase() !== "free"
