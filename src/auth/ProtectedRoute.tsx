@@ -21,6 +21,7 @@ import { Outlet } from "react-router-dom";
 import api from "../utils/axiosInstance";
 import { useAuthStore } from "../utils/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function ProtectedRoute() {
   const { setUser, clearUser, initUser } = useAuthStore();
@@ -44,14 +45,12 @@ export default function ProtectedRoute() {
         const res = await api.get(`/api/${parsed.role}/profile/${parsed.id}`);
         if (parsed.role === "collector") setUser(res.data.data.collector);
         if (parsed.role === "center") setUser(res.data.data.center);
-
-        console.log(res.data.data[parsed.role].status);
-
-        if (res.data.data[parsed.role].status === "suspended") {
-          navigate("/join");
-        }
       } catch (err) {
         clearUser();
+
+        if (axios.isAxiosError(err) && err.response?.status === 401) {
+          navigate("/join");
+        }
       } finally {
         setInitialized(true);
       }
