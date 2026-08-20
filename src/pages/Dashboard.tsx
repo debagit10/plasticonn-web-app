@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import CollectionCenter_Dashboard from "../features/collection_center/CollectionCenter_Dashboard";
 import CollectorDashboard from "../features/collectors/CollectorDashboard";
 import { useAuth, useAuthStore } from "../utils/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const user = useAuth();
+  const navigate = useNavigate();
 
   const { setCoords } = useAuthStore();
 
@@ -21,6 +23,10 @@ const Dashboard = () => {
       },
     );
   }, []);
+
+  if (!user.user?._id) {
+    navigate("/join");
+  }
 
   return (
     <div className="">
