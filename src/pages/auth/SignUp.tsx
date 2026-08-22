@@ -267,7 +267,7 @@ const SignUp = () => {
 
       documents.forEach((file) => formData.append("documents", file));
 
-      console.log(signUpDetails);
+      //console.log(signUpDetails);
 
       const response = await api.post(
         `/api/${signUpDetails.role === "collector" ? "collector" : "center"}/register`,
@@ -785,9 +785,10 @@ const SignUp = () => {
                       Price Range (per kg)
                     </Typography>
                     <TextField
-                      name="operatingHours"
+                      name="price"
                       value={signUpDetails.price}
                       onChange={handleChange}
+                      placeholder="e.g., 20"
                       variant="outlined"
                       size="small"
                       fullWidth
